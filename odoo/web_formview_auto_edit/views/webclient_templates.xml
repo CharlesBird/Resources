@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend" name="web_formview_auto_edit assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/web_formview_auto_edit/static/src/js/web_formview_auto_edit.js"></script>
+            </xpath>
+        </template>
+    </data>
+</openerp>
