@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_linyan_linyan_contract_user,linyan.contract,model_linyan_contract,linyan_base.group_linyan_users,1,1,1,1
+access_linyan_linyan_contract_line_user,linyan.contract.line,model_linyan_contract_line,linyan_base.group_linyan_users,1,1,1,1
+access_linyan_sale_contract_line_user,linyan.sale.contract.line,model_linyan_sale_contract_line,linyan_base.group_linyan_users,1,1,1,1
+access_linyan_logistics_move_user,logistics.move,model_logistics_move,linyan_base.group_linyan_users,1,1,1,1
+access_linyan_invoice_user,linyan.invoice,model_linyan_invoice,linyan_base.group_linyan_users,1,1,1,1
+access_linyan_payment_user,linyan.payment,model_linyan_payment,linyan_base.group_linyan_users,1,1,1,1
+access_linyan_invoice_line_user,linyan.invoice.line,model_linyan_invoice_line,linyan_base.group_linyan_users,1,1,1,1
+access_linyan_profit_report,linyan.profit.report,model_linyan_profit_report,linyan_base.group_linyan_report,1,1,1,0
+access_linyan_cash_avg_price_report,linyan.cash.avg.price.report,model_linyan_cash_avg_price_report,linyan_base.group_linyan_report,1,1,1,0

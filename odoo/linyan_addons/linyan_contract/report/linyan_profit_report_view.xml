@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="view_linyan_profit_report_tree" model="ir.ui.view">
+            <field name="name">linyan.profit.report.tree</field>
+            <field name="model">linyan.profit.report</field>
+            <field name="arch" type="xml">
+                <tree string="Profit" create="0" delete="0">
+                    <field name="product_id"/>
+                    <field name="brand_id"/>
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="profit" sum="统计"/>
+                </tree>
+            </field>
+        </record>
+
+    <record id="view_linyan_profit_report_search" model="ir.ui.view">
+        <field name="name">linyan.profit.report.search</field>
+        <field name="model">linyan.profit.report</field>
+        <field name="arch" type="xml">
+            <search string="Invoices Analysis">
+                <field name="product_id"/>
+                <field name="brand_id"/>
+                <field name="year"/>
+                <field name="month"/>
+                <group expand="1" string="Group By">
+                    <filter string="年" name="year" context="{'group_by':'year'}"/>
+                    <filter string="月" name='month' context="{'group_by':'month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_linyan_profit_report" model="ir.actions.act_window">
+        <field name="name">毛利报表</field>
+        <field name="res_model">linyan.profit.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref="view_linyan_profit_report_search"/>
+    </record>
+
+    <menuitem name="毛利报表" action="action_linyan_profit_report" id="menu_action_linyan_profit_report" parent="linyan_base.menu_linyan_base_report" sequence="5" groups="linyan_base.group_linyan_report"/>
+
+</data>
+</openerp>
