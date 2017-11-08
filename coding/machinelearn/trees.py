@@ -107,5 +107,36 @@ def createTree(dataSet, labels):
     return myTree
 
 # 构造树
-myDat, labels = createDataSet()
-print createTree(myDat, labels)
+# myDat, labels = createDataSet()
+# print createTree(myDat, labels)
+
+
+def classify(inputTree, featLabels, testVec):
+    firstStr = inputTree.keys()[0]
+    secondDict = inputTree[firstStr]
+    featIndex = featLabels.index(firstStr)
+    for key in secondDict.keys():
+        if testVec[featIndex] == key:
+            if type(secondDict[key]).__name__ == 'dict':
+                classLabel = classify(secondDict[key], featLabels, testVec)
+            else:
+                classLabel = secondDict[key]
+    return classLabel
+
+# myDat, labels = createDataSet()
+# import treePlotter
+# myTree = treePlotter.retrieveTree(0)
+# print classify(myTree, labels, [1, 0])
+# print classify(myTree, labels, [1, 1])
+
+
+def storeTree(inputTree, filename):
+    import pickle
+    fw = open(filename, 'w')
+    pickle.dump(inputTree, fw)
+    fw.close()
+
+def grabTree(filename):
+    import pickle
+    fr = open(filename)
+    return pickle.loads(fr)
