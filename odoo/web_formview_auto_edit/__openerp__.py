@@ -22,7 +22,7 @@
     "name": "From view open aotomic editable",
     "summary": "From view open aotomic editable",
     "version": "8.0.1.0.0",
-    "author": "Charles Bird",
+    "author": "Charles Bird, 1016784928@qq.com",
     "complexity": "normal",
     "category": "Hidden",
     "depends": ['web'],
