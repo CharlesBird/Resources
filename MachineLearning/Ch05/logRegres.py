@@ -34,17 +34,6 @@ def gradAscent(dataMatIn, classLabels):
 # dataArr, labelMat = loadDataSet()
 # print(gradAscent(dataArr, labelMat))
 
-def stocGradAscent0(dataMatrix, classLabels):
-    """随机梯度上升算法"""
-    m, n = shape(dataMatrix)
-    alpha = 0.01
-    weights = ones(n)
-    for i in range(m):
-        h = sigmoid(sum(dataMatrix[i]*weights))
-        error = classLabels[i] - h
-        weights = weights + alpha * error * dataMatrix[i]
-    return weights
-
 
 def plotBestFit(wei):
     weights = wei.getA()
@@ -77,19 +66,38 @@ def plotBestFit(wei):
 # dataArr, labelMat = loadDataSet()
 # plotBestFit(gradAscent(dataArr, labelMat))
 
-# def stocGradAscent0(dataMatrix, classLabels):  
-#     dataMatrix = array(dataMatrix)  
-#     m,n = shape(dataMatrix)  
-#     alpha = 0.1  
-#     weights = ones(n)  
-#     for i in range(m):  
-#         h = sigmoid(sum(dataMatrix[i] * weights))  
-#         error = classLabels[i] - h  
-#         weights = weights + alpha * error * dataMatrix[i]  
-#     return weights
+def stocGradAscent0(dataMatrix, classLabels):
+    """随机梯度上升算法"""
+    m, n = shape(dataMatrix)
+    alpha = 0.01
+    weights = ones(n)
+    for i in range(m):
+        h = sigmoid(sum(dataMatrix[i]*weights))
+        error = classLabels[i] - h
+        weights = weights + alpha * error * dataMatrix[i]
+    return weights
 
+# dataArr, labelMat = loadDataSet()
+# weights = stocGradAscent0(array(dataArr), labelMat)
+# weights = matrix(weights).transpose()
+# plotBestFit(weights)
+
+
+def stocGradAscent1(dataMatrix, classLabels, numIter=150):
+    m, n = shape(dataMatrix)
+    weights = ones(n)
+    for j in range(numIter):
+        dataIndex = list(range(m))
+        for i in range(m):
+            alpha = 4/(1.0+j+i)+0.01
+            randIndex = int(random.uniform(0, len(dataIndex)))
+            h = sigmoid(sum(dataMatrix[randIndex]*weights))
+            error = classLabels[randIndex] - h
+            weights = weights + alpha * error * dataMatrix[randIndex]
+            del[dataIndex[randIndex]]
+    return weights
 
 dataArr, labelMat = loadDataSet()
-weights = stocGradAscent0(array(dataArr), labelMat)
+weights = stocGradAscent1(array(dataArr), labelMat, numIter=500)
 weights = matrix(weights).transpose()
 plotBestFit(weights)
