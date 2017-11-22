@@ -35,6 +35,7 @@ def gradAscent(dataMatIn, classLabels):
 # print(gradAscent(dataArr, labelMat))
 
 def stocGradAscent0(dataMatrix, classLabels):
+    """随机梯度上升算法"""
     m, n = shape(dataMatrix)
     alpha = 0.01
     weights = ones(n)
@@ -76,6 +77,19 @@ def plotBestFit(wei):
 # dataArr, labelMat = loadDataSet()
 # plotBestFit(gradAscent(dataArr, labelMat))
 
+# def stocGradAscent0(dataMatrix, classLabels):  
+#     dataMatrix = array(dataMatrix)  
+#     m,n = shape(dataMatrix)  
+#     alpha = 0.1  
+#     weights = ones(n)  
+#     for i in range(m):  
+#         h = sigmoid(sum(dataMatrix[i] * weights))  
+#         error = classLabels[i] - h  
+#         weights = weights + alpha * error * dataMatrix[i]  
+#     return weights
+
 
 dataArr, labelMat = loadDataSet()
-plotBestFit(stocGradAscent0(array(dataArr), labelMat))
+weights = stocGradAscent0(array(dataArr), labelMat)
+weights = matrix(weights).transpose()
+plotBestFit(weights)
