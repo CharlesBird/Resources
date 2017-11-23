@@ -34,15 +34,23 @@
                                 <field name="partner_id" options="{'no_create': True}"/>
                                 <field name="contract_name"/>
                                 <field name="contract_date"/>
-                                <field name="year"/>
-                                <field name="month"/>
-                                <field name="currency_id" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="currency_rate"/>
-                                <field name="oversell" attrs="{'invisible':[('buy','=',True)]}"/>
-                                <field name="cash"/>
-                                <field name="big_contract"/>
-                                <field name="picking"/>
-                                <field name="invoice_status"/>
+                                <label for="year" string="年月"/>
+                                <div>
+                                    <field name="year" class="oe_inline"/>
+                                    <label string="年"/>
+                                    <field name="month" class="oe_inline"/>
+                                    <label string="月"/>
+                                </div>
+                                <field name="price"/>
+                                <field name="untax_price"/>
+                                <field name="actual_qty" string="拟定数量"/>
+                                <field name="qty_delivered" string="实际数量"/>
+                                <field name="remaining_qty"/>
+                                <field name="qty_to_delivered"/>
+                                <field name="amount"/>
+                                <field name="unpayment_amount"/>
+                                <field name="contract_amount"/>
+                                <field name="profit"/>
                             </group>
                             <group>
                                 <field name="account_ref"/>
@@ -54,16 +62,13 @@
                                 </div>
                                 <field name="journal_id" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="tax_ids" widget="many2many_tags" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="price"/>
-                                <field name="untax_price"/>
-                                <field name="actual_qty" string="拟定数量"/>
-                                <field name="qty_delivered" string="实际数量"/>
-                                <field name="remaining_qty"/>
-                                <field name="qty_to_delivered"/>
-                                <field name="amount"/>
-                                <field name="unpayment_amount"/>
-                                <field name="contract_amount"/>
-                                <field name="profit"/>
+                                <field name="currency_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="currency_rate" invisible="1"/>
+                                <field name="oversell" attrs="{'invisible':[('buy','=',True)]}"/>
+                                <field name="cash"/>
+                                <field name="big_contract"/>
+                                <field name="picking"/>
+                                <field name="invoice_status"/>
                             </group>
                         </group>
                         <notebook>
@@ -395,7 +400,11 @@
             <field name="arch" type="xml">
                 <kanban class="o_kanban_mobile">
                     <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="partner_id2"/>
+                    <field name="warehouse_src_id"/>
                     <field name="product_id"/>
+                    <field name="protocol_qty"/>
                     <field name="actual_qty"/>
                     <field name="state"/>
                     <templates>
@@ -403,18 +412,26 @@
                             <div t-attf-class="oe_kanban_card oe_kanban_global_click">
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        <strong><span><t t-esc="record.product_id.value"/></span></strong>
+                                        <strong><span>买入伙伴:<t t-esc="record.partner_id and record.partner_id.value"/></span></strong>
                                     </div>
                                     <div class="col-xs-6 pull-right text-right">
-                                        <strong><field name="actual_qty"/></strong>
+                                        <strong><span>卖出伙伴:<t t-esc="record.partner_id2 and record.partner_id2.value"/></span></strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-9">
+                                        <strong>计划数量/实际数量:<field name="protocol_qty"/>/<field name="actual_qty"/></strong>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <span t-attf-class="pull-right text-right">商品:<t t-esc="record.product_id.value"/></span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        <span><t t-esc="record.name.value"/></span>
+                                        <span>源仓库:<t t-esc="record.warehouse_src_id and record.warehouse_src_id.value"/></span>
                                     </div>
                                     <div class="col-xs-6">
-                                        <span t-attf-class="pull-right text-right"><t t-esc="record.state.value"/></span>
+                                        <span t-attf-class="pull-right text-right">状态:<t t-esc="record.state.value"/></span>
                                     </div>
                                 </div>
                             </div>
