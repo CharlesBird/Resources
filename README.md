@@ -15,6 +15,7 @@ odoo项目代码记录
 书籍收藏
     1、如何阅读一本书.pdf
     2、机器学习实战中文版.pdf
+    3、Flask-Web开发：基于Python的Web应用开发实战.pdf
 
 Python代码技巧
     coding
