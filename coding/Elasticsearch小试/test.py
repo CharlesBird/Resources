@@ -34,7 +34,13 @@ _es.index(index="my_index", doc_type="test_type", id=1, body={"name": "python", 
 
 _es.create(index="my_index", doc_type="test_type", id=1, ignore=409, body={"name": "python", "addr": "上海"})
 
-result = _es.search(index="my_index",doc_type="test_type")
+result = _es.search(index="my_index", doc_type="test_type")
 print(result)
+for item in result["hits"]["hits"]:
+    print(item["_source"])
 result = _es.get(index="my_index", doc_type="test_type", id=1)
+print(result)
+result = _es.delete(index="my_index", doc_type="test_type", id=1)
+print(result)
+result = _es.search(index="my_index", doc_type="test_type")
 print(result)
