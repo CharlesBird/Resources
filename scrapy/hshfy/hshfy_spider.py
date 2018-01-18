@@ -48,7 +48,6 @@ def get_total_pages(url, data, proxies=None):
             continue
         else:
             break
-    print(soup)
     totals = soup.find('div', attrs={"class": 'meneame'}).find("strong").text
     pages = math.ceil(int(totals) / 15)
     return pages
