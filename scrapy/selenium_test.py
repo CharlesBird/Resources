@@ -106,4 +106,15 @@ browser.get("https://www.taobao.com/")
 # browser.add_cookie({'name': '1016784928@qq.com', 'domain': 'www.taobao.com', 'value': 'charles'})
 # print(browser.get_cookies())
 
+# """获取总共页数"""
+# browser = webdriver.Firefox(executable_path="D:/Users/Charles/geckodriver.exe")
+# browser.get("http://www.hshfy.sh.cn/shfy/gweb/ktgg_search.jsp")
+# time.sleep(5)
+# button = browser.find_element_by_xpath('//*[@class="meneame"]/div/a[11]')
+# button.click()
+# time.sleep(4)
+# page = browser.find_element_by_xpath('//*[@class="meneame"]/div/span').text
+# print(page)
+# time.sleep(5)
+
 browser.close()
