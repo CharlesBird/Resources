@@ -13,12 +13,12 @@ url_list = [
 def cal_time(fn):
     def _cal_time(*args, **kwargs):
         total = 0.0
-        for i in range(10):
+        for i in range(5):
             start = time.time()
             fn(*args, **kwargs)
             end = time.time()
             total += (end-start)
-        print(total/10)
+        print(total/5)
     return _cal_time
 
 
