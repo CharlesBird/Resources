@@ -13,7 +13,8 @@ browser = webdriver.Firefox(executable_path="D:/Users/Charles/geckodriver.exe")
 # browser.get("https://www.baidu.com/")
 # print(browser.page_source)
 
-browser.get("https://www.taobao.com/")
+# browser.get("https://www.taobao.com/")
+browser.get("https://www.zhihu.com/")
 
 """单个元素查找"""
 # input_first = browser.find_element_by_id("q")
@@ -116,5 +117,5 @@ browser.get("https://www.taobao.com/")
 # page = browser.find_element_by_xpath('//*[@class="meneame"]/div/span').text
 # print(page)
 # time.sleep(5)
-
+time.sleep(2)
 browser.close()

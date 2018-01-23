@@ -1,0 +1,49 @@
+1516685657980	geckodriver	INFO	geckodriver 0.19.1
+1516685657991	geckodriver	INFO	Listening on 127.0.0.1:65416
+1516685661068	mozrunner::runner	INFO	Running command: "D:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" "-marionette" "-profile" "C:\\Users\\Charles\\AppData\\Local\\Temp\\rust_mozprofile.02BO2bE8vgCW"
+1516685662300	Marionette	INFO	Enabled via --marionette
+[GFX1-]: Could not get a DXGI adapter
+[GFX1-]: ClientLayerManager::BeginTransaction with IPC channel down. GPU process may have died.
+[GFX1-]: Could not get a DXGI adapter
+Unable to read VR Path Registry from C:\Users\Charles\AppData\Local\openvr\openvrpaths.vrpath
+[Child 8496, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 8496, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[GFX1-]: Could not get a DXGI adapter
+1516685667582	Marionette	INFO	Listening on port 65432
+1516685668515	Marionette	WARN	TLS certificate errors will be ignored for this session
+1516685668607	Marionette	DEBUG	Register listener.js for window 4294967297
+1516685668929	Marionette	DEBUG	Received DOM event "beforeunload" for "about:blank"
+1516685669572	Marionette	DEBUG	Received DOM event "pagehide" for "about:blank"
+1516685669572	Marionette	DEBUG	Received DOM event "unload" for "about:blank"
+1516685670465	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "https://www.zhihu.com/signup?next=%2F"
+1516685670830	Marionette	DEBUG	Received DOM event "pageshow" for "https://www.zhihu.com/signup?next=%2F"
+1516685686768	geckodriver	INFO	geckodriver 0.19.1
+1516685686783	geckodriver	INFO	Listening on 127.0.0.1:65520
+1516685689847	mozrunner::runner	INFO	Running command: "D:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" "-marionette" "-profile" "C:\\Users\\Charles\\AppData\\Local\\Temp\\rust_mozprofile.i2JkhxYwiHNm"
+1516685690840	Marionette	INFO	Enabled via --marionette
+Unable to read VR Path Registry from C:\Users\Charles\AppData\Local\openvr\openvrpaths.vrpath
+[Child 11024, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 11024, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+1516685693577	Marionette	INFO	Listening on port 65533
+1516685694056	Marionette	WARN	TLS certificate errors will be ignored for this session
+1516685694120	Marionette	DEBUG	Register listener.js for window 4294967297
+1516685694137	Marionette	DEBUG	Received DOM event "beforeunload" for "about:blank"
+1516685694808	Marionette	DEBUG	Received DOM event "pagehide" for "about:blank"
+1516685694808	Marionette	DEBUG	Received DOM event "unload" for "about:blank"
+1516685695448	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "https://www.zhihu.com/signup?next=%2F"
+1516685695569	Marionette	DEBUG	Received DOM event "pageshow" for "https://www.zhihu.com/signup?next=%2F"
+1516685704341	geckodriver	INFO	geckodriver 0.19.1
+1516685704350	geckodriver	INFO	Listening on 127.0.0.1:49218
+1516685707447	mozrunner::runner	INFO	Running command: "D:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" "-marionette" "-profile" "C:\\Users\\Charles\\AppData\\Local\\Temp\\rust_mozprofile.oUm0CaQm2Mpj"
+1516685708365	Marionette	INFO	Enabled via --marionette
+Unable to read VR Path Registry from C:\Users\Charles\AppData\Local\openvr\openvrpaths.vrpath
+[Child 6864, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 6864, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+1516685711330	Marionette	INFO	Listening on port 49230
+1516685711712	Marionette	WARN	TLS certificate errors will be ignored for this session
+1516685711797	Marionette	DEBUG	Register listener.js for window 4294967297
+1516685711823	Marionette	DEBUG	Received DOM event "beforeunload" for "about:blank"
+1516685712482	Marionette	DEBUG	Received DOM event "pagehide" for "about:blank"
+1516685712482	Marionette	DEBUG	Received DOM event "unload" for "about:blank"
+1516685713311	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "https://www.zhihu.com/signup?next=%2F"
+1516685713436	Marionette	DEBUG	Received DOM event "pageshow" for "https://www.zhihu.com/signup?next=%2F"
