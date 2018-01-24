@@ -94,3 +94,5 @@ ITEM_PIPELINES = {
 
 MONGO_URL = 'localhost'
 MONGO_DB = 'zhihu'
+
+LOG_FILE = 'zhihu.log'
