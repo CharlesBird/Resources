@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, request, make_response, redirect, render_template, session, url_for, flash
+from flask import request, make_response, redirect, render_template, session, url_for, flash
 
 from .forms import NameForm
 from . import main
@@ -7,7 +7,7 @@ from .. import db
 from ..models import User
 
 
-@app.route('/', methods=['GET', 'POST'])
+@main.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
     if form.validate_on_submit():
