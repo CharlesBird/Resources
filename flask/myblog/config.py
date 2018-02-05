@@ -1,6 +1,6 @@
 import os
 
-# 获取config文件项目根目录
+# 获取config文件项目绝对根目录
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -8,6 +8,14 @@ class Config(object):
     SECRET_KEY = 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.qq.com')
+    MAIL_PORT = int(os.environ.get('MAIL_PORT', '465'))
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME', '1016784928@qq.com')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'wgmlbfxpsmvybfaj')
+    FLASKY_MAIL_SUBJECT_PREFIX = '[Bird]'
+    FLASKY_MAIL_SENDER = '1016784928@qq.com'
 
     @staticmethod
     def init_app(app):
