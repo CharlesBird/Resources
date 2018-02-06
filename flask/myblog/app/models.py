@@ -4,6 +4,7 @@ from flask_login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 import hashlib
+from datetime import datetime
 
 
 class Permission(object):
@@ -85,10 +86,15 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     confirmed = db.Column(db.Boolean, default=False)
     avatar_hash = db.Column(db.String(32))
+    name = db.Column(db.String(64))
+    location = db.Column(db.String(64))
+    about_me = db.Column(db.Text())
+    member_since = db.Column(db.DateTime(), default=datetime.utcnow)
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
 
     def __init__(self, **kwargs):
         """实例初始化"""
-        super(User).__init__(**kwargs)
+        super(User, self).__init__(**kwargs)
         # 定义默认的用户角色
         if self.role is None:
             if self.email == current_app.config['FLASKY_ADMIN']:
@@ -198,6 +204,11 @@ class User(UserMixin, db.Model):
     def is_administrator(self):
         """检查管理员权限的功能经常用到，因此使用单独的方法 is_administrator() 实现。"""
         return self.can(Permission.ADMIN)
+
+    def ping(self):
+        """刷新用户的最后访问时间"""
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
 
 
 class AnonymousUser(AnonymousUserMixin):

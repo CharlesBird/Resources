@@ -25,12 +25,12 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, field):
         """邮箱唯一性验证"""
         if User.query.filter_by(email=field.data).first():
-            raise ValidationError('Email already registered.')
+            raise ValidationError('邮箱已经存在。')
 
     def validate_username(self, field):
         """用户名唯一性验证"""
         if User.query.filter_by(username=field.data).first():
-            raise ValidationError('Username already registered.')
+            raise ValidationError('用户名已经存在。')
 
 
 class ChangePasswordForm(FlaskForm):

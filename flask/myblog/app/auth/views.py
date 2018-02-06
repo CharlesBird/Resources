@@ -12,8 +12,10 @@ def before_request():
     before_request在请求收到之前绑定一个函数做一些事情。
     对蓝本来说，before_request 钩子只能应用到属于蓝本的请求上。若想在蓝本中使用针对程序全局请求的钩子，必须使用before_app_request 修饰器。
     """
-    if current_user.is_authenticated and not current_user.confirmed and request.blueprint != 'auth' and request.endpoint != 'static':
-        return redirect(url_for('auth.unconfirmed'))
+    if current_user.is_authenticated:
+        current_user.ping()  # 更新已登录用户的访问时间
+        if not current_user.confirmed and request.blueprint != 'auth' and request.endpoint != 'static':
+            return redirect(url_for('auth.unconfirmed'))
 
 
 @auth.route('/unconfirmed')
@@ -23,7 +25,7 @@ def unconfirmed():
     如果已确认current_user.confirmed跳转到主页
     """
     if current_user.is_anonymous or current_user.confirmed:
-        return url_for(url_for('main.index'))
+        return redirect(url_for('main.index'))
     return render_template('auth/unconfirmed.html', user=current_user)
 
 
