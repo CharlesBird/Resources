@@ -51,3 +51,16 @@ class ChangeEmailForm(FlaskForm):
         """邮箱验证唯一性验证"""
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('邮箱已存在！')
+
+
+class ResetPasswordRequestForm(FlaskForm):
+    """重设密码表单字段对象"""
+    email = StringField('邮箱', validators=[DataRequired(), Length(1, 64), Email()])
+    submit = SubmitField('重设密码')
+
+
+class ResetPasswordForm(FlaskForm):
+    """确认重设密码表单字段对象"""
+    password = PasswordField('密码', validators=[DataRequired(), EqualTo('password2', message='确认密码要一致')])
+    password2 = PasswordField('确认密码', validators=[DataRequired()])
+    submit = SubmitField('重设密码')

@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
 from .. import db
 from ..models import User
-from .forms import LoginForm, RegistrationForm, ChangePasswordForm, ChangeEmailForm
+from .forms import LoginForm, RegistrationForm, ChangePasswordForm, ChangeEmailForm, ResetPasswordRequestForm, ResetPasswordForm
 
 
 @auth.before_app_request
@@ -170,3 +170,49 @@ def change_email(token):
     else:
         flash('无效访问')
     return redirect(url_for('main.index'))
+
+
+@auth.route('/reset', methods=['GET', 'POST'])
+def reset_password_request():
+    """
+    重设密码发送确认的通知
+    :return:
+    """
+    if not current_user.is_anonymous:
+        return redirect(url_for('main.index'))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            token = user.generate_reset_token()
+            # 此处省去发送邮件确认功能
+            # ...
+
+            flash('一封邮件已经发送给您的邮箱！')
+            # 模拟邮件确认界面
+            return render_template('auth/email/reset_password.html', user=user, token=token, next=request.args.get('next'))
+        else:
+            flash('此邮箱还没注册！')
+        return redirect(url_for('auth.login'))
+    return render_template('auth/reset_password.html', form=form)
+
+
+@auth.route('/reset/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    """
+    重设密码确认更新请求
+    :param token: 令牌
+    :return:
+    """
+    if not current_user.is_anonymous:
+        return redirect(url_for('main.index'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        # 验证令牌是否有效，且修改密码
+        if User.reset_password(token, form.password.data):
+            db.session.commit()
+            flash('密码已更新')
+            return redirect(url_for('auth.login'))
+        else:
+            return redirect(url_for('main.index'))
+    return render_template('auth/reset_password.html', form=form)

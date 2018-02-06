@@ -16,6 +16,7 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'wgmlbfxpsmvybfaj')
     FLASKY_MAIL_SUBJECT_PREFIX = '[Bird]'
     FLASKY_MAIL_SENDER = '1016784928@qq.com'
+    FLASKY_ADMIN = '1016784928@qq.com'
 
     @staticmethod
     def init_app(app):
