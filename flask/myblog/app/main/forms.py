@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, BooleanField, SelectField, ValidationError
 from wtforms.validators import DataRequired, Length, Email, Regexp
+from flask_pagedown.fields import PageDownField
 from ..models import User, Role
 
 
@@ -34,7 +35,7 @@ class EditProfileAdminForm(FlaskForm):
         """初始化"""
         super(EditProfileAdminForm, self).__init__(*args, **kwargs)
         self.role.choices = [(role.id, role.name) for role in Role.query.order_by(Role.name).all()]  # 权限选择初始化，查询权限表所有权限
-        self.user = user  # 初始化用户实例，从表单传入具体用户实例
+        self.user = user  # 初始化用户实例，从表单传入具体用户实例，验证邮箱用户名用到
 
     def validate_email(self, field):
         """
@@ -53,3 +54,8 @@ class EditProfileAdminForm(FlaskForm):
         """
         if field.data != self.user.username and User.query.filter_by(username=field.data).first():
             raise ValidationError('用户名已经存在。')
+
+
+class PostForm(FlaskForm):
+    body = PageDownField('你的想法：', validators=[DataRequired()])
+    submit = SubmitField('发布')
