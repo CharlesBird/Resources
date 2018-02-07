@@ -77,6 +77,16 @@ class Role(db.Model):
         return self.permissions & perm == perm
 
 
+class Follow(db.Model):
+    """关注关系模型"""
+    __tablename__ = 'follows'
+
+    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)  # 关注他人
+    followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)  # 关注自己的人
+    timestamp = db.Column(db.DateTime(), default=datetime.utcnow)
+
+
+
 class User(UserMixin, db.Model):
     """用户模型"""
     __tablename__ = 'users'
@@ -94,6 +104,12 @@ class User(UserMixin, db.Model):
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    followers = db.relationship('Follow', foreign_keys=[Follow.followed_id],
+                                backref=db.backref('followed', lazy='joined'), lazy='dynamic',
+                                cascade='all, delete-orphan')
+    followed = db.relationship('Follow', foreign_keys=[Follow.follower_id],
+                               backref=db.backref('follower', lazy='joined'), lazy='dynamic',
+                               cascade='all, delete-orphan')
 
     def __init__(self, **kwargs):
         """实例初始化"""
@@ -214,6 +230,48 @@ class User(UserMixin, db.Model):
         """刷新用户的最后访问时间"""
         self.last_seen = datetime.utcnow()
         db.session.add(self)
+
+    def follow(self, user):
+        """
+        关注方法
+        :param user: 被关注用户对象
+        :return:
+        """
+        # 判断是否已经关注，防止重复关注
+        if not self.is_following(user):
+            f = Follow(follower=self, followed=user)
+            db.session.add(f)
+
+    def unfollow(self, user):
+        """
+        取消关注方法
+        :param user: 关注他人对象
+        :return:
+        """
+        # 判断是否在关注他人列表里
+        f = self.followed.filter_by(followed_id=user.id).first()
+        if f:
+            db.session.delete(f)
+
+    def is_following(self, user):
+        """
+        判断是否已经关注
+        :param user: 用户对象
+        :return: True|False
+        """
+        if user.id is None:
+            return False
+        return self.followed.filter_by(followed_id=user.id).first() is not None
+
+    def is_followed_by(self, user):
+        """
+        判断是否被关注
+        :param user: 关注自己的用户对象
+        :return:
+        """
+        if user.id is None:
+            return False
+        return self.followers.filter_by(follower_id=user.id).first() is not None
 
     @staticmethod
     def generate_fake(count=100):

@@ -108,7 +108,7 @@ def resend_confirmation():
     # return redirect(url_for('main.index'))
 
 
-@auth.route('/change_password', methods=['GET', 'POST'])
+@auth.route('/change-password', methods=['GET', 'POST'])
 @login_required
 def change_password():
     """
@@ -130,7 +130,7 @@ def change_password():
     return render_template('auth/change_password.html', form=form)
 
 
-@auth.route('/change_email', methods=['GET', 'POST'])
+@auth.route('/change-email', methods=['GET', 'POST'])
 @login_required
 def change_email_request():
     """
@@ -158,7 +158,7 @@ def change_email_request():
     return render_template('auth/change_email.html', form=form)
 
 
-@auth.route('/change_email/<token>')
+@auth.route('/change-email/<token>')
 @login_required
 def change_email(token):
     """

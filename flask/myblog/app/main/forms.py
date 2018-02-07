@@ -57,5 +57,6 @@ class EditProfileAdminForm(FlaskForm):
 
 
 class PostForm(FlaskForm):
+    """文章表单"""
     body = PageDownField('你的想法：', validators=[DataRequired()])
     submit = SubmitField('发布')
