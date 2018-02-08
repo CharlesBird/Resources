@@ -60,3 +60,9 @@ class PostForm(FlaskForm):
     """文章表单"""
     body = PageDownField('你的想法：', validators=[DataRequired()])
     submit = SubmitField('发布')
+
+
+class CommentForm(FlaskForm):
+    """评论表单"""
+    body = PageDownField('', validators=[DataRequired()])
+    submit = SubmitField('提交')
