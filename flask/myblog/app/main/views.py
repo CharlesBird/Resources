@@ -266,6 +266,10 @@ def show_followed():
 @login_required
 @permission_required(Permission.MODERATE)
 def moderate():
+    """
+    管理评论路由
+    :return:
+    """
     page = request.args.get('page', 1, type=int)
     pagination = Comment.query.order_by(Comment.timestamp.desc()).paginate(page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'], error_out=False)
     comments = pagination.items
@@ -276,6 +280,11 @@ def moderate():
 @login_required
 @permission_required(Permission.MODERATE)
 def moderate_enable(id):
+    """
+    启用评论路由
+    :param id:
+    :return:
+    """
     comment = Comment.query.get_or_404(id)
     comment.disabled = False
     db.session.add(comment)
@@ -287,6 +296,11 @@ def moderate_enable(id):
 @login_required
 @permission_required(Permission.MODERATE)
 def moderate_disable(id):
+    """
+    禁用评论路由
+    :param id:
+    :return:
+    """
     comment = Comment.query.get_or_404(id)
     comment.disabled = True
     db.session.add(comment)

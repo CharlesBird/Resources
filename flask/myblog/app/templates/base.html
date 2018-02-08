@@ -5,10 +5,11 @@
 <link rel="shortcut icon" href="{{ url_for('static', filename = 'favicon.ico') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename = 'favicon.ico') }}" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type=text/javascript src="{{ url_for('static', filename='jquery.js') }}"></script>
 <!--<script>-->
     <!--$(function(){-->
-
+    <!--var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};-->
+    <!--alert($SCRIPT_ROOT);-->
     <!--})-->
 <!--</script>-->
 {% endblock %}
