@@ -2,7 +2,7 @@ from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import current_app
+from flask import current_app, url_for
 from markdown import markdown
 import bleach
 import hashlib
@@ -143,9 +143,9 @@ class User(UserMixin, db.Model):
         """登陆时密码加密验证"""
         return check_password_hash(self.password_hash, password)
 
-    def generate_confirmation_token(self, expires_in=3600):
+    def generate_confirmation_token(self, expiration=3600):
         """注册用户或者用户登陆之前确认生效令牌"""
-        s = Serializer(current_app.config['SECRET_KEY'], expires_in)
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.id}).decode('utf-8')
 
     def confirm(self, token):
@@ -282,6 +282,35 @@ class User(UserMixin, db.Model):
         :return: Post查询结果对象
         """
         return Post.query.join(Follow, Follow.followed_id == Post.author_id).filter(Follow.follower_id == self.id)
+
+    def generate_hauth_token(self, expiration):
+        """api接口身份验证生成一个签名令牌"""
+        s = Serializer(current_app.config['SECRET_KEY'], expiration=expiration)
+        return s.dumps({'confirm': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_hauth_token(token):
+        """接受的参数是一个令牌，如果令牌可用就返回对应的用户。
+        verify_auth_token() 是静态方法，因为只有解码令牌后才能知道用户是谁。
+        """
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return None
+        return User.query.get(data['id'])
+
+    def to_json(self):
+        json_user = {
+            'url': url_for('api.get_user', id=self.id),
+            'username': self.username,
+            'member_since': self.member_since,
+            'last_seen': self.last_seen,
+            'posts_url': url_for('api.get_user_posts', id=self.id),
+            'followed_posts_url': url_for('api.get_user_followed_posts', id=self.id),
+            'post_count': self.posts.count()
+        }
+        return json_user
 
     @staticmethod
     def generate_fake(count=100):
