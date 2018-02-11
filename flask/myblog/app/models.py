@@ -7,6 +7,7 @@ from markdown import markdown
 import bleach
 import hashlib
 from datetime import datetime
+from .exceptions import ValidationError
 
 
 class Permission(object):
@@ -143,9 +144,9 @@ class User(UserMixin, db.Model):
         """登陆时密码加密验证"""
         return check_password_hash(self.password_hash, password)
 
-    def generate_confirmation_token(self, expiration=3600):
+    def generate_confirmation_token(self, expires_in=3600):
         """注册用户或者用户登陆之前确认生效令牌"""
-        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        s = Serializer(current_app.config['SECRET_KEY'], expires_in)
         return s.dumps({'confirm': self.id}).decode('utf-8')
 
     def confirm(self, token):
@@ -161,9 +162,9 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
-    def generate_email_change_token(self, new_email, expiration=3600):
+    def generate_email_change_token(self, new_email, expires_in=3600):
         """修改邮箱时根据邮箱生成唯一令牌"""
-        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        s = Serializer(current_app.config['SECRET_KEY'], expires_in)
         return s.dumps({'change_email': self.id, 'new_email': new_email}).decode('utf-8')
 
     def change_email(self, token):
@@ -185,9 +186,9 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
-    def generate_reset_token(self, expiration=3600):
+    def generate_reset_token(self, expires_in=3600):
         """重设密码时根据邮箱生成唯一令牌"""
-        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        s = Serializer(current_app.config['SECRET_KEY'], expires_in)
         return s.dumps({'reset': self.id}).decode('utf-8')
 
     @staticmethod
@@ -283,9 +284,9 @@ class User(UserMixin, db.Model):
         """
         return Post.query.join(Follow, Follow.followed_id == Post.author_id).filter(Follow.follower_id == self.id)
 
-    def generate_hauth_token(self, expiration):
+    def generate_hauth_token(self, expires_in):
         """api接口身份验证生成一个签名令牌"""
-        s = Serializer(current_app.config['SECRET_KEY'], expiration=expiration)
+        s = Serializer(current_app.config['SECRET_KEY'], expires_in=expires_in)
         return s.dumps({'confirm': self.id}).decode('utf-8')
 
     @staticmethod
@@ -302,12 +303,12 @@ class User(UserMixin, db.Model):
 
     def to_json(self):
         json_user = {
-            'url': url_for('api.get_user', id=self.id),
+            'url': url_for('api.get_user', id=self.id, _external=True),
             'username': self.username,
             'member_since': self.member_since,
             'last_seen': self.last_seen,
-            'posts_url': url_for('api.get_user_posts', id=self.id),
-            'followed_posts_url': url_for('api.get_user_followed_posts', id=self.id),
+            'posts_url': url_for('api.get_user_posts', id=self.id, _external=True),
+            'followed_posts_url': url_for('api.get_user_followed_posts', id=self.id, _external=True),
             'post_count': self.posts.count()
         }
         return json_user
@@ -392,6 +393,25 @@ class Post(db.Model):
                         'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul', 'h1', 'h2', 'h3', 'p']
         target.body_html = bleach.linkify(bleach.clean(markdown(value, output_format='html'), tags=allowed_tags, strip=True))
 
+    def to_json(self):
+        json_post = {
+            'url': url_for('api.get_post', id=self.id, _external=True),
+            'body': self.body,
+            'body_html': self.body_html,
+            'timestamp': self.timestamp,
+            'author_url': url_for('api.get_user', id=self.author_id, _external=True),
+            'comments_url': url_for('api.get_post_comments', id=self.id, _external=True),
+            'comment_count': self.comments.count()
+        }
+        return json_post
+
+    @staticmethod
+    def from_json(json_post):
+        body = json_post.get('body')
+        if body is None or body == '':
+            raise ValidationError('内容不能为空。')
+        return Post(body=body)
+
     @staticmethod
     def generate_fake(count=100):
         """模拟测试数据生成"""
@@ -428,6 +448,24 @@ class Comment(db.Model):
         """在 Comment 模型中处理 Markdown 文本"""
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'code', 'em', 'i', 'strong']
         target.body_html = bleach.linkify(bleach.clean(markdown(value, output_format='html'), tags=allowed_tags, strip=True))
+
+    def to_json(self):
+        json_comment = {
+            'url': url_for('api.get_comment', id=self.id),
+            'post_url': url_for('api.get_post', id=self.post_id),
+            'body': self.body,
+            'body_html': self.body_html,
+            'timestamp': self.timestamp,
+            'author_url': url_for('api.get_user', id=self.author_id),
+        }
+        return json_comment
+
+    @staticmethod
+    def from_json(json_comment):
+        body = json_comment.get('body')
+        if body is None or body == '':
+            raise ValidationError('comment does not have a body')
+        return Comment(body=body)
 
 
 # on_changed_body 函数注册在 body 字段上，是 SQLAlchemy“set”事件的监听程序，

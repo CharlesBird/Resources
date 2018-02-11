@@ -5,12 +5,68 @@ from . import api
 
 @api.route('/users/<int:id>')
 def get_user(id):
+    """
+    获取用户信息
+    ---
+    tags:
+    - "User"
+    parameters:
+      - name: id
+        in: path
+        type: integer
+        format: int64
+        required: true
+    definitions:
+      User:
+        type: "object"
+        properties:
+          id:
+            type: integer
+            format: int64
+    responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Users not found"
+    """
     user = User.query.get_or_404(id)
     return jsonify(user.to_json())
 
 
 @api.route('/users/<int:id>/posts/')
 def get_user_posts(id):
+    """
+    获取用户文章信息
+    ---
+    tags:
+    - "User"
+    parameters:
+      - name: id
+        in: path
+        type: integer
+        format: int64
+        required: true
+    definitions:
+      User:
+        type: "object"
+        properties:
+          id:
+            type: integer
+            format: int64
+    responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Users not found"
+    """
     user = User.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
     pagination = user.posts.order_by(Post.timestamp.desc()).paginate(
@@ -33,6 +89,34 @@ def get_user_posts(id):
 
 @api.route('/users/<int:id>/timeline/')
 def get_user_followed_posts(id):
+    """
+    获取关注的用户文章信息
+    ---
+    tags:
+    - "User"
+    parameters:
+      - name: id
+        in: path
+        type: integer
+        format: int64
+        required: true
+    definitions:
+      User:
+        type: "object"
+        properties:
+          id:
+            type: integer
+            format: int64
+    responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Users not found"
+    """
     user = User.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
     pagination = user.followed_posts.order_by(Post.timestamp.desc()).paginate(

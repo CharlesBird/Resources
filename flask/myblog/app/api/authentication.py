@@ -42,6 +42,6 @@ def before_request():
 @api.route('/tokens/', methods=['POST', 'GET'])
 def get_token():
     """获取token路由"""
-    if g.current_user.is_anonymous or g.current_user.confirmed:
+    if g.current_user.is_anonymous or g.token_used:
         return unauthorized('无效身份。')
-    return jsonify({'token': g.current_user.generate_hauth_token(expiration=60*60), 'expiration': 3600})
+    return jsonify({'token': g.current_user.generate_hauth_token(expires_in=60*60), 'expires_in': 3600})
