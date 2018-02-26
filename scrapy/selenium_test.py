@@ -10,7 +10,7 @@ geckodriver.exe 需要下载安装浏览器启动驱动
 """
 
 browser = webdriver.Firefox(executable_path="D:/Users/Charles/geckodriver.exe")
-# browser.get("https://www.baidu.com/")
+# browser.get("http://moni.51hupai.org/")
 # print(browser.page_source)
 
 # browser.get("https://www.taobao.com/")
@@ -117,5 +117,5 @@ browser.get("https://www.zhihu.com/")
 # page = browser.find_element_by_xpath('//*[@class="meneame"]/div/span').text
 # print(page)
 # time.sleep(5)
-time.sleep(2)
+time.sleep(10)
 browser.close()
