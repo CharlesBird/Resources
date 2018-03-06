@@ -6,3 +6,4 @@
 *.prefs
 .pydevproject
 .idea
+__pycache__
