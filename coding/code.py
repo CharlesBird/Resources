@@ -56,3 +56,67 @@ def distinct_numbers(s):
     return ('->'.join(map(str, (sorted(map(int, new_l))))))
 
 # print(distinct_numbers('1->1->1->2->3'))
+
+
+def re_xmltag(x):
+    """验证xml标签有效"""
+    p = re.compile(r'</?[a-z]+>')
+    l = p.findall(x)
+    n = len(l)
+    if n % 2:
+        return False
+    for i in range(n//2):
+        tag1 = l[i]
+        tag2 = l[n-i-1]
+        if tag1[1:] != tag2[2:]:
+            return False
+    return True
+
+# print(re_xmltag('<a></a>'))
+# print(re_xmltag('<a></b>'))
+
+
+def is_win(n, N=N):
+    """#棋判断输赢"""
+    win1 = ['x'] * N
+    win2 = ['o'] * N
+    board = [['-' for _ in range(N)] for _ in range(N)]  # Building an empty chessboard
+    # Replace the value on the chessboard
+    for row in range(len(n)):
+        for col in range(len(n[row])):
+            board[row][col] = n[row][col]
+    all_l = []
+    cols_l = get_cols(board)
+    all_l.extend(cols_l)
+    rows_l = get_rows(board)
+    all_l.extend(rows_l)
+    diagonals_l = get_diagonals(board, N)
+    all_l.extend(diagonals_l)  # merge all list
+    if win1 in all_l or win2 in all_l:
+        # if anyone in all list, return true
+        return True
+    return False
+
+
+def get_rows(board):
+    """All rows list"""
+    return board
+
+def get_cols(board):
+    """All cols list"""
+    return list(map(list, zip(*board)))
+
+def get_diagonals(board, N):
+    """All diagonals list"""
+    diagonal1 = []
+    for i in range(N):
+        diagonal1.append(board[i][i])
+    diagonal2 = []
+    for j in range(N):
+        diagonal2.append(board[j][N-j-1])
+    return [diagonal1, diagonal2]
+
+# print(is_win([['o'], ['x', 'x', 'o'], ['o']], N=3))
+# print(is_win([['o'], ['x', 'x', 'x'], ['o']], N=3))
+# print(is_win([['o'], ['x', 'x', 'x']], N=3))
+# print(is_win([['o', 'x'], ['x', 'x'], ['o', 'x']], N=3))
