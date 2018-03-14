@@ -1,5 +1,9 @@
 import numpy as np
 from collections import Counter
+from .metrics import accuracy_score
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
 
 
 class KNNClassifier:
@@ -34,6 +38,10 @@ class KNNClassifier:
         topK_y = [self._y_train[i] for i in nearest[:self.k]]
         votes = Counter(topK_y)
         return votes.most_common(1)[0][0]
+
+    def score(self, X_test, y_test):
+        y_predict = self.predict(X_test)
+        return accuracy_score(y_test, y_predict)
 
     def __repr__(self):
         return "KKN:k=%s" % self.k
