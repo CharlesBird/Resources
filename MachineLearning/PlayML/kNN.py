@@ -3,7 +3,7 @@ from collections import Counter
 from .metrics import accuracy_score
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, minmax_scale
 
 
 class KNNClassifier:
