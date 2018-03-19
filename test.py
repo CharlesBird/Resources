@@ -1933,7 +1933,7 @@ models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url), allow_none=True
 #     }])
 # print models.execute_kw(db, uid, password, 'unovo.interface', 'erp_open_common_fnct', [{'method': 'mobile_countrystate_dropdown_list_get', 'value': {'input': ''}}])
 # models.execute_kw(db, uid, password, 'unovo.logs', 'create', [{'res_type': 'unovo.repair', 'res_id': 91, 'status': 'approving', 'code': 'L-RO2018030001', 'type': 'approve', 'name': u'返修单', 'last_time': '2018-03-18 16:30:39', 'users': [(6, 0, [69])]}])
-models.execute_kw(db, uid, password, 'purchase.order.line', 'write', [[710, 711, 1041], {'taxes_id': [(6, 0, [8])]}])
+# models.execute_kw(db, uid, password, 'purchase.order.line', 'write', [[710, 711, 1041], {'taxes_id': [(6, 0, [8])]}])
 
 # import odoorpc
 # db = 'zhc_unovo'
