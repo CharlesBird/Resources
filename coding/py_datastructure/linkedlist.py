@@ -83,11 +83,13 @@ class LinkedList(object):
         elif index == 1:
             self.head = self.head.pnext
         else:
-            current_node = self.head
-            while index > 1:
+            pre_node = self.head
+            current_node = pre_node.pnext
+            while index > 2:
+                pre_node = current_node
                 current_node = current_node.pnext
                 index -= 1
-            current_node.pnext = current_node.pnext.pnext
+            pre_node.pnext = current_node.pnext
         return None
 
     def update(self, index, data):
@@ -181,3 +183,22 @@ class LinkedList(object):
             return result
 
 
+if __name__ == '__main__':
+    ll = LinkedList()
+
+    ll.append('q')
+    ll.append('w')
+    ll.append('e')
+    ll.prepend('m')
+    ll.reverse()
+
+    ll.insert(1, 'g')
+    print(ll.print_linked_list())
+    ll.delete(4)
+    ll.update(3, 'f')
+    print(ll.get_value(3))
+    print(ll.peek())
+    print(ll.pop())
+    print(ll.print_linked_list())
+    ll.clear()
+    print(ll.size(), ll.is_empty(), ll.print_linked_list())
