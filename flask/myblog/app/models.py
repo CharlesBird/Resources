@@ -319,7 +319,7 @@ class User(UserMixin, db.Model):
         from sqlalchemy.exc import IntegrityError
         from random import seed
         import forgery_py
-        seed()
+        seed(100)
         for i in range(count):
             u = User(email=forgery_py.internet.email_address(),
                      username=forgery_py.internet.user_name(True),
@@ -417,7 +417,7 @@ class Post(db.Model):
         """模拟测试数据生成"""
         from random import seed, randint
         import forgery_py
-        seed()
+        seed(100)
         user_count = User.query.count()
         for i in range(count):
             u = User.query.offset(randint(0, user_count - 1)).first()
