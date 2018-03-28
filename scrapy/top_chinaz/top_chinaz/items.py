@@ -19,4 +19,6 @@ class TopChinazItem(Item):
     region_ranking = Field()
     hangye = Field()
     hangye_ranking = Field()
+    image_url= Field()
     webIntro = Field()
+    image_result_url = Field()
