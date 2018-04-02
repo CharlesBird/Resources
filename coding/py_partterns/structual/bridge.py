@@ -14,13 +14,13 @@ class DrawingAPI2(object):
 class CircleShape(object):
 
     def __init__(self, x, y, radius, drawing_api):
-        self.x = x
-        self.y = y
+        self._x = x
+        self._y = y
         self._radius = radius
         self._drawing_api = drawing_api
 
     def draw(self):
-        self._drawing_api.draw_circle(self.x, self.y, self._radius)
+        self._drawing_api.draw_circle(self._x, self._y, self._radius)
 
     def scale(self, pct):
         self._radius *= pct
