@@ -7,6 +7,8 @@
 import json
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy.http import Request
+from scrapy.conf import settings
+import pymongo
 
 
 class TopChinazPipeline(object):
@@ -25,6 +27,27 @@ class JsonWriterPipeline(object):
     def process_item(self, item, spider):
         line = json.dumps(dict(item)) + '\n'
         self.file.write(line)
+        return item
+
+
+class MongoPipeline(object):
+
+    def __init__(self):
+        self.host = settings['MONGODB_HOST']
+        self.port = settings['MONGODB_PORT']
+        self.mongo_db = settings['MONGODB_DBNAME']
+        self.coll = settings['MONGODB_DOCNAME']
+
+    def open_spider(self, spider):
+        self.client = pymongo.MongoClient(host=self.host, port=self.port)
+        self.db = self.client[self.mongo_db]
+
+    def close_spider(self, spider):
+        self.client.close()
+
+    def process_item(self, item, spider):
+        postitem = dict(item)
+        self.db[self.coll].update({'link': postitem["link"], 'dateup': postitem["dateup"]}, {'$set': postitem}, True)
         return item
 
 

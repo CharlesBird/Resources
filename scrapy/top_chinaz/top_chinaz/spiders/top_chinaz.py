@@ -37,7 +37,7 @@ class TopChinazSpider(scrapy.Spider):
             item['name'] = name
             item['link'] = link
             item['pstar'] = pstar_url and re.search(r'\d{1}', pstar_url).group()
-            item['dateup'] = dateup
+            item['dateup'] = dateup and dateup[5:]
 
         topmain = response.xpath('//div[@class="TopPageCent clearfix"]/div[@class="TPageCent-TopMain mt10 clearfix"]')
         if topmain:
@@ -58,6 +58,18 @@ class TopChinazSpider(scrapy.Spider):
             webIntro = tmain01[0].xpath('div[1]/div[@class="Centright fr SimSun"]/p/text()').extract_first()
             item['image_url'] = image_url and ['http:' + image_url] or []
             item['webIntro'] = webIntro
+
+        mb30 = response.xpath('//div[@class="CobaseCon mb30"]')
+        if mb30:
+            spans = mb30[0].xpath('ul/li[2]/span/text()').extract()
+            try:
+                company_name, legal_representative, registered_capital, registered_date = spans
+                item['company_name'] = company_name
+                item['legal_representative'] = legal_representative
+                item['registered_capital'] = registered_capital
+                item['registered_date'] = registered_date
+            except ValueError as e:
+                pass
 
         yield item
 
