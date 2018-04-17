@@ -1,0 +1,28 @@
+#! /bin/bash
+odoo_path=/opt/openerp_zhc/odoo.py
+connecotr_work=/opt/openerp_zhc/openerp-connector-worker
+conf_path=/opt/openerp_zhc/install/
+conf=odoozhc-server.conf
+
+case $1 in
+    start)
+        python $odoo_path -c $conf_path$conf&
+        python $connecotr_work -c $conf_path$conf&
+        echo "Odoo Server Start.."
+    ;;
+    stop)
+        pidarr=$(ps -ef | grep $conf | awk '{print $2}')
+        echo $pidarr
+        ps -ef | grep $conf | awk '{print $2}'|xargs kill -9
+        echo "Odoo Server Stop.."
+    ;;
+    restart)
+        ps -ef | grep odoozhc-server.conf | awk '{print $2}'|xargs kill -9;
+        python $odoo_path -c $conf_path$conf&
+        python $connecotr_work -c $conf_path$conf&
+        echo "Odoo Server Restart.."
+    ;;
+    *)
+        echo "Usage:<start|stop|restart>"
+    ;;
+esac

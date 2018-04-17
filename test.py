@@ -1848,7 +1848,7 @@ url, db, username, password = 'http://192.168.3.51:8069', 'db-lianyuplus', 'supp
 common = xmlrpclib.ServerProxy('{}/xmlrpc/2/common'.format(url))
 uid = common.authenticate(db, username, password, {})
 models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url), allow_none=True)
-models.execute_kw(db, uid, password, 'unovo.works', 'create_next_works', ["days"])
+# models.execute_kw(db, uid, password, 'unovo.works', 'create_next_works', ["days"])
 # models.execute_kw(db, uid, password, 'unovo.works', 'create_next_works', ["weeks"])
 # employee = models.execute_kw(db, uid, password, 'hr.employee', 'search_read', [[], ['user_id']])
 # for em in employee:
