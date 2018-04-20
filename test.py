@@ -1849,11 +1849,6 @@ url, db, username, password = 'http://192.168.3.49:8069', 'zhc_0228', 'support@u
 common = xmlrpclib.ServerProxy('{}/xmlrpc/2/common'.format(url))
 uid = common.authenticate(db, username, password, {})
 models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url), allow_none=True)
-print '1111111'
-res = models.execute_kw(db, uid, password, 'unovo.knowledge.base', 'get_categ_ids', [9])
-print res
-# res = models.execute_kw(db, uid, password, 'res.users', 'search', [[]])
-# print res
 # models.execute_kw(db, uid, password, 'unovo.works', 'create_next_works', ["days"])
 # models.execute_kw(db, uid, password, 'unovo.works', 'create_next_works', ["weeks"])
 # employee = models.execute_kw(db, uid, password, 'hr.employee', 'search_read', [[], ['user_id']])
@@ -2455,3 +2450,15 @@ print res
 # print r
 # c.send('a')
 # c.send('b')
+
+
+# a = [1, 2, [3, [4, 5, [6, [7, 8, 9], [10, 11], 12], [13, 14]], 15], 16]
+# n = []
+# def f(a):
+# 	for i in a:
+# 		if isinstance(i, list):
+# 			f(i)
+# 		else:
+# 			n.append(i)
+# 	return n
+# print f(a)
