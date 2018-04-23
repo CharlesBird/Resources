@@ -1840,8 +1840,8 @@
 
 
 import xmlrpclib
-url, db, username, password = 'http://192.168.3.49:8069', 'zhc_0228', 'support@unovo.com.cn', 'unovo883&'
-# url, db, username, password = 'http://192.168.3.51:8069', 'db-lianyuplus', 'support@unovo.com.cn', 'ahong883&'
+# url, db, username, password = 'http://192.168.3.49:8069', 'zhc_0228', 'support@unovo.com.cn', 'unovo883&'
+url, db, username, password = 'http://192.168.3.51:8069', 'db-lianyuplus', 'support@unovo.com.cn', 'ahong883&'
 # url, db, username, password = 'https://erp.unovo.com.cn:8443', 'db-lianyuplus', 'support@unovo.com.cn', 'ahong883&'
 # url, db, username, password = 'http://192.168.3.51:8069', 'db-unovo', 'support@unovo.com.cn', 'ahong883&'
 # url, db, username, password = 'http://192.168.3.51:8069', 'db-zhihui', 'support@unovo.com.cn', 'unovo883&'
@@ -1849,7 +1849,7 @@ url, db, username, password = 'http://192.168.3.49:8069', 'zhc_0228', 'support@u
 common = xmlrpclib.ServerProxy('{}/xmlrpc/2/common'.format(url))
 uid = common.authenticate(db, username, password, {})
 models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url), allow_none=True)
-# models.execute_kw(db, uid, password, 'unovo.works', 'create_next_works', ["days"])
+models.execute_kw(db, uid, password, 'unovo.works', 'create_next_works', ["days"])
 # models.execute_kw(db, uid, password, 'unovo.works', 'create_next_works', ["weeks"])
 # employee = models.execute_kw(db, uid, password, 'hr.employee', 'search_read', [[], ['user_id']])
 # for em in employee:
