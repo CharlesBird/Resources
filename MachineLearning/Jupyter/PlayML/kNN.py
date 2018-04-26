@@ -4,6 +4,7 @@ from .metrics import accuracy_score
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler, minmax_scale
+from sklearn.linear_model import SGDRegressor
 
 
 class KNNClassifier:
