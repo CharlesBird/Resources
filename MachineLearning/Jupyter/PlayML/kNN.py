@@ -7,6 +7,8 @@ from sklearn.preprocessing import StandardScaler, minmax_scale
 from sklearn.linear_model import SGDRegressor
 from matplotlib.colors import ListedColormap
 from matplotlib import contour
+from sklearn.svm import LinearSVC
+from sklearn import datasets
 
 
 class KNNClassifier:
