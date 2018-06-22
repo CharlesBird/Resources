@@ -37,10 +37,18 @@ class MongoPipeline(object):
         self.port = settings['MONGODB_PORT']
         self.mongo_db = settings['MONGODB_DBNAME']
         self.coll = settings['MONGODB_DOCNAME']
+        self.user = settings['MONGODB_USER']
+        self.pwd = settings['MONGODB_PWD']
 
     def open_spider(self, spider):
+        """
+        添加用户验证
+        :param spider:
+        :return:
+        """
         self.client = pymongo.MongoClient(host=self.host, port=self.port)
         self.db = self.client[self.mongo_db]
+        self.db.authenticate(self.user, self.pwd)
 
     def close_spider(self, spider):
         self.client.close()
