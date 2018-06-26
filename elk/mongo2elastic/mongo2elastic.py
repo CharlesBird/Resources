@@ -15,5 +15,5 @@ for item in collection.find():
     if item.get('registered_capital'):
         cut = jieba.cut(item.get('registered_capital'))
         lt = list(cut)
-        if '亿' in lt:
+        if '人民币' in lt:
             print(lt, item)
