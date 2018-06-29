@@ -1,8 +1,8 @@
 import configparser
 import optparse
 import os
-import sys
-from .version import version
+import init_logger
+from brent_oil.brent_oil.version import version
 
 
 class MyOption (optparse.Option, object):
@@ -74,6 +74,10 @@ class ConfigManager(object):
                     self.options[option.dest] = option.my_default
                     self.casts[option.dest] = option
         self._parse_config()
+
+    def parse_config(self):
+        self._parse_config()
+        init_logger()
 
     def _parse_config(self):
         opt, args = self.parser.parse_args()

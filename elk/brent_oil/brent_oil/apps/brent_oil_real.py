@@ -1,4 +1,4 @@
-from pipelines import MongoPipeline
+from brent_oil.brent_oil.pipelines import MongoPipeline
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -80,6 +80,7 @@ def write_to_db(item):
 
 
 def main():
+    # config.parse_config()
     base_url = 'https://cn.investing.com/commodities/brent-oil'
     driver = get_full_item_driver(url=base_url)
     n = 0

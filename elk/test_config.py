@@ -1,4 +1,3 @@
 import tools
-# config
 
-print(tools.config['db_name'])
+print(tools.config['db_name'], tools.config['db_name'])
