@@ -1,8 +1,8 @@
 import configparser
 import optparse
 import os
-import init_logger
-from brent_oil.brent_oil.version import version
+from ..log_format import init_logger
+from ..version import version
 
 
 class MyOption (optparse.Option, object):

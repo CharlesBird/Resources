@@ -2,7 +2,7 @@ import logging
 import logging.handlers
 import sys
 import os
-from brent_oil.brent_oil.tools.config import config
+from tools import config
 _logger = logging.getLogger(__name__)
 
 BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, _NOTHING, DEFAULT = range(10)
@@ -20,11 +20,17 @@ LEVEL_COLOR_MAPPING = {
 _logger_init = False
 
 
-class ColoredFormatter(logging.Formatter):
+class NormalFormatter(logging.Formatter):
+    def format(self, record):
+        record.pid = os.getpid()
+        return logging.Formatter.format(self, record)
+
+
+class ColoredFormatter(NormalFormatter):
     def format(self, record):
         fg_color, bg_color = LEVEL_COLOR_MAPPING.get(record.levelno, (GREEN, DEFAULT))
         record.levelname = COLOR_PATTERN % (30 + fg_color, 40 + bg_color, record.levelname)
-        return logging.Formatter.format(self, record)
+        return NormalFormatter.format(self, record)
 
 
 def init_logger():
@@ -32,7 +38,6 @@ def init_logger():
     if _logger_init:
         return
     _logger_init = True
-    logging.addLevelName(25, "INFO")
 
     # create a format for log messages and dates
     format = '%(asctime)s %(pid)s %(levelname)s %(name)s: %(message)s'
@@ -58,13 +63,15 @@ def init_logger():
     def is_a_tty(stream):
         return hasattr(stream, 'fileno') and os.isatty(stream.fileno())
 
-    formatter = logging.Formatter(format)
     if os.name == 'posix' and isinstance(handler, logging.StreamHandler) and is_a_tty(handler.stream):
         formatter = ColoredFormatter(format)
+    else:
+        formatter = NormalFormatter(format)
     handler.setFormatter(formatter)
 
     logging.getLogger().addHandler(handler)
     logger = logging.getLogger()
-    logger.setLevel(config['log_level'])
+    a = config['log_level'].upper()
+    logger.setLevel(config['log_level'].upper())
 
     _logger.debug('logger level set: "%s"', config['log_level'])

@@ -1,0 +1,22 @@
+2018-07-02 16:31:02,975 6588 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
+2018-07-02 16:31:03,253 6588 ERROR brent_oil.brent_oil_real: Connect to DB error: Authentication failed.
+2018-07-02 16:31:04,034 6588 ERROR brent_oil.brent_oil_real: Connect to DB error: Authentication failed.
+2018-07-02 16:31:04,833 6588 ERROR brent_oil.brent_oil_real: Connect to DB error: Authentication failed.
+2018-07-02 16:31:05,627 6588 ERROR brent_oil.brent_oil_real: Connect to DB error: Authentication failed.
+2018-07-02 16:31:06,406 6588 ERROR brent_oil.brent_oil_real: Connect to DB error: Authentication failed.
+2018-07-02 16:31:07,176 6588 ERROR brent_oil.brent_oil_real: Connect to DB error: Authentication failed.
+2018-07-02 16:34:43,634 12780 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
+2018-07-02 16:36:52,308 2552 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
+2018-07-02 16:41:31,284 11476 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
+2018-07-02 16:44:10,976 2708 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
+2018-07-02 16:44:41,148 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+2018-07-02 16:45:11,838 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+2018-07-02 16:45:42,605 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+2018-07-02 16:46:13,446 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+2018-07-02 16:46:44,138 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+2018-07-02 16:47:15,061 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+2018-07-02 17:09:24,775 8776 WARNING brent_oil.brent_oil_real: Try about 2 times to get full data driver
+2018-07-02 17:09:24,998 8776 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
+2018-07-02 17:33:09,618 3788 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
+2018-07-02 17:39:02,552 9528 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
+2018-07-02 18:13:14,134 10204 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil

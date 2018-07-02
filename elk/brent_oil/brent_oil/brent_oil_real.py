@@ -1,4 +1,5 @@
-from brent_oil.brent_oil.pipelines import MongoPipeline
+from .pipelines import MongoPipeline
+from .tools import config
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,9 +12,12 @@ if system == 'Windows':
     driver_path = './chromedriver_win/chromedriver'
 else:
     driver_path = './chromedriver_mac/chromedriver'
+import logging
+_logger = logging.getLogger(__name__)
 
 
 def get_driver(url):
+    _logger.debug('Start get driver..')
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
@@ -21,6 +25,7 @@ def get_driver(url):
     driver = webdriver.Chrome(executable_path=driver_path, chrome_options=chrome_options)
     driver.implicitly_wait(1)
     driver.get(url=url)
+    _logger.debug('Get driver successfully.')
     return driver
 
 
@@ -61,10 +66,13 @@ def get_full_item_driver(url, driver=None):
     item = get_item(driver)
     values = item.values()
     full = all(values)
+    count = 1
     while not full:
         driver.quit()
         time.sleep(30)
         new_driver = get_driver(url=url)
+        count += 1
+        _logger.warning('Try about %s times to get full data driver' % count)
         new_item = get_item(new_driver)
         full = all(new_item.values())
         if full:
@@ -74,20 +82,39 @@ def get_full_item_driver(url, driver=None):
 
 
 def write_to_db(item):
-    pipe = MongoPipeline('118.190.149.30', 27017, 'bent_oil', 'brent_oil_second', 'zhc', 'zhc123456')
-    pipe.process_item(item)
-    return
+    print(item)
+    # try:
+    #     pipe = MongoPipeline('118.190.149.30', 27017, 'brent_oil', 'brent_oil_second', 'zhc', 'zhc123456')
+    #     pipe.process_item(item)
+    # except Exception as e:
+    #     _logger.error('Connect to DB error: %s' % e)
+
+
+class ItemFiter(object):
+    datas = {}
+
+    def set_items(self, item):
+        self.datas.update({item['now_time']: item})
+
+    def get_items(self):
+        return self.datas.values()
+
+    def get(self):
+        return self.datas.pop()
 
 
 def main():
-    # config.parse_config()
+    config.parse_config()
     base_url = 'https://cn.investing.com/commodities/brent-oil'
     driver = get_full_item_driver(url=base_url)
+    _logger.info('Driver of url: %s' % base_url)
     n = 0
+    itemfiter = ItemFiter()
     try:
         while True:
             item = get_item(driver)
             print(item)
+            itemfiter.set_items(item)
             # write_to_db(item)
             if n >= 5:
                 break
@@ -97,7 +124,9 @@ def main():
         print('Error, %s' % e)
     finally:
         driver.quit()
+    print('itemfiter', itemfiter.get_items())
+    write_to_db(itemfiter.get())
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
