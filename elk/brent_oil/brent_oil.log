@@ -20,3 +20,8 @@
 2018-07-02 17:33:09,618 3788 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
 2018-07-02 17:39:02,552 9528 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
 2018-07-02 18:13:14,134 10204 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
+2018-07-02 22:57:00,097 738 WARNING brent_oil.brent_oil_real: Try about 2 times to get full data driver
+2018-07-02 22:57:00,378 738 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
+2018-07-03 00:25:10,585 982 WARNING brent_oil.brent_oil_real: Try about 2 times to get full data driver
+2018-07-03 00:27:00,203 982 WARNING brent_oil.brent_oil_real: Try about 3 times to get full data driver
+2018-07-03 00:27:00,532 982 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
