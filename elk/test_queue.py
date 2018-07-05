@@ -50,6 +50,9 @@ p2 = Productor('Productor2', 10, 20)
 p2.start()
 p3 = Productor('Productor3', 20, 30)
 p3.start()
+p1.join()
+p2.join()
+p3.join()
 
 
 worker1 = Consume('Consume1')
