@@ -9,12 +9,12 @@
 2018-07-02 16:36:52,308 2552 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
 2018-07-02 16:41:31,284 11476 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
 2018-07-02 16:44:10,976 2708 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
-2018-07-02 16:44:41,148 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] ÓÉÓÚÄ¿±ê¼ÆËã»ú»ý¼«¾Ü¾ø£¬ÎÞ·¨Á¬½Ó¡£
-2018-07-02 16:45:11,838 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] ÓÉÓÚÄ¿±ê¼ÆËã»ú»ý¼«¾Ü¾ø£¬ÎÞ·¨Á¬½Ó¡£
-2018-07-02 16:45:42,605 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] ÓÉÓÚÄ¿±ê¼ÆËã»ú»ý¼«¾Ü¾ø£¬ÎÞ·¨Á¬½Ó¡£
-2018-07-02 16:46:13,446 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] ÓÉÓÚÄ¿±ê¼ÆËã»ú»ý¼«¾Ü¾ø£¬ÎÞ·¨Á¬½Ó¡£
-2018-07-02 16:46:44,138 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] ÓÉÓÚÄ¿±ê¼ÆËã»ú»ý¼«¾Ü¾ø£¬ÎÞ·¨Á¬½Ó¡£
-2018-07-02 16:47:15,061 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] ÓÉÓÚÄ¿±ê¼ÆËã»ú»ý¼«¾Ü¾ø£¬ÎÞ·¨Á¬½Ó¡£
+2018-07-02 16:44:41,148 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¾ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½
+2018-07-02 16:45:11,838 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¾ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½
+2018-07-02 16:45:42,605 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¾ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½
+2018-07-02 16:46:13,446 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¾ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½
+2018-07-02 16:46:44,138 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¾ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½
+2018-07-02 16:47:15,061 2708 ERROR brent_oil.brent_oil_real: Connect to DB error: 118.190.149.30:27015: [WinError 10061] ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¾ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½
 2018-07-02 17:09:24,775 8776 WARNING brent_oil.brent_oil_real: Try about 2 times to get full data driver
 2018-07-02 17:09:24,998 8776 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
 2018-07-02 17:33:09,618 3788 INFO brent_oil.brent_oil_real: Driver of url: https://cn.investing.com/commodities/brent-oil
