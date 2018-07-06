@@ -1,5 +1,6 @@
 from .pipelines import MongoPipeline
 from .tools import config
+from .tools.itemfiter import ItemFilter, d2q, get_items
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -81,26 +82,13 @@ def get_full_item_driver(url, driver=None):
     return driver
 
 
-def write_to_db(item):
-    print(item)
+def write_to_db(items):
+    print(items)
     # try:
     #     pipe = MongoPipeline('118.190.149.30', 27017, 'brent_oil', 'brent_oil_second', 'zhc', 'zhc123456')
     #     pipe.process_item(item)
     # except Exception as e:
     #     _logger.error('Connect to DB error: %s' % e)
-
-
-class ItemFiter(object):
-    datas = {}
-
-    def set_items(self, item):
-        self.datas.update({item['now_time']: item})
-
-    def get_items(self):
-        return self.datas.values()
-
-    def get(self):
-        return self.datas.pop()
 
 
 def main():
@@ -109,23 +97,26 @@ def main():
     driver = get_full_item_driver(url=base_url)
     _logger.info('Driver of url: %s' % base_url)
     n = 0
-    itemfiter = ItemFiter()
+    itemfilter = ItemFilter()
     try:
         while True:
             item = get_item(driver)
-            print(item)
-            itemfiter.set_items(item)
-            # write_to_db(item)
-            if n >= 5:
-                break
-            n += 1
+            itemfilter.set_items(item)
+            # print(item)
+            if itemfilter.to_update_q:
+                d2q(itemfilter)
+                items = get_items()
+                write_to_db(items)
+            # if n >= 200:
+            #     break
+            # n += 1
             time.sleep(0.5)
     except Exception as e:
         print('Error, %s' % e)
     finally:
         driver.quit()
-    print('itemfiter', itemfiter.get_items())
-    write_to_db(itemfiter.get())
+    # print('itemfiter', itemfiter.get_items())
+    # write_to_db(itemfiter.get())
 
 
 # if __name__ == '__main__':
