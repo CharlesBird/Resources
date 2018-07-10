@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+import threading
 import time
 import platform
 system = platform.system()
@@ -64,7 +65,10 @@ def get_item(driver):
 def get_full_item_driver(url, driver=None):
     if driver is None:
         driver = get_driver(url=url)
-    item = get_item(driver)
+    try:
+        item = get_item(driver)
+    except Exception as e:
+        _logger.error('Get item Error: %s' % e)
     values = item.values()
     full = all(values)
     count = 1
@@ -83,16 +87,17 @@ def get_full_item_driver(url, driver=None):
 
 
 def write_to_db(items):
-    print(items)
-    # try:
-    #     pipe = MongoPipeline('118.190.149.30', 27017, 'brent_oil', 'brent_oil_second', 'zhc', 'zhc123456')
-    #     pipe.process_item(item)
-    # except Exception as e:
-    #     _logger.error('Connect to DB error: %s' % e)
+    try:
+        pipe = MongoPipeline(config['db_host'], config['db_port'], config['db_name'], config['db_user'], config['db_password'], config['db_coll'])
+        t = threading.Thread(target=pipe.process_items, args=(items,))
+        t.start()
+    except Exception as e:
+        _logger.error('Connect to DB and insert to DB error: %s' % e)
 
 
 def main():
     config.parse_config()
+    _logger.info('Script Start..')
     base_url = 'https://cn.investing.com/commodities/brent-oil'
     driver = get_full_item_driver(url=base_url)
     _logger.info('Driver of url: %s' % base_url)
@@ -115,8 +120,6 @@ def main():
         print('Error, %s' % e)
     finally:
         driver.quit()
-    # print('itemfiter', itemfiter.get_items())
-    # write_to_db(itemfiter.get())
 
 
 # if __name__ == '__main__':

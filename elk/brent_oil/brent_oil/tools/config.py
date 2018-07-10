@@ -65,6 +65,8 @@ class ConfigManager(object):
                          help="specify the database host")
         group.add_option("--db_port", dest="db_port", my_default=False,
                          help="specify the database port", type="int")
+        group.add_option("--db_coll", dest="db_coll", my_default=False,
+                         help="specify the database collection")
         parser.add_option_group(group)
 
         # Copy all optparse options (i.e. MyOption) into self.options.

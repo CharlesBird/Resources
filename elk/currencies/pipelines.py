@@ -14,7 +14,7 @@ class MongoPipeline(object):
     def process_item(self, items):
         """
         批量插入
-        :param item: 列表套字典
+        :param items: 列表套字典
         :return:
         """
         with pymongo.MongoClient(host=self.host, port=self.port) as client:
