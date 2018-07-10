@@ -50,6 +50,6 @@ class MongoPipeline(object):
         with pymongo.MongoClient(host=self.host, port=self.port) as client:
             db = client[self.mongo_db]
             db.authenticate(self.user, self.pwd)
-            db[self.coll].insert_many(items, ordered=True)
-            _logger.info('Insert items succesfully.')
+            db[self.coll].insert(items)
+            _logger.debug('Insert items succesfully.')
             _logger.debug('items: %s' % items)
