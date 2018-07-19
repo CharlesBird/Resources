@@ -1,7 +1,6 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
-import matplotlib.pyplot as plt
 import os
 data_train = pd.read_csv(os.path.abspath(os.path.dirname(os.getcwd())) + '/train.csv' )
 data_test = pd.read_csv(os.path.abspath(os.path.dirname(os.getcwd())) + '/test.csv' )
