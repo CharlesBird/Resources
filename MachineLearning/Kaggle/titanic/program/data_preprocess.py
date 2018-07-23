@@ -13,6 +13,25 @@ def set_cabin(df):
     return df
 
 
+def set_title(df):
+    # 设置称谓为5种，Mr,Mrs,Miss,noble,other
+    import re
+    df['Title'] = df.Name.map(lambda x: re.compile(",(.*?)\.").findall(x)[0])
+    title_dict = {}
+    title_dict.update(dict.fromkeys(['Mr'], 'mr'))
+    title_dict.update(dict.fromkeys(['Mrs', 'Ms', 'Mme'], 'mrs'))
+    title_dict.update(dict.fromkeys(['Miss', 'Mlle'], 'miss'))
+    title_dict.update(dict.fromkeys(['Master', 'Sir', 'the Countess', 'Lady', 'Major', 'Mme', 'Col', 'Don', 'Dona'], 'noble'))
+    title_dict.update(dict.fromkeys(['Rev', 'Dr', 'Jonkheer', 'Capt'], 'other'))
+    # df['n_Title'] = df.Title.map(title_dict)
+    titles = df['Title']
+    for k, v in title_dict.items():
+        titles[titles == k] = v
+    df['n_Title'] = titles
+    print(df)
+    return df
+
+
 def get_missing_embarked(df):
     # 缺失的不多使用众数填充
     df['Embarked'].fillna(df.Embarked.mode().iloc[0], inplace=True)
@@ -40,12 +59,13 @@ def set_missing_age(df_train, df_test):
 def set_data_standard(df_train, df_test):
     # 舱号，年龄，票价数据标准化
     standardScaler = StandardScaler()
-    standardScaler.fit(df_train[['Name_lenth', 'SibSp', 'Parch', 'Pclass', 'Age', 'Fare']].values)
-    df_train_scaled = standardScaler.transform(df_train[['Name_lenth', 'SibSp', 'Parch', 'Pclass', 'Age', 'Fare']].values)
-    df_test_scaled = standardScaler.transform(df_test[['Name_lenth', 'SibSp', 'Parch', 'Pclass', 'Age', 'Fare']].values)
-    df_train_scaled = pd.DataFrame(df_train_scaled, columns=['Name_lenth_scaled', 'SibSp_scaled', 'Parch_scaled', 'Pclass_scaled', 'Age_scaled', 'Fare_scaled'])
+    # standardScaler.fit(df_train[['Name_lenth', 'SibSp', 'Parch', 'Pclass', 'Age', 'Fare']].values)
+    standardScaler.fit(df_train[['Name_lenth', 'Age', 'Fare']].values)
+    df_train_scaled = standardScaler.transform(df_train[['Name_lenth', 'Age', 'Fare']].values)
+    df_test_scaled = standardScaler.transform(df_test[['Name_lenth', 'Age', 'Fare']].values)
+    df_train_scaled = pd.DataFrame(df_train_scaled, columns=['Name_lenth_scaled', 'Age_scaled', 'Fare_scaled'])
     df_train = pd.concat([df_train, df_train_scaled], axis=1)
-    df_test_scaled = pd.DataFrame(df_test_scaled, columns=['Name_lenth_scaled', 'SibSp_scaled', 'Parch_scaled', 'Pclass_scaled', 'Age_scaled', 'Fare_scaled'])
+    df_test_scaled = pd.DataFrame(df_test_scaled, columns=['Name_lenth_scaled', 'Age_scaled', 'Fare_scaled'])
     df_test = pd.concat([df_test, df_test_scaled], axis=1)
     return df_train, df_test
 
@@ -55,6 +75,7 @@ def data_process():
     # 测试数据缺少一个Fare数据，使用仓位平均值求得
     global data_train
     data_train = set_cabin(data_train)
+    data_train = set_title(data_train)
     data_train = get_missing_embarked(data_train)
     data_train['Name_lenth'] = data_train.Name.apply(len)
     dummies_cabin = pd.get_dummies(data_train['Cabin'], prefix='Cabin')

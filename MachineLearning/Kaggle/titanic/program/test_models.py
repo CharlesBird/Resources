@@ -11,7 +11,7 @@ from data_preprocess import data_process
 # X_test = test_df.values
 
 data_train, data_test = data_process()
-train_df = data_train.filter(regex='Survived|Name_lenth_.*|Age_.*|SibSp_.*|Parch_.*|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass_.*')
+train_df = data_train.filter(regex='Survived|Name_lenth_.*|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass')
 train_np = train_df.values
 y = train_np[:, 0]
 X = train_np[:, 1:]
@@ -72,11 +72,11 @@ print('dt_clf', score)
 
 # 集成学习
 voting_clf = VotingClassifier(estimators=[
-    ('log_clf', LogisticRegression(penalty='l1', tol=1e-4, C=0.5)),
-    ('svm_clf', SVC(C=1.0, kernel='rbf', gamma=0.1, probability=True, random_state=0)),
-    ('dt_clf', DecisionTreeClassifier(criterion='gini', max_leaf_nodes=20, random_state=1000)),
-    ('rf_clf', RandomForestClassifier(n_estimators=500, max_leaf_nodes=30, random_state=1000)),
-    ('gb_clf', GradientBoostingClassifier(n_estimators=100, max_leaf_nodes=15, random_state=666))
+    ('log_clf', LogisticRegression(penalty='l2', tol=1e-4, C=0.1, multi_class='multinomial', solver='newton-cg')),
+    ('svm_clf', SVC(C=1.5, kernel='rbf', gamma='auto', tol=1e-3, probability=True, random_state=0)),
+    ('dt_clf', DecisionTreeClassifier(criterion='gini', max_leaf_nodes=20, random_state=300)),
+    ('rf_clf', RandomForestClassifier(n_estimators=100, max_leaf_nodes=20, random_state=2000)),
+    ('gb_clf', GradientBoostingClassifier(n_estimators=100, max_leaf_nodes=15, random_state=500))
 ], voting='soft')
 voting_clf.fit(X_train, y_train)
 score = voting_clf.score(X_test, y_test)

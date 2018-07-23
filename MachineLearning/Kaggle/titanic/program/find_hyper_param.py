@@ -1,13 +1,12 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
-from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
 from data_preprocess import data_process
 
 data_train, data_test = data_process()
-train_df = data_train.filter(regex='Survived|Name_lenth_.*|Age_.*|SibSp_.*|Parch_.*|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass_.*')
+train_df = data_train.filter(regex='Survived|Name_lenth_.*|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass')
 train_np = train_df.values
 y = train_np[:, 0]
 X = train_np[:, 1:]
@@ -98,8 +97,8 @@ def find_dt_clf_hyper_param():
 
 
 if __name__ == '__main__':
-    # find_log_reg_hyper_param()
-    # find_svc_hyper_param()
-    # find_rb_forest_hyper_param()
-    # find_gb_clf_hyper_param()
+    find_log_reg_hyper_param()
+    find_svc_hyper_param()
+    find_rb_forest_hyper_param()
+    find_gb_clf_hyper_param()
     find_dt_clf_hyper_param()
