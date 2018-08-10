@@ -24,10 +24,13 @@ def set_title(df):
     title_dict.update(dict.fromkeys(['Master', 'Sir', 'the Countess', 'Lady', 'Major', 'Mme', 'Col', 'Don', 'Dona'], 'noble'))
     title_dict.update(dict.fromkeys(['Rev', 'Dr', 'Jonkheer', 'Capt'], 'other'))
     # df['n_Title'] = df.Title.map(title_dict)
-    titles = df['Title']
+    # titles = df['Title']
+    print(df)
     for k, v in title_dict.items():
-        titles[titles == k] = v
-    df['n_Title'] = titles
+        print(k, v)
+        print(df['Title'])
+        # titles[titles == k] = v
+    # df['n_Title'] = titles
     print(df)
     return df
 
