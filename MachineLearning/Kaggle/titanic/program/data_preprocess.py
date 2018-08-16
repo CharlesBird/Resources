@@ -16,22 +16,14 @@ def set_cabin(df):
 def set_title(df):
     # 设置称谓为5种，Mr,Mrs,Miss,noble,other
     import re
-    df['Title'] = df.Name.map(lambda x: re.compile(",(.*?)\.").findall(x)[0])
+    df['Title'] = df.Name.map(lambda x: re.compile(", (.*?)\.").findall(x)[0])
     title_dict = {}
     title_dict.update(dict.fromkeys(['Mr'], 'mr'))
     title_dict.update(dict.fromkeys(['Mrs', 'Ms', 'Mme'], 'mrs'))
     title_dict.update(dict.fromkeys(['Miss', 'Mlle'], 'miss'))
     title_dict.update(dict.fromkeys(['Master', 'Sir', 'the Countess', 'Lady', 'Major', 'Mme', 'Col', 'Don', 'Dona'], 'noble'))
     title_dict.update(dict.fromkeys(['Rev', 'Dr', 'Jonkheer', 'Capt'], 'other'))
-    # df['n_Title'] = df.Title.map(title_dict)
-    # titles = df['Title']
-    print(df)
-    for k, v in title_dict.items():
-        print(k, v)
-        print(df['Title'])
-        # titles[titles == k] = v
-    # df['n_Title'] = titles
-    print(df)
+    df['Title'] = df.Title.map(title_dict)
     return df
 
 
@@ -43,8 +35,10 @@ def get_missing_embarked(df):
 
 def set_missing_age(df_train, df_test):
     # 随机森林算法填补缺失年龄
-    age_df = df_train[['Age', 'Fare', 'Pclass', 'Name_lenth', 'SibSp', 'Parch', 'Fare', 'Cabin_No', 'Cabin_Yes', 'Embarked_C', 'Embarked_Q', 'Embarked_S', 'Sex_female', 'Sex_male']]
-    age_df_test = df_test[['Age', 'Fare', 'Pclass', 'Name_lenth', 'SibSp', 'Parch', 'Fare', 'Cabin_No', 'Cabin_Yes', 'Embarked_C', 'Embarked_Q', 'Embarked_S', 'Sex_female', 'Sex_male']]
+    target = ['Age', 'Fare', 'Pclass', 'Name_lenth', 'SibSp', 'Parch', 'Fare', 'Cabin_No', 'Cabin_Yes', 'Embarked_C',
+              'Embarked_Q', 'Embarked_S', 'Sex_female', 'Sex_male', 'Title_miss', 'Title_mr', 'Title_mrs', 'Title_noble', 'Title_other']
+    age_df = df_train[target]
+    age_df_test = df_test[target]
     known_age = age_df[age_df.Age.notnull()].values
     unknown_age = age_df[age_df.Age.isnull()].values
 
@@ -84,11 +78,13 @@ def data_process():
     dummies_cabin = pd.get_dummies(data_train['Cabin'], prefix='Cabin')
     dummies_embarked = pd.get_dummies(data_train['Embarked'], prefix='Embarked')
     dummies_sex = pd.get_dummies(data_train['Sex'], prefix='Sex')
-    data_train = pd.concat([data_train, dummies_cabin, dummies_embarked, dummies_sex], axis=1)
-    data_train.drop(['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked'], axis=1, inplace=True)
+    dummies_title = pd.get_dummies(data_train['Title'], prefix='Title')
+    data_train = pd.concat([data_train, dummies_cabin, dummies_embarked, dummies_sex, dummies_title], axis=1)
+    data_train.drop(['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked', 'Title'], axis=1, inplace=True)
 
     global data_test
     data_test = set_cabin(data_test)
+    data_test = set_title(data_test)
     data_test['Name_lenth'] = data_test.Name.apply(len)
     # print(data_train.Fare.groupby(by=data_train['Pclass']).mean().get([1, 2]))
     # print(data_test[data_test['Fare'].isnull()]['Pclass'])
@@ -97,8 +93,9 @@ def data_process():
     dummies_test_cabin = pd.get_dummies(data_test['Cabin'], prefix='Cabin')
     dummies_test_embarked = pd.get_dummies(data_test['Embarked'], prefix='Embarked')
     dummies_test_sex = pd.get_dummies(data_test['Sex'], prefix='Sex')
-    data_test = pd.concat([data_test, dummies_test_cabin, dummies_test_embarked, dummies_test_sex], axis=1)
-    data_test.drop(['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked'], axis=1, inplace=True)
+    dummies_test_title = pd.get_dummies(data_test['Title'], prefix='Title')
+    data_test = pd.concat([data_test, dummies_test_cabin, dummies_test_embarked, dummies_test_sex, dummies_test_title], axis=1)
+    data_test.drop(['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked', 'Title'], axis=1, inplace=True)
 
     data_train, data_test = set_missing_age(data_train, data_test)
 

@@ -6,7 +6,7 @@ from sklearn.model_selection import GridSearchCV
 from data_preprocess import data_process
 
 data_train, data_test = data_process()
-train_df = data_train.filter(regex='Survived|Name_lenth_.*|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass')
+train_df = data_train.filter(regex='Survived|Name_lenth_.*|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass|Title_.*')
 train_np = train_df.values
 y = train_np[:, 0]
 X = train_np[:, 1:]
@@ -38,10 +38,10 @@ def find_svc_hyper_param():
     param_grid = [
         {
             'kernel': ['rbf'],
-            'gamma': ['auto', 0.1, 0.01, 1, 100],
+            'gamma': ['auto', 0.1, 0.01, 1, 10, 100],
             'C': [0.1, 0.5, 1, 1.5, 10],
             'tol': [1e-3, 1e-4, 1e-5],
-            'random_state': [0, 100, 300, 666],
+            'random_state': [i for i in range(1000)],
             'probability': [True]
         },
     ]
@@ -56,8 +56,8 @@ def find_rb_forest_hyper_param():
     param_grid = [
         {
             'n_estimators': [100, 200, 500, 1000],
-            'max_leaf_nodes': [10, 15, 20, 25, 30],
-            'random_state': [300, 400, 500, 666, 1000, 2000]
+            'max_leaf_nodes': [i for i in range(10, 31)],
+            'random_state': [i for i in range(1000)]
         },
     ]
     grid_search = GridSearchCV(RandomForestClassifier(), param_grid, n_jobs=-1, verbose=1)
@@ -71,8 +71,8 @@ def find_gb_clf_hyper_param():
     param_grid = [
         {
             'n_estimators': [100, 200, 500, 1000],
-            'max_leaf_nodes': [10, 15, 20, 25, 30],
-            'random_state': [300, 400, 500, 666, 1000, 2000]
+            'max_leaf_nodes': [i for i in range(10, 31)],
+            'random_state': [i for i in range(1000)]
         },
     ]
     grid_search = GridSearchCV(GradientBoostingClassifier(), param_grid, n_jobs=-1, verbose=1)
@@ -85,14 +85,14 @@ def find_gb_clf_hyper_param():
 def find_dt_clf_hyper_param():
     param_grid = [
         {
-            'max_leaf_nodes': [10, 15, 20, 25, 30],
-            'random_state': [300, 400, 500, 666, 1000, 2000]
+            'max_leaf_nodes': [i for i in range(10, 31)],
+            'random_state': [i for i in range(1000)]
         },
     ]
     grid_search = GridSearchCV(DecisionTreeClassifier(), param_grid, n_jobs=-1, verbose=1)
     grid_search.fit(X, y)
-    print('best_gb_clf_score', grid_search.best_score_)
-    print('best_gb_clf_param', grid_search.best_params_)
+    print('best_dt_clf_score', grid_search.best_score_)
+    print('best_dt_clf_param', grid_search.best_params_)
     return grid_search.best_estimator_
 
 
