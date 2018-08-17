@@ -27,6 +27,15 @@ def set_title(df):
     return df
 
 
+def set_age_level(df):
+    # 年龄等级划分
+    df.loc[(df.Age <= 15.), 'Agelevel'] = 'child'
+    df.loc[(df.Age > 15.) & (df.Age <= 35.), 'Agelevel'] = 'young'
+    df.loc[(df.Age > 35.) & (df.Age <= 60.), 'Agelevel'] = 'midlife'
+    df.loc[(df.Age > 60.), 'Agelevel'] = 'old'
+    return df
+
+
 def get_missing_embarked(df):
     # 缺失的不多使用众数填充
     df['Embarked'].fillna(df.Embarked.mode().iloc[0], inplace=True)
@@ -98,8 +107,15 @@ def data_process():
     data_test.drop(['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked', 'Title'], axis=1, inplace=True)
 
     data_train, data_test = set_missing_age(data_train, data_test)
+    data_train = set_age_level(data_train)
+    data_test = set_age_level(data_test)
+    dummies_agelevel = pd.get_dummies(data_train['Agelevel'], prefix='Agelevel')
+    data_train = pd.concat([data_train, dummies_agelevel], axis=1)
+    dummies_test_agelevel = pd.get_dummies(data_test['Agelevel'], prefix='Agelevel')
+    data_test = pd.concat([data_test, dummies_test_agelevel], axis=1)
 
     data_train, data_test = set_data_standard(data_train, data_test)
+
     return data_train, data_test
 
 

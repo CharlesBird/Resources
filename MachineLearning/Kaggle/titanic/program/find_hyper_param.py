@@ -6,7 +6,7 @@ from sklearn.model_selection import GridSearchCV
 from data_preprocess import data_process
 
 data_train, data_test = data_process()
-train_df = data_train.filter(regex='Survived|Name_lenth_.*|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass|Title_.*')
+train_df = data_train.filter(regex='Survived|Name_lenth_.*|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass|Title_.*|Agelevel_.*')
 train_np = train_df.values
 y = train_np[:, 0]
 X = train_np[:, 1:]
@@ -56,7 +56,9 @@ def find_rb_forest_hyper_param():
     param_grid = [
         {
             'n_estimators': [100, 200, 500, 1000],
-            'max_leaf_nodes': [i for i in range(10, 31)],
+            # 'max_leaf_nodes': [i for i in range(10, 31)],
+            'max_leaf_nodes': [25],
+            # 'random_state': [0]
             'random_state': [i for i in range(1000)]
         },
     ]
@@ -71,8 +73,10 @@ def find_gb_clf_hyper_param():
     param_grid = [
         {
             'n_estimators': [100, 200, 500, 1000],
-            'max_leaf_nodes': [i for i in range(10, 31)],
-            'random_state': [i for i in range(1000)]
+            # 'max_leaf_nodes': [i for i in range(10, 31)],
+            'max_leaf_nodes': [16],
+            'random_state': [0]
+            # 'random_state': [i for i in range(1000)]
         },
     ]
     grid_search = GridSearchCV(GradientBoostingClassifier(), param_grid, n_jobs=-1, verbose=1)
@@ -85,7 +89,9 @@ def find_gb_clf_hyper_param():
 def find_dt_clf_hyper_param():
     param_grid = [
         {
-            'max_leaf_nodes': [i for i in range(10, 31)],
+            # 'max_leaf_nodes': [i for i in range(10, 31)],
+            'max_leaf_nodes': [10],
+            # 'random_state': [0]
             'random_state': [i for i in range(1000)]
         },
     ]
@@ -97,8 +103,8 @@ def find_dt_clf_hyper_param():
 
 
 if __name__ == '__main__':
-    find_log_reg_hyper_param()
-    find_svc_hyper_param()
+    # find_log_reg_hyper_param()
+    # find_svc_hyper_param()
     find_rb_forest_hyper_param()
     find_gb_clf_hyper_param()
     find_dt_clf_hyper_param()

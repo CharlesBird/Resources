@@ -9,23 +9,23 @@ import os
 data_train = pd.read_csv(os.path.abspath(os.path.dirname(os.getcwd())) + '/train.csv' )
 from data_preprocess import data_process
 data_train, data_test = data_process()
-train_df = data_train.filter(regex='Survived|Name_lenth_.*|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass|Title_.*')
+train_df = data_train.filter(regex='Survived|Name_lenth_.*|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass|Title_.*|Agelevel_.*')
 train_np = train_df.values
 y = train_np[:, 0]
 X = train_np[:, 1:]
 
-test_df = data_test.filter(regex='Name_lenth_.*|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass|Title_.*')
+test_df = data_test.filter(regex='Name_lenth_.*|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass|Title_.*|Agelevel_.*')
 X_test = test_df.values
 
 
 def get_training_goals(X, y, X_test):
     # 集成学习
     voting_clf = VotingClassifier(estimators=[
-        ('log_clf', LogisticRegression(penalty='l2', tol=1e-4, C=0.5, multi_class='multinomial', solver='newton-cg')),
+        ('log_clf', LogisticRegression(penalty='l2', solver='newton-cg', tol=1e-4, C=1, multi_class='multinomial')),
         ('svm_clf', SVC(C=0.5, kernel='rbf', gamma=0.1, tol=1e-3, probability=True, random_state=0)),
-        ('dt_clf', DecisionTreeClassifier(criterion='gini', max_leaf_nodes=10, random_state=300)),
-        ('rf_clf', RandomForestClassifier(n_estimators=100, max_leaf_nodes=25, random_state=1000)),
-        ('gb_clf', GradientBoostingClassifier(n_estimators=100, max_leaf_nodes=15, random_state=666))
+        ('dt_clf', DecisionTreeClassifier(criterion='gini', max_leaf_nodes=10, random_state=1)),
+        ('rf_clf', RandomForestClassifier(n_estimators=500, max_leaf_nodes=25, random_state=162)),
+        ('gb_clf', GradientBoostingClassifier(n_estimators=100, max_leaf_nodes=16, random_state=0))
     ], voting='soft')
     voting_clf.fit(X, y)
     predict_y = voting_clf.predict(X_test)

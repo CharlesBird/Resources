@@ -11,7 +11,7 @@ from data_preprocess import data_process
 # X_test = test_df.values
 
 data_train, data_test = data_process()
-train_df = data_train.filter(regex='Survived|Name_lenth_.*|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass|Title_.*')
+train_df = data_train.filter(regex='Survived|Name_lenth_.*|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass|Title_.*|Agelevel_.*')
 train_np = train_df.values
 y = train_np[:, 0]
 X = train_np[:, 1:]
@@ -64,7 +64,7 @@ print('gb_clf', score)
 
 # 决策树分类器
 # {'max_leaf_nodes': 20, 'random_state': 1000}
-dt_clf = DecisionTreeClassifier(criterion='gini', max_leaf_nodes=15, random_state=300)
+dt_clf = DecisionTreeClassifier(criterion='gini', max_leaf_nodes=10, random_state=0)
 dt_clf.fit(X_train, y_train)
 predict_y = dt_clf.predict(X_test)
 score = dt_clf.score(X_test, y_test)
@@ -72,11 +72,11 @@ print('dt_clf', score)
 
 # 集成学习
 voting_clf = VotingClassifier(estimators=[
-    ('log_clf', LogisticRegression(penalty='l2', tol=1e-4, C=0.5, multi_class='multinomial', solver='newton-cg')),
+    ('log_clf', LogisticRegression(penalty='l2', solver='newton-cg', tol=1e-4, C=10, multi_class='multinomial')),
     ('svm_clf', SVC(C=0.5, kernel='rbf', gamma=0.1, tol=1e-3, probability=True, random_state=0)),
-    ('dt_clf', DecisionTreeClassifier(criterion='gini', max_leaf_nodes=10, random_state=300)),
-    ('rf_clf', RandomForestClassifier(n_estimators=100, max_leaf_nodes=25, random_state=1000)),
-    ('gb_clf', GradientBoostingClassifier(n_estimators=100, max_leaf_nodes=15, random_state=666))
+    ('dt_clf', DecisionTreeClassifier(criterion='gini', max_leaf_nodes=10, random_state=1)),
+    ('rf_clf', RandomForestClassifier(n_estimators=500, max_leaf_nodes=25, random_state=162)),
+    ('gb_clf', GradientBoostingClassifier(n_estimators=100, max_leaf_nodes=16, random_state=0))
 ], voting='soft')
 voting_clf.fit(X_train, y_train)
 score = voting_clf.score(X_test, y_test)
