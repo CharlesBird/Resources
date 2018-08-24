@@ -1,0 +1,36 @@
+MSSubClass: 销售住宅类型
+
+MSZoning: 标识销售的一般分区分类。
+
+LotFrontage: 街道的线性脚连接到财产
+
+LotArea: 地块尺寸，平方英尺
+
+Street: 道路类型
+
+Alley: 通往物业的胡同类型
+
+LotShape: 房子形状
+
+LandContour: 地面平整度
+
+Utilities: 可用的公用事业类型
+
+LotConfig: 批量配置
+
+LandSlope: 物业坡度
+
+Neighborhood: 城市范围内的物理位置
+
+Condition1: 接近各种条件
+
+Condition2: 接近各种条件（如果存在多个条件）
+
+BldgType: 住宅类型
+
+HouseStyle: 住宅风格
+
+OverallQual: 评估房屋的整体材料和完工情况
+
+OverallCond: 
+
