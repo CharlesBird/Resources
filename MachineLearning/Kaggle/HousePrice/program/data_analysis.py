@@ -8,6 +8,10 @@ data.info()
 print('--------数值型数据-----------')
 print(data.describe())
 
+print('--------偏度，峰度-----------')
+print("偏度: %f" % data['SalePrice'].skew())
+print("峰度: %f" % data['SalePrice'].kurt())
+
 print('--------测试数据查看缺失值-----------')
 data_test.info()
 print('--------测试数据数值型数据-----------')
