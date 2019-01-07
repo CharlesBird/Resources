@@ -3,12 +3,12 @@ from numbers import Number
 
 class IntegerField(object):
     def __get__(self, instance, owner):
-        return self.value
+        return self._value
 
     def __set__(self, instance, value):
         if not isinstance(value, Number):
             raise ValueError('请输入数字类型')
-        self.value = value
+        self._value = value
         return
 
     def __delete__(self, instance):
