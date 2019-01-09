@@ -6,8 +6,8 @@ while True:
     re_data = input("客户端输入：")
     # client.send('Charles'.encode("utf8"))
     client.send(re_data.encode("utf8"))
-    if re_data == 'exit':
-        break
+    # if re_data == 'exit':
+    #     break
     data = client.recv(1024)
     print(data.decode("utf8"))
-client.close()
+# client.close()
