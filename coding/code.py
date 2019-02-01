@@ -76,7 +76,7 @@ def re_xmltag(x):
 # print(re_xmltag('<a></b>'))
 
 
-def is_win(n, N=N):
+def is_win(n, N=None):
     """#棋判断输赢"""
     win1 = ['x'] * N
     win2 = ['o'] * N
@@ -120,3 +120,164 @@ def get_diagonals(board, N):
 # print(is_win([['o'], ['x', 'x', 'x'], ['o']], N=3))
 # print(is_win([['o'], ['x', 'x', 'x']], N=3))
 # print(is_win([['o', 'x'], ['x', 'x'], ['o', 'x']], N=3))
+
+
+def fn10():
+    return [10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+def fn9(num, n=9):
+    l = [num] * n
+    s = num * n
+    remain = 100 - s
+    l.append(remain)
+    return l
+
+def fn8(num, n=8):
+    # 循环两次
+    l = []
+    s = num * n
+    remain = 100 - s
+    min_val = num + 1
+    max_val = remain - (9-n)*num + 1
+    for i in range(min_val, max_val):
+        j = remain - i
+        if j >= i:
+            l.append((i, j))
+    return l
+
+def fn7(num, n=7):
+    # 循环三次次
+    l = []
+    s = num * n
+    remain = 100 - s
+    min_val = num + 1
+    max_val = remain - (9-n)*num + 1
+    for i in range(min_val, max_val):
+        for j in range(i, max_val):
+            k = remain - (i + j)
+            if k >= j:
+                l.append((i, j, k))
+    return l
+
+def fn6(num, n=6):
+    # 循环四次
+    l = []
+    s = num * n
+    remain = 100 - s
+    min_val = num + 1
+    max_val = remain - (9-n)*num + 1
+    for i in range(min_val, max_val):
+        for j in range(i, max_val):
+            for k in range(j, max_val):
+                a = remain - (i + j + k)
+                if a >= k:
+                    l.append((i, j, k, a))
+    return l
+
+def fn5(num, n=5):
+    # 循环五次
+    l = []
+    s = num * n
+    remain = 100 - s
+    min_val = num + 1
+    max_val = remain - (9-n)*num + 1
+    for i in range(min_val, max_val):
+        for j in range(i, max_val):
+            for k in range(j, max_val):
+                for a in range(k, max_val):
+                    b = remain - (i + j + k + a)
+                    if b >= a:
+                        l.append((i, j, k, a, b))
+    return l
+
+def fn4(num, n=4):
+    # 循环六次
+    l = []
+    s = num * n
+    remain = 100 - s
+    min_val = num + 1
+    max_val = remain - (9-n)*num + 1
+    for i in range(min_val, max_val):
+        for j in range(i, max_val):
+            for k in range(j, max_val):
+                for a in range(k, max_val):
+                    for b in range(a, max_val):
+                        c = remain - (i + j + k + a + b)
+                        if c >= b:
+                            l.append((i, j, k, a, b, c))
+    return l
+
+
+def fn3(num, n=3):
+    # 循环七次
+    l = []
+    s = num * n
+    remain = 100 - s
+    min_val = num + 1
+    max_val = remain - (9-n)*num + 1
+    for i in range(min_val, max_val):
+        for j in range(i, max_val):
+            for k in range(j, max_val):
+                for a in range(k, max_val):
+                    for b in range(a, max_val):
+                        for c in range(b, max_val):
+                            x = remain - (i + j + k + a + b + c)
+                            if x >= c:
+                                l.append((i, j, k, a, b, c, x))
+    return l
+
+def fn2(num, n=2):
+    # 循环八次
+    l = []
+    s = num * n
+    remain = 100 - s
+    min_val = num + 1
+    max_val = remain - (9-n)*num + 1
+    for i in range(min_val, max_val):
+        for j in range(i, max_val):
+            for k in range(j, max_val):
+                for a in range(k, max_val):
+                    for b in range(a, max_val):
+                        for c in range(b, max_val):
+                            for x in range(c, max_val):
+                                y = remain - (i + j + k + a + b + c + x)
+                                if y >= x:
+                                    l.append((i, j, k, a, b, c, x, y))
+    return l
+
+def fn1(num, n=1):
+    # 循环九次
+    l = []
+    s = num * n
+    remain = 100 - s
+    min_val = num + 1
+    max_val = remain - (9-n)*num + 1
+    print(min_val, max_val)
+    for i in range(min_val, max_val):
+        for j in range(i, max_val):
+            for k in range(j, max_val):
+                for a in range(k, max_val):
+                    for b in range(a, max_val):
+                        for c in range(b, max_val):
+                            for x in range(c, max_val):
+                                for y in range(x, max_val):
+                                    z = remain - (i + j + k + a + b + c + x + y)
+                                    print((i, j, k, a, b, c, x, y, z), remain)
+                                    if z >= y:
+                                        l.append((i, j, k, a, b, c, x, y, z))
+    print(l)
+    return l
+
+fn1(1)
+
+# def main():
+#     for n in range(5, 9):
+#         fn = 'fn' + str(n)
+#         for num in range(1, 10):
+#             fn_copy = fn + ('({})'.format(num))
+#             print(fn)
+#             for l in eval(fn_copy):
+#                 res = [num] * 9
+#                 res.extend(list(l))
+#                 print(res)
+#
+# main()
