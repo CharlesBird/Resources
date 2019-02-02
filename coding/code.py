@@ -139,6 +139,8 @@ def fn8(num, n=8):
     min_val = num + 1
     max_val = remain - (9-n)*num + 1
     for i in range(min_val, max_val):
+        if remain - i < i * (9 - n):
+            break
         j = remain - i
         if j >= i:
             l.append((i, j))
@@ -152,7 +154,11 @@ def fn7(num, n=7):
     min_val = num + 1
     max_val = remain - (9-n)*num + 1
     for i in range(min_val, max_val):
+        if remain - i < i * (9 - n):
+            break
         for j in range(i, max_val):
+            if remain - i - j < j * (8 - n):
+                break
             k = remain - (i + j)
             if k >= j:
                 l.append((i, j, k))
@@ -166,8 +172,14 @@ def fn6(num, n=6):
     min_val = num + 1
     max_val = remain - (9-n)*num + 1
     for i in range(min_val, max_val):
+        if remain - i < i * (9 - n):
+            break
         for j in range(i, max_val):
+            if remain - i - j < j * (8 - n):
+                break
             for k in range(j, max_val):
+                if remain - i - j - k < k * (7 - n):
+                    break
                 a = remain - (i + j + k)
                 if a >= k:
                     l.append((i, j, k, a))
@@ -181,9 +193,17 @@ def fn5(num, n=5):
     min_val = num + 1
     max_val = remain - (9-n)*num + 1
     for i in range(min_val, max_val):
+        if remain - i < i * (9 - n):
+            break
         for j in range(i, max_val):
+            if remain - i - j < j * (8 - n):
+                break
             for k in range(j, max_val):
+                if remain - i - j - k < k * (7 - n):
+                    break
                 for a in range(k, max_val):
+                    if remain - i - j - k - a < a * (6 - n):
+                        break
                     b = remain - (i + j + k + a)
                     if b >= a:
                         l.append((i, j, k, a, b))
@@ -197,10 +217,20 @@ def fn4(num, n=4):
     min_val = num + 1
     max_val = remain - (9-n)*num + 1
     for i in range(min_val, max_val):
+        if remain - i < i * (9 - n):
+            break
         for j in range(i, max_val):
+            if remain - i - j < j * (8 - n):
+                break
             for k in range(j, max_val):
+                if remain - i - j - k < k * (7 - n):
+                    break
                 for a in range(k, max_val):
+                    if remain - i - j - k - a < a * (6 - n):
+                        break
                     for b in range(a, max_val):
+                        if remain - i - j - k - a - b < b * (5 - n):
+                            break
                         c = remain - (i + j + k + a + b)
                         if c >= b:
                             l.append((i, j, k, a, b, c))
@@ -215,11 +245,23 @@ def fn3(num, n=3):
     min_val = num + 1
     max_val = remain - (9-n)*num + 1
     for i in range(min_val, max_val):
+        if remain - i < i * (9 - n):
+            break
         for j in range(i, max_val):
+            if remain - i - j < j * (8 - n):
+                break
             for k in range(j, max_val):
+                if remain - i - j - k < k * (7 - n):
+                    break
                 for a in range(k, max_val):
+                    if remain - i - j - k - a < a * (6 - n):
+                        break
                     for b in range(a, max_val):
+                        if remain - i - j - k - a - b < b * (5 - n):
+                            break
                         for c in range(b, max_val):
+                            if remain - i - j - k - a - b - c < c * (4 - n):
+                                break
                             x = remain - (i + j + k + a + b + c)
                             if x >= c:
                                 l.append((i, j, k, a, b, c, x))
@@ -233,12 +275,26 @@ def fn2(num, n=2):
     min_val = num + 1
     max_val = remain - (9-n)*num + 1
     for i in range(min_val, max_val):
+        if remain - i < i * (9 - n):
+            break
         for j in range(i, max_val):
+            if remain - i - j < j * (8 - n):
+                break
             for k in range(j, max_val):
+                if remain - i - j - k < k * (7 - n):
+                    break
                 for a in range(k, max_val):
+                    if remain - i - j - k - a < a * (6 - n):
+                        break
                     for b in range(a, max_val):
+                        if remain - i - j - k - a - b < b * (5 - n):
+                            break
                         for c in range(b, max_val):
+                            if remain - i - j - k - a - b - c < c * (4 - n):
+                                break
                             for x in range(c, max_val):
+                                if remain - i - j - k - a - b - c - x < x * (3 - n):
+                                    break
                                 y = remain - (i + j + k + a + b + c + x)
                                 if y >= x:
                                     l.append((i, j, k, a, b, c, x, y))
@@ -251,33 +307,79 @@ def fn1(num, n=1):
     remain = 100 - s
     min_val = num + 1
     max_val = remain - (9-n)*num + 1
-    print(min_val, max_val)
     for i in range(min_val, max_val):
+        if remain - i < i * (9-n):
+            break
         for j in range(i, max_val):
+            if remain - i - j < j * (8-n):
+                break
             for k in range(j, max_val):
+                if remain - i - j - k < k * (7-n):
+                    break
                 for a in range(k, max_val):
+                    if remain - i - j - k - a < a * (6-n):
+                        break
                     for b in range(a, max_val):
+                        if remain - i - j - k - a - b < b * (5-n):
+                            break
                         for c in range(b, max_val):
+                            if remain - i - j - k - a - b - c < c * (4-n):
+                                break
                             for x in range(c, max_val):
+                                if remain - i - j - k - a - b - c - x < x * (3-n):
+                                    break
                                 for y in range(x, max_val):
+                                    if remain - i - j - k - a - b - c - x - y < y * (2 - n):
+                                        break
                                     z = remain - (i + j + k + a + b + c + x + y)
-                                    print((i, j, k, a, b, c, x, y, z), remain)
+                                    if z < y:
+                                        break
                                     if z >= y:
                                         l.append((i, j, k, a, b, c, x, y, z))
-    print(l)
     return l
 
-fn1(1)
 
-# def main():
-#     for n in range(5, 9):
-#         fn = 'fn' + str(n)
-#         for num in range(1, 10):
-#             fn_copy = fn + ('({})'.format(num))
-#             print(fn)
-#             for l in eval(fn_copy):
-#                 res = [num] * 9
-#                 res.extend(list(l))
-#                 print(res)
-#
-# main()
+def get_result():
+    # res = [[10, 10, 10, 10, 10, 10, 10, 10, 10, 10]]
+    yield '10 + 10 + 10 + 10 + 10 + 10 + 10 + 10 + 10 + 10'
+    for n in range(1, 10):
+        fn = 'fn' + str(n)
+        for num in range(1, 10):
+            if n == 9:
+                line = fn9(num)
+                yield ' + '.join(map(str, line))
+                # res.append(' + '.join(map(str, line)))
+            else:
+                fn_copy = fn + ('({})'.format(num))
+                for l in eval(fn_copy):
+                    line = [num] * n
+                    line.extend(list(l))
+                    yield ' + '.join(map(str, line))
+                    # res.append(' + '.join(map(str, line)))
+
+
+def get_result2():
+    res = ['10 + 10 + 10 + 10 + 10 + 10 + 10 + 10 + 10 + 10']
+    for n in range(1, 10):
+        fn = 'fn' + str(n)
+        for num in range(1, 10):
+            if n == 9:
+                line = fn9(num)
+                res.append(' + '.join(map(str, line)))
+            else:
+                fn_copy = fn + ('({})'.format(num))
+                for l in eval(fn_copy):
+                    line = [num] * n
+                    line.extend(list(l))
+                    res.append(' + '.join(map(str, line)))
+    return res
+
+
+if __name__ == '__main__':
+    f = open('=100.csv', 'w+')
+    ct = 0
+    for ln in get_result():
+        f.write(ln+'\n')
+        ct += 1
+    # print(ct)
+    f.write('Count: ' + str(ct))
