@@ -56,4 +56,4 @@ if __name__ == '__main__':
     # print(t1.repeat(3, 100), t2.repeat(3, 100))
     t1 = timeit.Timer(test_progress2)
     t2 = timeit.Timer(test_thread2)
-    print(t1.repeat(3, 100), t2.repeat(3, 100))
+    print(t1.repeat(3, 10), t2.repeat(3, 10))
