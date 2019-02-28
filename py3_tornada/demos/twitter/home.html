@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tornado Twitter Demo</title>
+  </head>
+  <body>
+    <ul>
+      {% for tweet in timeline %}
+      <li><b>{{ tweet['user']['screen_name'] }}</b>: {{ tweet['text'] }}</li>
+      {% end %}
+    </ul>
+  </body>
+</html>
