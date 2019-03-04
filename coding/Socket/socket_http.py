@@ -11,7 +11,6 @@ def get_url(url):
         path = "/"
 
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.setblocking(False)  # 非阻塞设置，不用等待client握手成功
     client.connect((host, 80))  # 阻塞不会消耗cpu
     client.send("GET {} HTTP/1.1\r\nHost:{}\r\nConnection:close\r\n\r\n".format(path, host).encode("utf8"))
 
