@@ -6,7 +6,7 @@
 
 
 ### 机器学习撸起来
-#### MachaineLearning
+#### [MachaineLearning](https://github.com/CharlesBird/Resources/tree/master/MachineLearning)
 1. K-邻近
 2. 决策树
 3. 朴素贝叶斯
