@@ -1,4 +1,4 @@
-"""基本魔法算法，及属性操作，__delete__属性用法不理解"""
+"""基本魔法算法，及属性操作"""
 class MagicClass(object):
 
     def __init__(self, name, birth, namer=None, origin=None):
