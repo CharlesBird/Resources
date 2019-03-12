@@ -66,3 +66,8 @@ RESULT = _r
 6. 当迭代器结束并抛出异常时，yield from表达式的值是其StopIteration 异常中的第一个参数。
 7. 一个生成器中的return expr语句将会从生成器退出并抛出 StopIteration(expr)异常。
 
+
+# Python3自带异步模块
+### async
+### await
+### asynicio
