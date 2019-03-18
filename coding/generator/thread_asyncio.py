@@ -50,7 +50,7 @@ if __name__ == '__main__':
     executor = ThreadPoolExecutor()
     tasks = []
     for url in ['http://baidu.com', 'https://www.python.org', 'https://www.zhihu.com', 'https://www.dida365.com',
-                'http://note.youdao.com', 'https://www.jetbrains.com', 'https://www.oracle.com/index.html', 'http://google.com']:
+                'http://note.youdao.com', 'https://www.jetbrains.com', 'https://www.oracle.com/index.html']:
         task = loop.run_in_executor(executor, get_url, url)
         tasks.append(task)
     loop.run_until_complete(asyncio.wait(tasks))
