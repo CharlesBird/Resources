@@ -18,6 +18,19 @@ def search(l):
         else:
             print(item)
 
+line = [1,2,3,4,5,6]
+def howmanyin(lst):
+    print(lst)
+    if lst[1:]:
+        print('me and the guys behind')
+        tmp = howmanyin(lst[1:])
+        print(tmp)
+        return 1+tmp
+    else:
+        print('just me')
+        return 1
+
 if __name__ == '__main__':
-    print(recursion(5))
-    search(l)
+    print(howmanyin(line))
+    # print(recursion(5))
+    # search(l)
