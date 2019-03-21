@@ -1,6 +1,5 @@
 import asyncio
 import aiomysql
-# import nose
 
 
 async def test_example(loop):
