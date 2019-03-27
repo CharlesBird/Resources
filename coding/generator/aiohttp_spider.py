@@ -36,7 +36,11 @@ def extract_urls(html):
 async def init_urls(url, session):
     html = await fetch(url, session)
     seen_urls.add(url)
-    extract_urls(html)
+    if html is not None:
+        try:
+            extract_urls(html)
+        except Exception as e:
+            print(e, html)
 
 
 async def artical_handler(url, session, pool):
@@ -48,10 +52,10 @@ async def artical_handler(url, session, pool):
     async with pool.acquire() as conn:
         async with conn.cursor() as cur:
             # await cur.execute("SELECT '张';")
-            insert_sql = "inseart into artical_test(title) values('{}')".format(title)
+            insert_sql = "insert into artical_test(title, url) values('{}', '{}')".format(title, url)
             await cur.execute(insert_sql)
-    pool.close()
-    await pool.wait_closed()
+    # pool.close()
+    # await pool.wait_closed()
 
 
 async def consumer(pool):
@@ -62,11 +66,11 @@ async def consumer(pool):
                 continue
             url = waiting_urls.pop()
             print("start get url: {}".format(url))
-            if re.match('http://.*?jobbole.com/\d+/', url):
+            if re.match('^http://.*?jobbole.com/\d+/$', url):
                 if url not in seen_urls:
                     asyncio.ensure_future(artical_handler(url, session, pool))
             else:
-                if url not in seen_urls:
+                if url and url not in seen_urls:
                     asyncio.ensure_future(init_urls(url, session))
 
 
