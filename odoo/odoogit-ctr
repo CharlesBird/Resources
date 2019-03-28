@@ -1,0 +1,27 @@
+#! /bin/sh
+git_path=/app/odoo/odoo-server
+odoo_path=/app/odoo/odoo-server/odoo10/odoo.py
+conf_path=/app/odoo/odoo-server/data/
+conf=openerp-server.conf
+
+case $1 in
+    update)
+		cd $git_path
+		git pull
+        ps -ef | grep $conf| awk '{print $2}' |xargs kill -9;
+		su ccprod -c "python $odoo_path -c $conf_path$conf -d ccerp -u swr_base &"
+		echo "Odoo Server Update..";
+		ps -ef|grep odoo;
+    ;;
+    restart)
+		cd $git_path
+		git pull
+        ps -ef | grep $conf| awk '{print $2}' |xargs kill -9;
+		su ccprod -c "python $odoo_path -c $conf_path$conf -d ccerp &"
+		echo "Odoo Server Restart..";
+		ps -ef|grep odoo;
+    ;;
+    *)
+        echo "Usage:<update|restart>"
+    ;;
+esac
