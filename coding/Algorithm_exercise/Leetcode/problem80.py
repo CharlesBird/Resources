@@ -1,23 +1,24 @@
+# Remove Duplicates from Sorted Array II
 class Solution:
     def removeDuplicates(self, nums) -> int:
-        k = 0
-        if len(nums) == 0:
-            return k
-        start_i = k
-        for i in range(1, len(nums)):
+        # Method One
+        for i, v in enumerate(nums):
+            while i+2 < len(nums) and nums[i+2] == v:
+                del nums[i+2]
+            return len(nums)
 
-
-            if nums[start_i] == nums[i]:
-                continue
+        # Method Two
+        l = len(nums)
+        i = 2
+        while i < l:
+            if nums[i] == nums[i-1] == nums[i-2]:
+                del nums[i]
+                l -= 1
             else:
-                if i - start_i > 1:
-                    nums[k], nums[k+1] = nums[start_i], nums[start_i+1]
-                    start_i = i
-                    k+=2
-                else:
-                    nums[k] = nums[i]
-                    k += 1
-            print(nums)
-        print(k)
+                i += 1
+        return l
 
-Solution().removeDuplicates([1,1,1,2,2,3])
+
+# Solution().removeDuplicates([1,1,1,2,2,3])
+Solution().removeDuplicates([1,2,2])
+# Solution().removeDuplicates([0,0,1,1,1,1,2,3,3])
