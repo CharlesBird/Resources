@@ -15,28 +15,28 @@ Output: 4
 class Solution:
     def findKthLargest(self, nums, k: int) -> int:
         # 快速排序法
-        # while k < len(nums):
-        #     mid = nums[0]
-        # l = 0
-        # r = len(nums) - 1
-        # while l < r:
-        #     base = nums[l]
-        #     while l < r and nums[r] >= base:
-        #         r -= 1
-        #     nums[l] = nums[r]
-        #     while l < r and nums[l] <= base:
-        #         l += 1
-        #     nums[r] = nums[l]
-        # nums[l] = base
-        # if len(nums) - r == k:
-        #     return sorted(nums[r: len(nums)])[0]
-        # elif len(nums) - r > k:
-        #     self.findKthLargest(nums[r: len(nums)], k)
-        # else:
-        #     return sorted(nums[r: len(nums)])[0]
+        def quickSort(nums, start, end):
+            if start < end:
+                i, j = start, end
+                pivot = nums[i]
+                while i < j:
+                    while i < j and nums[j] >= pivot:
+                        j -= 1
+                    nums[i] = nums[j]
+                    while i < j and nums[i] <= pivot:
+                        i += 1
+                    nums[j] = nums[i]
+                nums[i] = pivot
+                quickSort(nums, start, i-1)
+                quickSort(nums, j+1, end)
+
+            return nums
+        quickSort(nums, 0, len(nums)-1)
+        print(nums[-k])
 
 
-        return sorted(nums, reverse=True)[k - 1]
+
+        # return sorted(nums, reverse=True)[k - 1]
 
 
 Solution().findKthLargest([3,2,1,5,6,4],3)
