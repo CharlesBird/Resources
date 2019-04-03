@@ -28,19 +28,21 @@ class Solution:
         j = 1
         res = 0
         while j <= len(s):
-            if s[j-1] in s[i:j-1]:
+            if j == len(s):
+                if s[i] != s[j-1]:
+                    res = max(res, j - i)
+                else:
+                    res = max(res, 1)
+            elif s[j] in s[i:j]:
                 res = max(res, j - i)
-                i = i + s[i:j-1].index(s[j-1]) + 1
-                j += 1
-            else:
-                j += 1
-            # if j == len(s) and s[j-1] != s[j-2]:
-            #     res = max(res, j - i + 1)
+                i = i + s[i:j].index(s[j]) + 1
+            j += 1
 
-        print(res)
+        # print(res)
         return res
 
 
 
 Solution().lengthOfLongestSubstring("aabcbrty")
 # Solution().lengthOfLongestSubstring("bbbbb")
+# Solution().lengthOfLongestSubstring(" ")
