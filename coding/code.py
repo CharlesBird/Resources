@@ -375,11 +375,19 @@ def get_result2():
     return res
 
 
-if __name__ == '__main__':
-    f = open('=100.csv', 'w+')
-    ct = 0
-    for ln in get_result():
-        f.write(ln+'\n')
-        ct += 1
-    # print(ct)
-    f.write('Count: ' + str(ct))
+# if __name__ == '__main__':
+#     f = open('=100.csv', 'w+')
+#     ct = 0
+#     for ln in get_result():
+#         f.write(ln+'\n')
+#         ct += 1
+#     # print(ct)
+#     f.write('Count: ' + str(ct))
+
+s = 'a'
+
+def f():
+    global s, a
+    print(s)
+
+f()

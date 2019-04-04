@@ -23,11 +23,18 @@ Output: false
 """
 class Solution:
     def wordPattern(self, pattern: str, str: str) -> bool:
-        from collections import Counter
-        dict_p = Counter(pattern)
-        list_s = str.split(' ')
-        dict_s = Counter(list_s)
-        p_counts = list(dict_p.values())
-        s_counts = list(dict_s.values())
-        # print(p_counts,s_counts)
-        return p_counts==s_counts
+        # from collections import Counter
+        # dict_p = Counter(pattern)
+        # list_s = str.split(' ')
+        # dict_s = Counter(list_s)
+        # p_counts = list(dict_p.values())
+        # s_counts = list(dict_s.values())
+        # return p_counts==s_counts
+        slist = str.split()
+
+        if len(pattern) != len(slist):
+            return False
+
+        return (len(set(pattern)) == len(set(slist)) == len(set(zip(pattern, slist))))
+
+Solution().wordPattern("abba","dog cat cat fish")
