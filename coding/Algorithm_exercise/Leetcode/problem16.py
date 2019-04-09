@@ -12,13 +12,24 @@ The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
 class Solution:
     def threeSumClosest(self, nums: 'List[int]', target: int) -> int:
         nums.sort()
-        l = 0
-        r = len(nums) - 1
-        for i in range(l, len(nums)):
-            if l == i:
+        d = {}
+        for i in range(len(nums) - 2):
+            if i > 0 and nums[i] == nums[i-1]:
                 continue
+            l = i + 1
+            r = len(nums) - 1
             while l < r:
-                res = nums[l] + nums[i] + nums[r]
-                closest = res - target
-                if closest == 0:
-                    return
+                res = nums[i] + nums[l] + nums[r]
+                if res > target:
+                    r -= 1
+                    d[res] = res - target
+                elif res < target:
+                    l += 1
+                    d[res] = target - res
+
+                else:
+                    return target
+        return min(d, key=d.get)
+
+
+Solution().threeSumClosest([-1,2,1,-4], 1)
