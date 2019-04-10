@@ -384,10 +384,96 @@ def get_result2():
 #     # print(ct)
 #     f.write('Count: ' + str(ct))
 
-s = 'a'
+# s = 'a'
+#
+# def f():
+#     global s, a
+#     print(s)
+#
+# f()
+a = """4\n35"""
 
-def f():
-    global s, a
-    print(s)
+def foo(a):
+    d = {1: 'one',
+         2: 'two',
+         3: 'three',
+         4: 'four',
+         5: 'five',
+         6: 'six',
+         7: 'seven',
+         8: 'eight',
+         9: 'nine',
+         10: 'ten',
+         11: 'eleven',
+         12: 'twelve',
+         13: 'thirteen',
+         14: 'fourteen',
+         16: 'sixteen',
+         17: 'seventeen',
+         18: 'eighteen',
+         19: 'nineteen',
+         20: 'twenty',
+         30: 'thirty',
+         40: 'forty',
+         50: 'fifty'}
+    l = a.split('\n')
+    # print(int(l[1]))
+    h = int(l[0])
+    m = int(l[1])
+    if m == 0:
+        return d[h] + " o'clock"
+    else:
+        if 1 <= m <= 30:
+            suffix = " pass {}".format(d.get(h))
+        else:
+            suffix = " to {}".format(d.get(h))
+        if m in (15, 45):
+            suffix = d.get(m, 'quarter') + suffix
+        elif m == 30:
+            suffix = 'half' + suffix
+        else:
+            d_1 = m % 10
+            d_2 = m // 10
+            if not d_2 and d_1:
+                suffix = '{} minutes'.format(d[d_1]) + suffix
+            elif d_2 and not d_1:
+                d_2 = 10*d_2
+                suffix = '{} minutes'.format(d[d_2]) + suffix
+            else:
+                d_2 = 10 * d_2
+                suffix = '{} {} minutes'.format(d[d_2], d[d_1]) + suffix
+    print(suffix)
+    return suffix
 
-f()
+
+
+
+
+
+    print(l,h,m)
+    # new_l = l[1:]
+    # d = {}
+    # for i in new_l:
+    #     if i:
+    #         d[i] = d.get(i, 0) + 1
+    # line1 = ' '.join([str(len(k)) for k, v in d.items() if v > 1])
+    # line2 = ' '.join(map(str, d.values()))
+    # print(line1 + '\n' + line2)
+
+foo(a)
+
+
+def foo(numRows):
+    if numRows == 0:
+        return []
+    tem = [0, 1]
+    l = []
+    for i in range(numRows):
+        rowlist = []
+        for j in range(len(tem) - 1):
+            rowlist.append(tem[j] + tem[j + 1])
+        l.append(rowlist)
+        tem = rowlist[:]
+        tem.insert(0, 0)
+        tem.append(0)
+    return l
