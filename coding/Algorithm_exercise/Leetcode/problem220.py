@@ -17,10 +17,19 @@ Output: false
 """
 class Solution:
     def containsNearbyAlmostDuplicate(self, nums: 'List[int]', k: int, t: int) -> bool:
-        if len(nums) == len(set(nums)):
-            return False
-        for i in range(len(nums)-1):
-            for j in range(i+1, min(i+k+1, len(nums))):
-                if abs(nums[i] - nums[j]) <= t:
+        # 为什么需要判断t=0的情况，否则会出现超时
+        s = set()
+        for i in range(len(nums)):
+            if t == 0:
+                if nums[i] in s:
                     return True
+            else:
+                for ele in s:
+                    if abs(nums[i] - ele) <= t:
+                        return True
+            s.add(nums[i])
+            if len(s) == k + 1:
+                s.remove(nums[i - k])
         return False
+
+Solution().containsNearbyAlmostDuplicate([3,6,0,2],2,2)
