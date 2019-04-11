@@ -21,4 +21,5 @@
    * 针对所有的元素重复以上的步骤，除了最后一个；
    * 重复步骤1~3，直到排序完成。
 2. 动图演示
-![image](https://github.com/CharlesBird/Resources/raw/master/coding/Algorithm_exercise/SortMethod/images/849589-20180402133438219-1946132192.png)
+![image](https://github.com/CharlesBird/Resources/raw/master/coding/Algorithm_exercise/SortMethod/images/849589-20171015223238449-2146169197.gif)
+3. 代码
