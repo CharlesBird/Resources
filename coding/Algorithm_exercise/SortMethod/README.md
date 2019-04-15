@@ -24,12 +24,12 @@
 ![image](https://github.com/CharlesBird/Resources/raw/master/coding/Algorithm_exercise/SortMethod/images/BubbleSort.gif)
 3. 代码
 ```python
-"""
+def bubbleSort(myList):
     for i in range(1, len(myList)):
         for j in range(len(myList)-i):
             if myList[j] > myList[j+1]:
                 myList[j], myList[j+1] = myList[j+1], myList[j]
-"""
+
 ```
 
 ### 2. 选择排序（Selection Sort）
@@ -42,6 +42,16 @@
 2. 动图演示
 ![image](https://github.com/CharlesBird/Resources/raw/master/coding/Algorithm_exercise/SortMethod/images/SelectionSort.gif)
 3. 代码
+```python
+def selectionSort(myList):
+    for i in range(len(myList)-1):
+        minIndex = i
+        for j in range(i+1, len(myList)):
+            if myList[minIndex] > myList[j]:
+                minIndex = j
+        if minIndex != i:
+            myList[i], myList[minIndex] = myList[minIndex], myList[i]
+```
 4. 算法分析
    + 表现最稳定的排序算法之一，因为无论什么数据进去都是O(n2)的时间复杂度，所以用到它的时候，数据规模越小越好。唯一的好处可能就是不占用额外的内存空间了吧。理论上讲，选择排序可能也是平时排序一般人想到的最多的排序方法了吧。
 
@@ -58,6 +68,16 @@
 2. 动图演示
 ![image](https://github.com/CharlesBird/Resources/raw/master/coding/Algorithm_exercise/SortMethod/images/InsertionSort.gif)
 3. 代码
+```python
+def insertionSort(myList):
+    for i in range(len(myList)):
+        preIndex = i - 1
+        current = myList[i]
+        while preIndex >= 0 and myList[preIndex] > current:
+            myList[preIndex+1] = myList[preIndex]
+            preIndex -= 1
+        myList[preIndex+1] = current
+```
 4. 算法分析
    + 插入排序在实现上，通常采用in-place排序（即只需用到O(1)的额外空间的排序），因而在从后向前扫描过程中，需要反复把已排序元素逐步向后挪位，为最新元素提供插入空间。
 
@@ -71,6 +91,20 @@
 2. 动图演示
 ![image](https://github.com/CharlesBird/Resources/raw/master/coding/Algorithm_exercise/SortMethod/images/ShellSort.gif)
 3. 代码
+```python
+def shellSort(myList):
+    list_len = len(myList)
+    dk = list_len // 2
+    while dk >= 1:
+        for i in range(dk, list_len):
+            preIndex = i - dk
+            current = myList[i]
+            while preIndex >= 0 and myList[preIndex] > current:
+                myList[preIndex+dk] = myList[preIndex]
+                preIndex -= dk
+            myList[preIndex+dk] = current
+        dk = dk // 2
+```
 4. 算法分析
    + 希尔排序的核心在于间隔序列的设定。既可以提前设定好间隔序列，也可以动态的定义间隔序列。动态定义间隔序列的算法是《算法（第4版）》的合著者Robert Sedgewick提出的。
 
