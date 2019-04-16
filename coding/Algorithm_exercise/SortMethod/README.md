@@ -228,6 +228,21 @@ def heapAdjust(myList, start, end):
 2. 动图演示
 ![image](https://github.com/CharlesBird/Resources/raw/master/coding/Algorithm_exercise/SortMethod/images/CountingSort.gif)
 3. 代码
+```python
+def countingSort(myList):
+    max_v, min_v = max(myList), min(myList)
+    lenth = max_v-min_v + 1
+    countList = [0 for _ in range(lenth)]
+    res = [None] * len(myList)
+    for v in myList:
+        countList[v-min_v] += 1
+    for i in range(1, lenth):
+        countList[i] = countList[i] + countList[i-1]
+    for v in myList:
+        res[countList[v-min_v] - 1] = v
+        countList[v-min_v] -= 1
+    return res
+```
 4. 算法分析
    + 计数排序是一个稳定的排序算法。当输入的元素是 n 个 0到 k 之间的整数时，时间复杂度是O(n+k)，空间复杂度也是O(n+k)，其排序速度快于任何比较排序算法。当k不是很大并且序列比较集中时，计数排序是一个很有效的排序算法。
 
