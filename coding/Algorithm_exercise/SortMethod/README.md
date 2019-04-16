@@ -256,6 +256,18 @@ def countingSort(myList):
 2. 动图演示
 ![image](https://github.com/CharlesBird/Resources/raw/master/coding/Algorithm_exercise/SortMethod/images/BucketSort.gif)
 3. 代码
+```python
+def bucketSort(myList):
+    min_v, max_v = min(myList), max(myList)
+    bucket = [0 for _ in range(max_v-min_v+1)]
+    for v in myList:
+        bucket[v-min_v] += 1
+    res = []
+    for i in range(len(bucket)):
+        if bucket[i] != 0:
+            res.extend([i+min_v] * bucket[i])
+    return res
+```
 4. 算法分析
    + 桶排序最好情况下使用线性时间O(n)，桶排序的时间复杂度，取决与对各个桶之间数据进行排序的时间复杂度，因为其它部分的时间复杂度都为O(n)。很显然，桶划分的越小，各个桶之间的数据越少，排序所用的时间也会越少。但相应的空间消耗就会增大。
 
