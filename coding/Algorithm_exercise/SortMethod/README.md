@@ -117,6 +117,28 @@ def shellSort(myList):
 2. 动图演示
 ![image](https://github.com/CharlesBird/Resources/raw/master/coding/Algorithm_exercise/SortMethod/images/MergeSort.gif)
 3. 代码
+```python
+def mergeSort(myList):
+    if len(myList) <= 1:
+        return myList
+    mid = len(myList) // 2
+    left = myList[:mid]
+    right = myList[mid:]
+    return merge(mergeSort(left), mergeSort(right))
+
+def merge(left, right):
+    res = []
+    while len(left) > 0 and len(right) > 0:
+        if left[0] <= right[0]:
+            res.append(left.pop(0))
+        else:
+            res.append(right.pop(0))
+    if left:
+        res.extend(left)
+    else:
+        res.extend(right)
+    return res
+```
 4. 算法分析
    + 归并排序是一种稳定的排序方法。和选择排序一样，归并排序的性能不受输入数据的影响，但表现比选择排序好的多，因为始终都是O(nlogn）的时间复杂度。代价是需要额外的内存空间。
 
@@ -130,6 +152,24 @@ def shellSort(myList):
 2. 动图演示
 ![image](https://github.com/CharlesBird/Resources/raw/master/coding/Algorithm_exercise/SortMethod/images/QuickSort.gif)
 3. 代码
+```python
+def QuickSort(arr, firstIndex, lastIndex):
+    if firstIndex < lastIndex:
+        divIndex = Partition(arr, firstIndex, lastIndex)
+
+        QuickSort(arr, firstIndex, divIndex)
+        QuickSort(arr, divIndex + 1, lastIndex)
+    return arr
+
+def Partition(arr, firstIndex, lastIndex):
+    i = firstIndex - 1
+    for j in range(firstIndex, lastIndex):
+        if arr[j] <= arr[lastIndex]:
+            i = i + 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i + 1], arr[lastIndex] = arr[lastIndex], arr[i + 1]
+    return i
+```
 
 ### 7. 堆排序（Heap Sort）
 ##### 堆排序（Heapsort）是指利用堆这种数据结构所设计的一种排序算法。堆积是一个近似完全二叉树的结构，并同时满足堆积的性质：即子结点的键值或索引总是小于（或者大于）它的父节点。
@@ -140,6 +180,43 @@ def shellSort(myList):
 2. 动图演示
 ![image](https://github.com/CharlesBird/Resources/raw/master/coding/Algorithm_exercise/SortMethod/images/HeapSort.gif)
 3. 代码
+```python
+def heapSort(myList):
+    L_len = len(myList)
+    parentIndex = L_len // 2
+    # 将原始序列构造成一个大顶堆
+    # 遍历从中间开始，到0结束，其实这些都是堆的分支节点
+    while parentIndex >= 0:
+        heapAdjust(myList, parentIndex, L_len-1)
+        parentIndex -= 1
+    endIndex = L_len - 1
+    # 逆序遍历整个序列，不断取出根节点的值，
+    while endIndex > 0:
+        # 将当前根节点，也就是列表最开头，下标为0的值，交换到最后面endIndex处
+        myList[0], myList[endIndex] = myList[endIndex], myList[0]
+        # 将发生变化的序列重新构造成大顶堆
+        heapAdjust(myList, 0, endIndex-1)
+        endIndex -= 1
+    return myList
+
+def heapAdjust(myList, start, end):
+    """
+    核心的大顶堆构造方法
+    当前节点的左子节点索引=2 * start
+    当前节点的右子节点索引=2 * start + 1
+    """
+    temp = myList[start]
+    childIndex = 2 * start
+    while childIndex <= end:
+        if childIndex < end and myList[childIndex] < myList[childIndex+1]:
+            childIndex += 1
+        if temp >= myList[childIndex]:
+            break
+        myList[start] = myList[childIndex]
+        start = childIndex
+        childIndex *= 2
+    myList[start] = temp
+```
 
 ### 8. 计数排序（Counting Sort）
 ##### 计数排序不是基于比较的排序算法，其核心在于将输入的数据值转化为键存储在额外开辟的数组空间中。 作为一种线性时间复杂度的排序，计数排序要求输入的数据必须是有确定范围的整数。
