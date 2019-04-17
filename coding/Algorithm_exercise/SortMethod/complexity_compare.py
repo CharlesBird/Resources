@@ -1,6 +1,5 @@
 import random
 import time
-import numpy as np
 from bucket import bucketSort
 from bubble import bubbleSort
 from counting import countingSort
@@ -35,4 +34,4 @@ if __name__ == '__main__':
             for j in [100, 1000, 10000]:
                 # print('range{}_{}'.format(i, j))
                 res = [main(name, i, j), main(name, i, j), main(name, i, j)]
-                print('排序方式{}, 数字范围{}, 序列长度{}, 三次耗时: {}, 平均耗时: {}'.format(name, i, j, res, np.mean(res)))
+                print('排序方式{}, 数字范围{}, 序列长度{}, 三次耗时: {}, 平均耗时: {}'.format(name, i, j, res, sum(res)/len(res)))
