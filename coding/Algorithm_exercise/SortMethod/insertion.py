@@ -7,7 +7,6 @@ def insertionSort(myList):
             myList[preIndex+1] = myList[preIndex]
             preIndex -= 1
         myList[preIndex+1] = current
-    print(myList)
     return myList
 
-insertionSort([49, 38, 65, 97, 76, 13, 27, 49])
+# insertionSort([49, 38, 65, 97, 76, 13, 27, 49])

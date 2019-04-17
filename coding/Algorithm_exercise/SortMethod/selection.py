@@ -7,7 +7,6 @@ def selectionSort(myList):
                 minIndex = j
         if minIndex != i:
             myList[i], myList[minIndex] = myList[minIndex], myList[i]
-    print(myList)
     return myList
 
-selectionSort([49, 38, 65, 97, 76, 13, 27, 49])
+# selectionSort([49, 38, 65, 97, 76, 13, 27, 49])

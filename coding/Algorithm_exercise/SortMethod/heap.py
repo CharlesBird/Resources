@@ -36,7 +36,6 @@ def heapSort(myList):
         # 将发生变化的序列重新构造成大顶堆
         heapAdjust(myList, 0, endIndex-1)
         endIndex -= 1
-    print(myList)
     return myList
 
 def heapAdjust(myList, start, end):
@@ -57,4 +56,4 @@ def heapAdjust(myList, start, end):
         childIndex *= 2
     myList[start] = temp
 
-heapSort([30, 20, 80, 40, 50, 10, 60, 70, 90, 22])
+# heapSort([30, 20, 80, 40, 50, 10, 60, 70, 90, 22])

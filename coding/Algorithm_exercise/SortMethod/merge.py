@@ -19,8 +19,7 @@ def merge(left, right):
         res.extend(left)
     else:
         res.extend(right)
-    print(res)
     return res
 
 
-mergeSort([49,38,65,97,76,13,27,49])
+# mergeSort([49,38,65,97,76,13,27,49])

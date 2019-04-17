@@ -11,9 +11,8 @@ def shellSort(myList):
                 preIndex -= dk
             myList[preIndex+dk] = current
         dk = dk // 2
-    print(myList)
     return myList
 
 # shellSort([49, 38, 65, 97, 76, 13, 27, 49])
 # shellSort([49, 38, 65, 97, 76, 13, 27, 49, 50, 43])
-shellSort([49, 38, 65, 97, 76, 13, 27, 49, 38, 65, 97, 76, 13, 27, 49, 50, 43, 45])
+# shellSort([49, 38, 65, 97, 76, 13, 27, 49, 38, 65, 97, 76, 13, 27, 49, 50, 43, 45])

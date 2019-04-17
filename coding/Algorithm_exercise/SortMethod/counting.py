@@ -14,4 +14,4 @@ def countingSort(myList):
     return res
 
 
-countingSort([-49,38,65,97,76,13,27,49])
+# countingSort([-49,38,65,97,76,13,27,49])

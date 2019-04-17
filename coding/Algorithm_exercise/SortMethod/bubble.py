@@ -4,7 +4,6 @@ def bubbleSort(myList):
         for j in range(len(myList)-i):
             if myList[j] > myList[j+1]:
                 myList[j], myList[j+1] = myList[j+1], myList[j]
-    print(myList)
     return myList
 
-bubbleSort([49,38,65,97,76,13,27,49])
+# bubbleSort([49,38,65,97,76,13,27,49])

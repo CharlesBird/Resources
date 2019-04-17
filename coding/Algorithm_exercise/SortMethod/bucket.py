@@ -10,4 +10,4 @@ def bucketSort(myList):
             res.extend([i+min_v] * bucket[i])
     return res
 
-bucketSort([49,-38,65,97,76,13,27,49])
+# bucketSort([49,-38,65,97,76,13,27,49])
