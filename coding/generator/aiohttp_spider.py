@@ -14,7 +14,7 @@ sem = asyncio.Semaphore(3)
 
 async def fetch(url, session):
     async with sem:
-        asyncio.sleep(1)
+        await asyncio.sleep(1)
         try:
             async with session.get(url) as resp:
                 print('url status: {}'.format(resp.status))

@@ -4,6 +4,9 @@ import asyncio
 import aiohttp
 import aiopg
 from asyncio import Queue
+from .tools import config
+import logging
+_logger = logging.getLogger(__name__)
 
 q = Queue()
 url = 'http://hq.sinajs.cn/list=hf_OIL'
@@ -15,14 +18,15 @@ async def fetch(session, url):
     async with sem:
         try:
             async with session.get(url) as resp:
-                print('url status: {}'.format(resp.status))
+                _logger.info('url status: {}'.format(resp.status))
                 if resp.status in (200, 201):
                     data = await resp.text()
                     return data
         except Exception as e:
-            print(e)
+            _logger.info('Get url error: {}'.format(e))
 
 def hanlder_data(data):
+    _logger.debug('Origin data: {}'.format(data))
     pattern = re.compile('="(.*)"')
     s = pattern.findall(data)
     res = {}
@@ -56,22 +60,26 @@ async def write_to_db(pool, q):
             async with conn.cursor() as cur:
                 if q.empty():
                     await asyncio.sleep(0.5)
+                    continue
                 value = await q.get()
                 fields = value.keys()
                 fields = ','.join(fields)
                 vals = value.values()
-                sql = "insert into brent_oil_record ({}) values {} RETURNING id".format(fields, tuple(vals))
+                sql = "insert into {} ({}) values {} RETURNING id".format(config['db_table'], fields, tuple(vals))
                 await cur.execute(sql)
 
-async def main():
-    global check
-    pool = await aiopg.create_pool('dbname=CCCC0226 user=ccerp password='' host=127.0.0.1')
+async def main(loop):
+    config.parse_config()
+    _logger.info('Script Start..')
+    dns = 'dbname={} user={} password={} host={} port={}'.format(config['db_name'], config['db_user'], config['db_password'], config['db_host'], config['db_port'])
+    pool = await aiopg.create_pool(dns, loop=loop)
     asyncio.ensure_future(write_to_db(pool, q))
+    global check
     async with aiohttp.ClientSession() as session:
         while True:
             data = await fetch(session, url)
             res = hanlder_data(data)
-            # print(res.get('change_time'), check)
+            _logger.debug('Processed data: {}'.format(res))
             await asyncio.sleep(0.5)
             if check and check == res.get('change_time'):
                 continue
@@ -79,8 +87,8 @@ async def main():
                 check = res.get('change_time')
                 await q.put(res)
 
-
-if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    asyncio.ensure_future(main())
-    loop.run_forever()
+#
+# if __name__ == '__main__':
+#     loop = asyncio.get_event_loop()
+#     asyncio.ensure_future(main())
+#     loop.run_forever()

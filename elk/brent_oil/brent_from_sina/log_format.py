@@ -2,7 +2,7 @@ import logging
 import logging.handlers
 import sys
 import os
-from .tools import config
+from . import tools
 _logger = logging.getLogger(__name__)
 
 BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, _NOTHING, DEFAULT = range(10)
@@ -44,14 +44,14 @@ def init_logger():
     # Normal Handler on stderr
     handler = logging.StreamHandler()
 
-    if config['logfile']:
-        logf = config['logfile']
+    if tools.config['logfile']:
+        logf = tools.config['logfile']
         try:
             # We check we have the right location for the log files
             dirname = os.path.dirname(logf)
             if dirname and not os.path.isdir(dirname):
                 os.makedirs(dirname)
-            if config['logrotate'] is not False:
+            if tools.config['logrotate'] is not False:
                 handler = logging.handlers.TimedRotatingFileHandler(filename=logf, when='D', interval=1, backupCount=30)
             elif os.name == 'posix':
                 handler = logging.handlers.WatchedFileHandler(logf)
@@ -71,7 +71,7 @@ def init_logger():
 
     logging.getLogger().addHandler(handler)
     logger = logging.getLogger()
-    config['log_level'].upper()
-    logger.setLevel(config['log_level'].upper())
+    tools.config['log_level'].upper()
+    logger.setLevel(tools.config['log_level'].upper())
 
-    _logger.debug('logger level set: "%s"', config['log_level'])
+    _logger.debug('logger level set: "%s"', tools.config['log_level'])
