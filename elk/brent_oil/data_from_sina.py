@@ -6,7 +6,7 @@ import aiopg
 from asyncio import Queue
 
 q = Queue()
-url = 'http://hq.sinajs.cn/list=hf_OIL'
+url = 'http://hq.sinajs.cn/list=hf_OIL,hf_CL,hf_W'
 
 sem = asyncio.Semaphore(3)
 check = None
@@ -23,6 +23,7 @@ async def fetch(session, url):
             print(e)
 
 def hanlder_data(data):
+    print(data)
     pattern = re.compile('="(.*)"')
     s = pattern.findall(data)
     res = {}
@@ -60,8 +61,8 @@ async def write_to_db(pool, q):
                 fields = value.keys()
                 fields = ','.join(fields)
                 vals = value.values()
-                sql = "insert into brent_oil_record ({}) values {} RETURNING id".format(fields, tuple(vals))
-                await cur.execute(sql)
+                # sql = "insert into brent_oil_record ({}) values {} RETURNING id".format(fields, tuple(vals))
+                # await cur.execute(sql)
 
 async def main():
     global check
