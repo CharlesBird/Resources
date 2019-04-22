@@ -18,7 +18,7 @@ async def fetch(session, url):
     async with sem:
         try:
             async with session.get(url) as resp:
-                _logger.info('url status: {}'.format(resp.status))
+                _logger.debug('url status: {}'.format(resp.status))
                 if resp.status in (200, 201):
                     data = await resp.text()
                     return data
