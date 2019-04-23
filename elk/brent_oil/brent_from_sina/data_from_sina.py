@@ -5,6 +5,7 @@ import aiohttp
 import aiopg
 from asyncio import Queue
 from .tools import config
+from .wsserver import BrentWSHandler
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -76,6 +77,8 @@ async def write_to_db(pool, q, loop):
                     await cur.execute(sql)
                     async for row in cur:
                         _logger.info('Create data {} successfully .'.format(row))
+                        if row:
+                            BrentWSHandler.send_message('refresh')
         except Exception as e:
             _logger.error('Insert data into database unsuccessfully: {}'.format(e))
             await asyncio.sleep(1)
