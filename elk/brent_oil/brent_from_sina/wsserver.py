@@ -10,16 +10,16 @@ class BrentWSHandler(tornado.websocket.WebSocketHandler):
         return True
 
     def open(self, *args, **kwargs):
-        _logger.info(u"BrentWebSocket 连接打开.")
+        _logger.info(u"BrentWebSocket connection opened.")
         self.set_nodelay(True)
         self.live_web_sockets.add(self)
-        self.write_message(u"已经成功连接WS服务.")
+        self.write_message(u"Successful connect to WS server.")
 
     def on_message(self, message):
-        self.write_message(u"你传输的数据: " + message)
+        self.write_message(u"Your data: " + message)
 
     def on_close(self):
-        _logger.info("BrentWebSocket 连接关闭.")
+        _logger.info("BrentWebSocket connection closed.")
 
     @classmethod
     def send_message(cls, message):

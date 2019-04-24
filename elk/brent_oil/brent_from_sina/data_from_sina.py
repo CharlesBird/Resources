@@ -79,6 +79,7 @@ async def write_to_db(pool, q, loop):
                         _logger.info('Create data {} successfully .'.format(row))
                         if row:
                             BrentWSHandler.send_message('refresh')
+                            _logger.info('WS send message to client successfully.')
         except Exception as e:
             _logger.error('Insert data into database unsuccessfully: {}'.format(e))
             await asyncio.sleep(1)
