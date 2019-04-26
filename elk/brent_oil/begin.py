@@ -10,7 +10,7 @@ if __name__ == '__main__':
         (r'/brent_oil', BrentWSHandler)
     ])
     app.listen(9000, '0.0.0.0')
-    tornado.ioloop.IOLoop.current(app)
+    # tornado.ioloop.IOLoop.current(app)
     loop = asyncio.get_event_loop()
     # loop.run_until_complete(main(loop))
     asyncio.ensure_future(main(loop))
