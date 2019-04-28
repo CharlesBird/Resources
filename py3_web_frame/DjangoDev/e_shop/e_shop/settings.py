@@ -42,10 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
-    'goods',
-    'trade',
+    'DjangoUeditor',
+    'users.apps.UsersConfig',
+    'goods.apps.GoodsConfig',
+    'trade.apps.TradeConfig',
     'user_operation',
+    'xadmin',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -90,6 +93,9 @@ DATABASES = {
         'PASSWORD': 'mysql',
         'HOST': '118.190.149.30',
         'PORT': '3306',
+        # 因为后面第三方登录时，要求引擎为INNODB
+        # 'OPTIONS':{'init_command': 'SET storage_engine=INNODB'},    # 按照课程会报错，改为
+        "OPTIONS":{"init_command":"SET default_storage_engine=INNODB;"}
     }
 }
 

@@ -18,7 +18,7 @@ class GoodsCategory(models.Model):
     desc = models.TextField(default="", help_text="类别描述", verbose_name="类别描述")
     # 目录树级别
     category_type = models.IntegerField(choices=CATEGORY_TYPE, help_text="类目级别", verbose_name="类目级别")
-    # 设置models有一个指向自己的外键
+    # 设置models有一个指向自己的外键， related_name后面查询的时候用到
     parent_category = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, verbose_name="父类目级别",
                                         help_text="父目录",
                                         related_name="sub_cat")
@@ -46,7 +46,6 @@ class GoodsCategoryBrand(models.Model):
     class Meta:
         verbose_name = "宣传品牌"
         verbose_name_plural = verbose_name
-        db_table = "goods_goodsbrand"
 
     def __str__(self):
         return self.name
@@ -90,7 +89,7 @@ class GoodsImage(models.Model):
     商品轮播图
     """
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name="商品", related_name="images")
-    image = models.ImageField(upload_to="goods/images/", verbose_name="图片", null=True, blank=True)
+    image = models.ImageField(upload_to="", verbose_name="图片", null=True, blank=True)
     add_time = models.DateTimeField("添加时间", default=datetime.now)
 
     class Meta:
@@ -106,7 +105,7 @@ class Banner(models.Model):
     首页轮播的商品
     """
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name="商品")
-    image = models.ImageField(upload_to='banner/images/', verbose_name="轮播图片")
+    image = models.ImageField(upload_to='banner', verbose_name="轮播图片")
     index = models.IntegerField(default=0, verbose_name="轮播顺序")
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
@@ -116,3 +115,35 @@ class Banner(models.Model):
 
     def __str__(self):
         return self.goods.name
+
+
+class IndexAd(models.Model):
+    """
+    商品广告
+    """
+    category = models.ForeignKey(GoodsCategory, on_delete=models.CASCADE, related_name='category', verbose_name="商品类目")
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='goods')
+
+    class Meta:
+        verbose_name = '首页广告'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.goods.name
+
+
+class HotSearchWords(models.Model):
+    """
+    搜索栏下方热搜词
+    """
+    keywords = models.CharField(default="", max_length=20, verbose_name="热搜词")
+    index = models.IntegerField(default=0, verbose_name="排序")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
+
+    class Meta:
+        verbose_name = '热搜排行'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.keywords
+
