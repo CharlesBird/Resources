@@ -36,7 +36,7 @@ def hanlder_data(data):
         change_time = ' '.join([s_l[12], s_l[6]])
         res.update({
             'last_price': float(s_l[0]),
-            'change_value': float(s_l[1]),
+            'change_value': float(s_l[0]) - float(s_l[7]),
             'buy_price': float(s_l[2]),
             'sell_price': float(s_l[3]),
             'max_price': float(s_l[4]),
