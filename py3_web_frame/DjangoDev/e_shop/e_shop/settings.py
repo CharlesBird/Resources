@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'k67ovc=o6+fee2j6c_ban!rgb&@3(0jx0oa9fo6y!==f8j0nsu'
+SECRET_KEY = 'm51#=mwh+^uaqz$a4_$fg+1me*yqjx7tcq@-r%1g@kv_y+h5h6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -33,22 +33,22 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'users.UserProfile'
 
-
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'DjangoUeditor',
-    'users.apps.UsersConfig',
-    'goods.apps.GoodsConfig',
-    # 'trade.apps.TradeConfig',
-    'user_operation.apps.UserOperationConfig',
-    # 'xadmin',
-    # 'crispy_forms'
+    'DjangoUeditor',
+    'users',
+    'goods',
+    'trade',
+    'user_operation',
+    'xadmin',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -96,7 +96,7 @@ DATABASES = {
         'PORT': '3306',
         # 因为后面第三方登录时，要求引擎为INNODB
         # 'OPTIONS':{'init_command': 'SET storage_engine=INNODB'},    # 按照课程会报错，改为
-        "OPTIONS":{"init_command":"SET default_storage_engine=INNODB;"}
+        "OPTIONS": {"init_command": "SET default_storage_engine=INNODB;"}
     }
 }
 

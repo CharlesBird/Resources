@@ -1,8 +1,7 @@
 from django.db import models
 from goods.models import Goods
-from django.contrib.auth import get_user_model
-
 from datetime import datetime
+from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
