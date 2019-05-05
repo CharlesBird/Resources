@@ -13,16 +13,29 @@ from goods.models import Goods, GoodsCategory
 #         """
 #         return Goods.objects.create(**validated_data)
 
-
-class GoodsCategorySerializers(serializers.ModelSerializer):
+class CategorySerializers3(serializers.ModelSerializer):
     class Meta:
         model = GoodsCategory
-        # fields = ('name', 'click_num', 'market_price', 'goods_front_image')
+        fields = "__all__"
+
+
+class CategorySerializers2(serializers.ModelSerializer):
+    sub_cat = CategorySerializers3(many=True)
+    class Meta:
+        model = GoodsCategory
+        fields = "__all__"
+
+
+class CategorySerializers(serializers.ModelSerializer):
+    sub_cat = CategorySerializers2(many=True)
+    class Meta:
+        model = GoodsCategory
         fields = "__all__"
 
 
 class GoodsSerializers(serializers.ModelSerializer):
-    category = GoodsCategorySerializers()
+    category = CategorySerializers()
+
     class Meta:
         model = Goods
         # fields = ('name', 'click_num', 'market_price', 'goods_front_image')
