@@ -6,7 +6,7 @@ import aiopg
 from asyncio import Queue
 
 q = Queue()
-url = 'http://hq.sinajs.cn/list=hf_OIL,hf_CL,hf_W'
+url = 'http://hq.sinajs.cn/list=hf_OIL,hf_CL'
 
 sem = asyncio.Semaphore(3)
 check = None
@@ -23,33 +23,35 @@ async def fetch(session, url):
             print(e)
 
 def hanlder_data(data):
-    print(data)
     pattern = re.compile('="(.*)"')
-    s = pattern.findall(data)
-    res = {}
-    if s:
-        s_l = s[0].split(',')
-        change_time = ' '.join([s_l[12], s_l[6]])
-        res.update({
-            'last_price': float(s_l[0]),
-            'change_value': float(s_l[1]),
-            'buy_price': float(s_l[2]),
-            'sell_price': float(s_l[3]),
-            'max_price': float(s_l[4]),
-            'min_price': float(s_l[5]),
-            'yestoday_price': float(s_l[7]),
-            'open_price': float(s_l[8]),
-            'amount': float(s_l[9]),
-            'buy_amount': float(s_l[10]),
-            'sell_amount': float(s_l[11]),
-            'name': s_l[13],
-            'change_time': change_time,
-            'create_uid': 1,
-            'create_date': time.strftime('%Y-%m-%d %H:%M:%S'),
-            'write_uid': 1,
-            'write_date': time.strftime('%Y-%m-%d %H:%M:%S')
-        })
-    return res
+    s_list = pattern.findall(data)
+    print(s_list)
+    for s in s_list:
+        res = {}
+        if s:
+            s_l = s[0].split(',')
+            change_time = ' '.join([s_l[12], s_l[6]])
+            res.update({
+                'last_price': float(s_l[0]),
+                'change_value': float(s_l[1]),
+                'buy_price': float(s_l[2]),
+                'sell_price': float(s_l[3]),
+                'max_price': float(s_l[4]),
+                'min_price': float(s_l[5]),
+                'yestoday_price': float(s_l[7]),
+                'open_price': float(s_l[8]),
+                'amount': float(s_l[9]),
+                'buy_amount': float(s_l[10]),
+                'sell_amount': float(s_l[11]),
+                'name': s_l[13],
+                'code': '',
+                'change_time': change_time,
+                'create_uid': 1,
+                'create_date': time.strftime('%Y-%m-%d %H:%M:%S'),
+                'write_uid': 1,
+                'write_date': time.strftime('%Y-%m-%d %H:%M:%S')
+            })
+        return res
 
 async def write_to_db(pool, q):
     while True:
@@ -72,7 +74,7 @@ async def main():
         while True:
             data = await fetch(session, url)
             res = hanlder_data(data)
-            # print(res.get('change_time'), check)
+            print(res)
             await asyncio.sleep(0.5)
             if check and check == res.get('change_time'):
                 continue
