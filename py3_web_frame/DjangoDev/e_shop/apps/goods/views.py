@@ -27,9 +27,9 @@ from .models import Goods, GoodsCategory
 
 
 class GoodsPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 12
     page_size_query_param = 'page_size'
-    page_query_param = 'p'
+    page_query_param = 'page'
     max_page_size = 100
 
 
@@ -52,7 +52,7 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     # filterset_fields = ('name', 'shop_price')
     filter_class = GoodsFilter
     search_fields = ('^name', 'goods_desc', 'goods_brief')
-    ordering_fields = ('shop_price', 'add_time')
+    ordering_fields = ('shop_price', 'sold_num')
 
     # def get_queryset(self):
     #     queryset = Goods.objects.all().order_by('id')
