@@ -9,13 +9,14 @@ q = Queue()
 url = 'http://hq.sinajs.cn/list=hf_OIL,hf_CL'
 
 sem = asyncio.Semaphore(3)
-check = None
+check = [None] * 2
+hf_codes = ['OIL', 'CL']
 
 async def fetch(session, url):
     async with sem:
         try:
             async with session.get(url) as resp:
-                print('url status: {}'.format(resp.status))
+                # print('url status: {}'.format(resp.status))
                 if resp.status in (200, 201):
                     data = await resp.text()
                     return data
@@ -25,13 +26,13 @@ async def fetch(session, url):
 def hanlder_data(data):
     pattern = re.compile('="(.*)"')
     s_list = pattern.findall(data)
-    print(s_list)
-    for s in s_list:
-        res = {}
+    res = []
+    for i, s in enumerate(s_list):
+        data_dict = {}
         if s:
-            s_l = s[0].split(',')
+            s_l = s.split(',')
             change_time = ' '.join([s_l[12], s_l[6]])
-            res.update({
+            data_dict.update({
                 'last_price': float(s_l[0]),
                 'change_value': float(s_l[1]),
                 'buy_price': float(s_l[2]),
@@ -44,14 +45,15 @@ def hanlder_data(data):
                 'buy_amount': float(s_l[10]),
                 'sell_amount': float(s_l[11]),
                 'name': s_l[13],
-                'code': '',
+                'code': hf_codes[i],
                 'change_time': change_time,
                 'create_uid': 1,
                 'create_date': time.strftime('%Y-%m-%d %H:%M:%S'),
                 'write_uid': 1,
                 'write_date': time.strftime('%Y-%m-%d %H:%M:%S')
             })
-        return res
+            res.append(data_dict)
+    return res
 
 async def write_to_db(pool, q):
     while True:
@@ -63,6 +65,7 @@ async def write_to_db(pool, q):
                 fields = value.keys()
                 fields = ','.join(fields)
                 vals = value.values()
+                print(fields, vals)
                 # sql = "insert into brent_oil_record ({}) values {} RETURNING id".format(fields, tuple(vals))
                 # await cur.execute(sql)
 
@@ -74,13 +77,15 @@ async def main():
         while True:
             data = await fetch(session, url)
             res = hanlder_data(data)
-            print(res)
+            # print(res)
             await asyncio.sleep(0.5)
-            if check and check == res.get('change_time'):
-                continue
-            else:
-                check = res.get('change_time')
-                await q.put(res)
+            assert len(res) == 2
+            for i, r in enumerate(res):
+                if check[i] and check[i] == r.get('change_time'):
+                    continue
+                else:
+                    check[i] = r.get('change_time')
+                    await q.put(r)
 
 
 if __name__ == '__main__':
