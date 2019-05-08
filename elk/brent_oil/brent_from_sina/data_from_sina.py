@@ -92,8 +92,8 @@ async def write_to_db(pool, q, loop):
                             _logger.info('WS send {} message to client successfully.'.format(code))
         except Exception as e:
             _logger.error('Insert data into database table {} unsuccessfully: {}'.format(code_table_map[code], e))
-            await asyncio.sleep(1)
-            pool = await build_db_pool(loop)
+            # await asyncio.sleep(1)
+            # pool = await build_db_pool(loop)
 
 async def build_db_pool(loop):
     try:
