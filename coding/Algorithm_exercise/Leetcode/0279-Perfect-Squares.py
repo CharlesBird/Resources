@@ -14,26 +14,31 @@ Explanation: 13 = 4 + 9.
 """
 class Solution:
     def numSquares(self, n: int) -> int:
-        q = [(n, 0)]
-        visited = {n}
-        while q:
-            print(q)
-            num = q[-1][0]
-            step = q[-1][1]
-            q.pop()
 
-            if num == 0:
-                print(step)
-                return step
+        # dp = [0]
+        # while len(dp) <= n:
+        #     MIN = min(dp[-j * j] for j in range(1, int(len(dp) ** 0.5 + 1)))
+        #     dp.append(MIN + 1)
+        # return dp[n]
+
+        # Method Two
+        q = [(n, 0)]
+        visited = [False] * (n+1)
+        while q:
+            num = q[0][0]
+            step = q[0][1]
+            q.pop(0)
+
             i = 1
             while num-i**2 >= 0:
                 nextNum = num - i ** 2
                 if nextNum < 0:
                     break
                 if nextNum == 0:
-                    return step-1
-                if nextNum not in visited:
+                    return step+1
+                if not visited[nextNum]:
                     q.append((nextNum, step+1))
+                    visited[nextNum] = True
                 i += 1
 
 
