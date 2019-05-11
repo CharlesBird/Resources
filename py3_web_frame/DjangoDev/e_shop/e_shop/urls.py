@@ -21,6 +21,8 @@ from e_shop.settings import MEDIA_ROOT
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from goods.views import GoodsListViewSet, CategoryViewSet
+from rest_framework.authtoken import views
+from rest_framework_jwt.views import obtain_jwt_token
 
 router = DefaultRouter()
 # 商品
@@ -40,4 +42,10 @@ urlpatterns = [
     path(r'docs/', include_docs_urls(title='电商平台')),
 
     path('', include(router.urls)),
+
+    # drf自身token验证
+    path(r'api-token-auth/', views.obtain_auth_token),
+
+    # JWT验证
+    path(r'login/', obtain_jwt_token)
 ]

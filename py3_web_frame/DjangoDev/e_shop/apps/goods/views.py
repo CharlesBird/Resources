@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status, mixins, generics, viewsets
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.authentication import TokenAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import GoodsFilter
 from .serializers import GoodsSerializers, CategorySerializers
@@ -50,6 +51,7 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     pagination_class = GoodsPagination
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     # filterset_fields = ('name', 'shop_price')
+    # authentication_classes = (TokenAuthentication,)  # 可以单独给view增加验证方式
     filter_class = GoodsFilter
     search_fields = ('name', 'goods_desc', 'goods_brief')
     ordering_fields = ('shop_price', 'sold_num')
