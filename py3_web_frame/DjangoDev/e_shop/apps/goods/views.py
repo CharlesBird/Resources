@@ -42,7 +42,7 @@ class GoodsPagination(PageNumberPagination):
 #     serializer_class = GoodsSerializers
 #     pagination_class = GoodsPagination
 
-class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     商品列表页，分页，过滤，搜索，排序
     """

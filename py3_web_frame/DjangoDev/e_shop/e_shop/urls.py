@@ -20,10 +20,11 @@ from django.views.static import serve
 from e_shop.settings import MEDIA_ROOT
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
-from goods.views import GoodsListViewSet, CategoryViewSet
-from users.views import SmsCodeViewSet, UserViewSet
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
+from goods.views import GoodsListViewSet, CategoryViewSet
+from users.views import SmsCodeViewSet, UserViewSet
+from user_operation.views import UserFavViewSet
 
 router = DefaultRouter()
 # 商品
@@ -37,6 +38,9 @@ router.register(r'code', SmsCodeViewSet, base_name='code')
 
 # 配置用户的url
 router.register(r'users', UserViewSet, base_name='users')
+
+# 收藏
+router.register(r'userfavs', UserFavViewSet, base_name='userfavs')
 
 urlpatterns = [
     path(r'xadmin/', xadmin.site.urls),
