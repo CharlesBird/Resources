@@ -21,6 +21,7 @@ from e_shop.settings import MEDIA_ROOT
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from goods.views import GoodsListViewSet, CategoryViewSet
+from users.views import SmsCodeViewSet, UserViewSet
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 
@@ -30,6 +31,12 @@ router.register(r'goods', GoodsListViewSet, base_name='goods')
 
 # 商品分类
 router.register(r'categorys', CategoryViewSet, base_name='categorys')
+
+# 配置codes的url
+router.register(r'code', SmsCodeViewSet, base_name='code')
+
+# 配置用户的url
+router.register(r'users', UserViewSet, base_name='users')
 
 urlpatterns = [
     path(r'xadmin/', xadmin.site.urls),

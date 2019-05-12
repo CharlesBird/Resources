@@ -173,3 +173,10 @@ JWT_AUTH = {
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),  # Token过期失效
     'JWT_AUTH_HEADER_PREFIX': 'JWT',  # 可以修改，但是要保持与前端一致
 }
+
+
+# 手机号正则表达式
+REGEX_MOBILE = '^1[358]\d{9}$|^147\d{8}$|^176\d{8}$'
+
+# 短信接口apikey
+APIKEY = '7cf8e841f59cd34184abacb6c4b2d444'
