@@ -6,7 +6,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.authentication import TokenAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import GoodsFilter
-from .serializers import GoodsSerializers, CategorySerializers
+from .serializers import GoodsSerializer, CategorySerializer
 from .models import Goods, GoodsCategory
 
 
@@ -47,7 +47,7 @@ class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewset
     商品列表页，分页，过滤，搜索，排序
     """
     queryset = Goods.objects.all().order_by('id')
-    serializer_class = GoodsSerializers
+    serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     # filterset_fields = ('name', 'shop_price')
@@ -70,4 +70,4 @@ class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets
         商品分类列表数据
     """
     queryset = GoodsCategory.objects.filter(category_type=1).order_by('id')
-    serializer_class = CategorySerializers
+    serializer_class = CategorySerializer

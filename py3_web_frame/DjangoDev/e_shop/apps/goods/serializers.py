@@ -13,21 +13,21 @@ from goods.models import Goods, GoodsCategory, GoodsImage
 #         """
 #         return Goods.objects.create(**validated_data)
 
-class CategorySerializers3(serializers.ModelSerializer):
+class CategorySerializer3(serializers.ModelSerializer):
     class Meta:
         model = GoodsCategory
         fields = "__all__"
 
 
-class CategorySerializers2(serializers.ModelSerializer):
-    sub_cat = CategorySerializers3(many=True)
+class CategorySerializer2(serializers.ModelSerializer):
+    sub_cat = CategorySerializer3(many=True)
     class Meta:
         model = GoodsCategory
         fields = "__all__"
 
 
-class CategorySerializers(serializers.ModelSerializer):
-    sub_cat = CategorySerializers2(many=True)
+class CategorySerializer(serializers.ModelSerializer):
+    sub_cat = CategorySerializer2(many=True)
     class Meta:
         model = GoodsCategory
         fields = "__all__"
@@ -40,9 +40,9 @@ class GoodsImageSerializer(serializers.ModelSerializer):
         fields = ("image",)
 
 
-class GoodsSerializers(serializers.ModelSerializer):
+class GoodsSerializer(serializers.ModelSerializer):
     # 覆盖外键字段
-    category = CategorySerializers()
+    category = CategorySerializer()
     # images是数据库中设置的related_name="images"
     images = GoodsImageSerializer(many=True)
 
