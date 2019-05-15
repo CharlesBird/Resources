@@ -24,6 +24,7 @@ class TreeNode:
         self.left = None
         self.right = None
 
+# 递归
 class Solution:
     def hasPathSum(self, root: TreeNode, sum: int) -> bool:
         if not root:
@@ -31,3 +32,21 @@ class Solution:
         if not root.left and not root.right:
             return sum == root.val
         return self.hasPathSum(root.left, sum-root.val) or self.hasPathSum(root.right, sum-root.val)
+
+
+# 迭代
+class Solution2:
+    def hasPathSum(self, root: TreeNode, sum: int) -> bool:
+        if not root:
+            return False
+        q = [(root, sum)]
+        while q:
+            cur, num = q.pop(0)
+
+            if cur.val == num and not cur.left and not cur.right:
+                return True
+            if cur.left:
+                q.append((cur.left, num-cur.val))
+            if cur.right:
+                q.append((cur.right, num-cur.val))
+        return False
