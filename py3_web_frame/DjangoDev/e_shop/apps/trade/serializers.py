@@ -57,7 +57,7 @@ class ShopCartSerializer(serializers.Serializer):
 
 
 class OrderGoodsSerializer(serializers.ModelSerializer):
-    goods = GoodsSerializer(many=True)
+    goods = GoodsSerializer(many=False)
 
     class Meta:
         model = OrderGoods
@@ -74,6 +74,12 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    # 生成订单的时候这些不用post
+    pay_status = serializers.CharField(read_only=True)
+    trade_no = serializers.CharField(read_only=True)
+    order_sn = serializers.CharField(read_only=True)
+    pay_time = serializers.DateTimeField(read_only=True)
+    nonce_str = serializers.CharField(read_only=True)
 
     def generate_order_sn(self):
         # 生成订单号
