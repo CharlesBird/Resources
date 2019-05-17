@@ -100,7 +100,7 @@ HalfBath: 半浴以上的浴室
 
 Bedroom: 楼层以上的卧室（不包括地下室卧室）
 
-Kitchen: 厨房以上
+KitchenAbvGr: 厨房以上
 
 KitchenQual: 厨房质量
 
