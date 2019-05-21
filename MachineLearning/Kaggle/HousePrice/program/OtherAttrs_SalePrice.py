@@ -6,11 +6,11 @@ plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
 train_df = pd.read_csv(os.path.abspath(os.path.dirname(os.getcwd())) + '/train.csv')
 
-key = 'MSSubClass'
+key = 'SaleType'
 # fields = ['MSSubClass', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
 # for key in fields:
 
-train_df.loc[(train_df[key].isnull()), key] = 0
+train_df.loc[(train_df[key].isnull()), key] = 'None'
 
 plt.scatter(train_df[key], train_df.SalePrice)
 plt.grid(b=True, which='major', axis='y')

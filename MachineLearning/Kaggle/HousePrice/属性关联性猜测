@@ -24,16 +24,12 @@
  SaleCondition
  SaleType
  MoSold，关系不是很大，测试效果，数值类型
- MiscFeature，关系不是很大，测试效果，字符类型
- Fence，有点关系，但缺少值太多，看测试结果，字符类型
  PavedDrive，有点关系，字符类型
- GarageCond，有点关系，字符类型
- GarageQual，有点关系，字符类型
- GarageFinish，有点关系，字符类型
- GarageYrBlt，缺少值，数字类型
- GarageType，缺少值，字符类型
- FireplaceQu，缺少值，字符类型
- TotRmsAbvGrd，明显关系，数值类型
+ GarageCond，有点关系，字符类型，1379
+ GarageQual，有点关系，字符类型，1379
+ GarageFinish，有点关系，字符类型，1379
+ GarageYrBlt，缺少值，数字类型，1379
+ GarageType，缺少值，字符类型，1379
  KitchenQual，有点关系，字符类型
  BedroomAbvGr，有点关系，数字类型
  HalfBath，有关系，数字类型
@@ -42,12 +38,11 @@
  HeatingQC，有关系，字符类型
  Heating，有点关系，看测试结果，字符类型
  BsmtFinSF1，有点关系，看测试结果，数字类型
- BsmtCond，有点关系，但缺少值太多，看测试结果，字符类型
- BsmtQual，有关系，但缺少值太多，看测试结果，字符类型
+ BsmtCond，有点关系，但缺少值太多，看测试结果，字符类型，1423
+ BsmtQual，有关系，但缺少值太多，看测试结果，字符类型，1423
  Foundation，有点关系，看测试结果，字符类型
  ExterQual，有点关系，看测试结果，字符类型
  OverallCond，有点关系，看测试结果，数字类型
- OverallQual，有明显关系，数字类型
  Neighborhood，有明显关系，但是需要划分几种类型，比如高档，中档，低档，数字类型
  MSZoning，有点关系，看测试结果，字符类型
  MSSubClass，有点关系，根据数值划分类型，60、120归为高级，30，180归为低级，其他为中级，数字类型
