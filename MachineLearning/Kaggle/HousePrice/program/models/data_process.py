@@ -5,7 +5,11 @@ data_train = pd.read_csv(os.path.abspath(os.path.join(os.getcwd(), "../..")) + '
 data_test = pd.read_csv(os.path.abspath(os.path.join(os.getcwd(), "../..")) + '/test.csv')
 
 cols = ['OverallQual', 'GrLivArea', 'GarageCars', 'GarageArea', 'TotalBsmtSF', '1stFlrSF', 'FullBath', 'TotRmsAbvGrd',
-        'YearBuilt', 'YearRemodAdd', 'PoolArea', 'Fireplaces', 'CentralAir', 'KitchenAbvGr']
+        'YearBuilt', 'YearRemodAdd', 'PoolArea', 'Fireplaces', 'CentralAir', 'KitchenAbvGr',
+        'MSSubClass', 'MSZoning', 'Neighborhood', 'OverallCond', 'ExterQual', 'Foundation', 'BsmtQual', 'BsmtCond',
+        'BsmtFinSF1', 'Heating', 'HeatingQC', '2ndFlrSF', 'BsmtFullBath', 'HalfBath', 'BedroomAbvGr', 'KitchenQual',
+        'GarageType', 'GarageYrBlt', 'GarageFinish', 'GarageQual', 'GarageCond', 'PavedDrive',
+        'MoSold', 'SaleType', 'SaleCondition']
 
 X_train = data_train[cols].copy()
 X_test = data_test[cols].copy()
@@ -17,42 +21,109 @@ def set_PoolArea(df):
     return df
 
 
-def set_Garage(df):
-    # 车库面积设为0
-    df.loc[(df.GarageCars.isnull()), 'GarageCars'] = 0
-    df.loc[(df.GarageArea.isnull()), 'GarageArea'] = 0
+def set_missing_number_data(df):
+    # 只有测试集存在缺失
+    # GarageCars,GarageArea,TotalBsmtSF,BsmtFinSF1,BsmtFullBath
+    val = dict.fromkeys(['GarageCars', 'GarageArea', 'TotalBsmtSF', 'BsmtFinSF1', 'BsmtFullBath'], 0)
+    df = df.fillna(value=val)
     return df
 
-def set_TotalBsmtSF(df):
-    # 面积设为0
-    df.loc[(df.TotalBsmtSF.isnull()), 'TotalBsmtSF'] = 0
+def set_missing_object_data(df):
+    # 'BsmtQual', 'BsmtCond', 'GarageType', 'GarageFinish', 'GarageQual', 'GarageCond'
+    val = dict.fromkeys(['BsmtQual', 'BsmtCond', 'GarageType', 'GarageFinish', 'GarageQual', 'GarageCond'], 'None')
+    # 只有测试集缺失 {'KitchenQual': 'TA','SaleType': 'WD'}
+    # 根据分析选择TA或者Gd，根据数据查看赋值WD
+    val.update({'KitchenQual': 'TA', 'SaleType': 'WD'})
+    df = df.fillna(value=val)
+    return df
+
+def set_missing_GarageYrBlt(df):
+    # 车库建造日期，空值默认为1800
+    # 有个错乱值2207，猜测是2007
+    df = df.fillna(value={'GarageYrBlt': 1800})
+    df.loc[df.GarageYrBlt == 2207, 'GarageYrBlt'] = 2007
+    return df
+
+def set_MSSubClass_level(df):
+    # 销售住宅类型等级划分
+    df.loc[(df.MSSubClass == 60.) | (df.MSSubClass == 120.), 'MSSubClassLevel'] = 'high'
+    df.loc[(df.MSSubClass == 30.) | (df.MSSubClass == 80.), 'MSSubClassLevel'] = 'low'
+    df.loc[df.MSSubClassLevel.isnull(), 'MSSubClassLevel'] = 'middle'
+    return df
+
+def set_missing_MSZoning(df):
+    # 测试集中存在null，销售的一般分区分类
+    # 根据MSSubClass 20，30，70分别匹配RL,C (all),RM
+    df.loc[(df.MSZoning.isnull()) & (df.MSSubClass == 20.), 'MSZoning'] = 'RL'
+    df.loc[(df.MSZoning.isnull()) & (df.MSSubClass == 30.), 'MSZoning'] = 'C (all)'
+    df.loc[(df.MSZoning.isnull()) & (df.MSSubClass == 70.), 'MSZoning'] = 'RM'
+    return df
+
+def set_Neighborhood_level(df):
+    # 城市范围内的位置划分等级，别墅，内环，中环，外环，老镇
+    level_dict = {}
+    level_dict.update(dict.fromkeys(['NoRidge', 'NridgHt', 'StoneBr'], 'villa'))
+    level_dict.update(dict.fromkeys(['Blmngtn', 'ClearCr', 'CollgCr', 'Crawfor', 'Gilbert', 'Somerst', 'Timber', 'Veenker'], 'inner'))
+    level_dict.update(dict.fromkeys(['Blueste', 'Mitchel', 'NAmes', 'NPkVill', 'NWAmes', 'SawyerW'], 'middle'))
+    level_dict.update(dict.fromkeys(['SWISU', 'Sawyer', 'Edwards', 'BrkSide', 'OldTown'], 'oldtown'))
+    level_dict.update(dict.fromkeys(['BrDale', 'IDOTRR', 'MeadowV'], 'outer'))
+    df['NeighborhoodLevel'] = df.Neighborhood.map(level_dict)
+    return df
+
+def common_process(df):
+    df = set_PoolArea(df)
+    df = set_MSSubClass_level(df)
+    df = set_Neighborhood_level(df)
+    df = set_missing_GarageYrBlt(df)
+    df = set_missing_object_data(df)
+
+    dummies_CentralAir = pd.get_dummies(df['CentralAir'], prefix='CentralAir', dtype='int64')
+    dummies_MSZoning = pd.get_dummies(df['MSZoning'], prefix='MSZoning', dtype='int64')
+    dummies_MSSubClassLevel = pd.get_dummies(df['MSSubClassLevel'], prefix='MSSubClassLevel', dtype='int64')
+    dummies_NeighborhoodLevel = pd.get_dummies(df['NeighborhoodLevel'], prefix='NeighborhoodLevel', dtype='int64')
+    dummies_ExterQual = pd.get_dummies(df['ExterQual'], prefix='ExterQual', dtype='int64')
+    dummies_Foundation = pd.get_dummies(df['Foundation'], prefix='Foundation', dtype='int64')
+    dummies_BsmtQual = pd.get_dummies(df['BsmtQual'], prefix='BsmtQual', dtype='int64')
+    dummies_BsmtCond = pd.get_dummies(df['BsmtCond'], prefix='BsmtCond', dtype='int64')
+    # dummies_Heating = pd.get_dummies(df['Heating'], prefix='Heating', dtype='int64')
+    dummies_HeatingQC = pd.get_dummies(df['HeatingQC'], prefix='HeatingQC', dtype='int64')
+    dummies_KitchenQual = pd.get_dummies(df['KitchenQual'], prefix='KitchenQual', dtype='int64')
+    dummies_GarageType = pd.get_dummies(df['GarageType'], prefix='GarageType', dtype='int64')
+    dummies_GarageFinish = pd.get_dummies(df['GarageFinish'], prefix='GarageFinish', dtype='int64')
+    # dummies_GarageQual = pd.get_dummies(df['GarageQual'], prefix='GarageQual', dtype='int64')
+    dummies_GarageCond = pd.get_dummies(df['GarageCond'], prefix='GarageCond', dtype='int64')
+    dummies_PavedDrive = pd.get_dummies(df['PavedDrive'], prefix='PavedDrive', dtype='int64')
+    dummies_SaleType = pd.get_dummies(df['SaleType'], prefix='SaleType', dtype='int64')
+    dummies_SaleCondition = pd.get_dummies(df['SaleCondition'], prefix='SaleCondition', dtype='int64')
+    df = pd.concat([df, dummies_CentralAir, dummies_MSZoning, dummies_MSSubClassLevel, dummies_NeighborhoodLevel, dummies_ExterQual,
+                    dummies_Foundation, dummies_BsmtQual, dummies_BsmtCond, dummies_HeatingQC, dummies_KitchenQual,
+                    dummies_GarageType, dummies_GarageFinish, dummies_GarageCond, dummies_PavedDrive, dummies_SaleType,
+                    dummies_SaleCondition], axis=1)
+    df.drop(['MSZoning', 'CentralAir', 'MSSubClassLevel', 'NeighborhoodLevel', 'ExterQual', 'Foundation',
+             'Neighborhood', 'BsmtQual', 'BsmtCond', 'Heating', 'HeatingQC', 'KitchenQual', 'GarageType', 'GarageFinish',
+             'GarageQual', 'GarageCond', 'PavedDrive', 'SaleType', 'SaleCondition', 'PoolArea'], axis=1, inplace=True)
     return df
 
 
 def data_train_process():
     global X_train
-    data_res = set_PoolArea(X_train)
-    dummies_CentralAir = pd.get_dummies(data_res['CentralAir'], prefix='CentralAir', dtype='int64')
-    data_res = pd.concat([data_res, dummies_CentralAir], axis=1)
-    data_res.drop(['CentralAir'], axis=1, inplace=True)
-    data_res = pd.concat([data_train['SalePrice'],data_res], axis=1)
+    data_res = pd.concat([data_train['SalePrice'], X_train], axis=1)
+    data_res = common_process(data_res)
     return data_res
 
 
 def data_test_process():
     global X_test
-    data_res = set_PoolArea(X_test)
-    data_res = set_Garage(data_res)
-    data_res = set_TotalBsmtSF(data_res)
-    dummies_CentralAir = pd.get_dummies(data_res['CentralAir'], prefix='CentralAir', dtype='int64')
-    data_res = pd.concat([data_res, dummies_CentralAir], axis=1)
-    data_res = pd.concat([data_test['Id'], data_res], axis=1)
-    data_res.drop(['CentralAir'], axis=1, inplace=True)
+    data_res = pd.concat([data_test['Id'], X_test], axis=1)
+    data_res = set_missing_MSZoning(data_res)
+    data_res = set_missing_number_data(data_res)
+    data_res = common_process(data_res)
     return data_res
 
 
 if __name__ == '__main__':
-    # data_res = data_train_process()
-    # print(data_res)
-    data_res = data_test_process()
-    data_res.info()
+    data_res = data_train_process()
+
+    # data_res = data_test_process()
+    print(data_res.shape)
+    data_res.info(verbose=True)

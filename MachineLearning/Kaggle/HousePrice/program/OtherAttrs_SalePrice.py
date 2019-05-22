@@ -6,13 +6,15 @@ plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
 train_df = pd.read_csv(os.path.abspath(os.path.dirname(os.getcwd())) + '/train.csv')
 
-key = 'SaleType'
+key = 'Neighborhood'
 # fields = ['MSSubClass', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
 # for key in fields:
 
 train_df.loc[(train_df[key].isnull()), key] = 'None'
 
+plt.subplots(figsize=(20, 12))
 plt.scatter(train_df[key], train_df.SalePrice)
+
 plt.grid(b=True, which='major', axis='y')
 plt.ylabel('价格')
 plt.title('%s对房价影响' % key)

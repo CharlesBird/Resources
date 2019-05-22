@@ -15,3 +15,8 @@ X_train.info()
 
 X_test = data_test[cols]
 X_test.info()
+
+train_des = X_train.describe()
+print(train_des)
+test_des = X_test.describe()
+print(test_des)

@@ -73,12 +73,12 @@ def ad_polynomialregression(degree=2):
 
 
 if __name__ == '__main__':
-    # plot_learning_curve(forest_polynomialregression(degree=3), X_train, X_test, y_train, y_test)
+    plot_learning_curve(forest_polynomialregression(degree=10), X_train, X_test, y_train, y_test)
 
-    # plot_learning_curve(gb_polynomialregression(degree=3), X_train, X_test, y_train, y_test)
+    plot_learning_curve(gb_polynomialregression(degree=10), X_train, X_test, y_train, y_test)
 
     # plot_learning_curve(Lin_polynomialregression(degree=2), X_train, X_test, y_train, y_test)
 
     # plot_learning_curve(ridCV_polynomialregression(degree=3), X_train, X_test, y_train, y_test)
 
-    plot_learning_curve(ad_polynomialregression(degree=5), X_train, X_test, y_train, y_test)
+    # plot_learning_curve(ad_polynomialregression(degree=5), X_train, X_test, y_train, y_test)
