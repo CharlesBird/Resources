@@ -12,29 +12,38 @@ import os
 from data_process import data_train_process, data_test_process
 
 
-def forest_polynomialregression(degree):
+def forest_polynomialregression(degree=2):
     return Pipeline([
         ('poly', PolynomialFeatures(degree=degree)),
-        ('rf_reg', RandomForestRegressor(max_depth=10, n_estimators=100, oob_score=True, random_state=500))
+        # ('std_scaler', StandardScaler()),
+        ('rf_reg', RandomForestRegressor(max_depth=None, max_leaf_nodes=None, n_estimators=200, oob_score=True, random_state=100))
     ])
 
 
 def gb_polynomialregression(degree=2):
     return Pipeline([
         ('poly', PolynomialFeatures(degree=degree)),
-        ('std_scaler', StandardScaler()),
-        ('gb_reg', GradientBoostingRegressor(loss='ls', max_depth=3, max_leaf_nodes=4, min_samples_leaf=3, n_estimators=500, random_state=100))
+        # ('std_scaler', StandardScaler()),
+        ('gb_reg', GradientBoostingRegressor(loss='ls', max_depth=5, max_leaf_nodes=6, min_samples_leaf=3, n_estimators=200, random_state=1000))
+    ])
+
+
+def ls_polynomialregression(degree=2):
+    return Pipeline([
+        ('poly', PolynomialFeatures(degree=degree)),
+        # ('std_scaler', StandardScaler()),
+        ('gb_reg', GradientBoostingRegressor(loss='ls', max_depth=5, max_leaf_nodes=6, min_samples_leaf=3, n_estimators=200, random_state=1000))
     ])
 
 
 def get_training_goals(X, y, X_test):
     # 集成学习
     voting_reg = VotingRegressor(estimators=[
-        ('rf_reg', forest_polynomialregression(degree=3)),
-        ('gb_reg', gb_polynomialregression(degree=3)),
+        ('rf_reg', forest_polynomialregression(degree=2)),
+        ('gb_reg', gb_polynomialregression(degree=2)),
+        # ('ls_reg', ls_polynomialregression(degree=2)),
         # ('ab_reg', AdaBoostRegressor(loss='exponential', n_estimators=50, random_state=500)),
         # ('et_reg', ExtraTreeRegressor(min_samples_leaf=3, random_state=100)),
-        # ('ls_reg', LassoCV(cv=4, fit_intercept=True, normalize=True, random_state=100)),
         # ('rid_reg', RidgeCV(alphas=(0.1, 1.0, 10.0), fit_intercept=True, normalize=True))
     ])
     voting_reg.fit(X, y)
@@ -56,4 +65,4 @@ if __name__ == '__main__':
     # score = accuracy_score(y, predict.astype(np.int64))
     # print(score)
     result = pd.DataFrame({'Id': data_test['Id'].values, 'SalePrice': predict.astype(np.float)})
-    result.to_csv(os.path.abspath(os.path.abspath(os.path.join(os.getcwd(), "../.."))) + '/predict10.csv', index=False)
+    result.to_csv(os.path.abspath(os.path.abspath(os.path.join(os.getcwd(), "../.."))) + '/predict.csv', index=False)

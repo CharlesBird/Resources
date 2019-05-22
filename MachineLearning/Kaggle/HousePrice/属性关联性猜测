@@ -78,49 +78,26 @@ avg    mid    min    max     位置     等级
 
 
 
-Fitting 5 folds for each of 2 candidates, totalling 10 fits
-[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
-[Parallel(n_jobs=-1)]: Done   6 out of  10 | elapsed:    0.9s remaining:    0.6s
-[Parallel(n_jobs=-1)]: Done  10 out of  10 | elapsed:    0.9s finished
-[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
-best_lin_reg_score -1.8721193617081183e+18
-best_lin_reg_param {'copy_X': False, 'fit_intercept': True, 'normalize': True}
-Fitting 5 folds for each of 1 candidates, totalling 5 fits
-[Parallel(n_jobs=-1)]: Done   2 out of   5 | elapsed:    0.0s remaining:    0.0s
-[Parallel(n_jobs=-1)]: Done   5 out of   5 | elapsed:    0.0s finished
-best_rid_reg_score 0.7929638082337496
-best_rid_reg_param {'alphas': (0.1, 1.0, 10.0), 'fit_intercept': True, 'normalize': True}
-Fitting 5 folds for each of 15 candidates, totalling 75 fits
-[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
-[Parallel(n_jobs=-1)]: Done  34 tasks      | elapsed:    1.2s
-[Parallel(n_jobs=-1)]: Done  75 out of  75 | elapsed:    2.9s finished
+
+
 best_LassoCV_score 0.8326362144471108
 best_LassoCV_param {'cv': 4, 'fit_intercept': True, 'normalize': True, 'random_state': 100}
-Fitting 5 folds for each of 48 candidates, totalling 240 fits
-[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
-[Parallel(n_jobs=-1)]: Done  34 tasks      | elapsed:   11.0s
-[Parallel(n_jobs=-1)]: Done 184 tasks      | elapsed:   53.9s
-[Parallel(n_jobs=-1)]: Done 240 out of 240 | elapsed:  1.3min finished
-best_Forest_reg_score 0.8668612503580474
-best_Forest_reg_param {'max_depth': None, 'n_estimators': 200, 'oob_score': True, 'random_state': 100}
-[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
-Fitting 5 folds for each of 9 candidates, totalling 45 fits
-[Parallel(n_jobs=-1)]: Done  45 out of  45 | elapsed:    6.0s finished
-[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
-best_Gradient_reg_score 0.8872561069733158
-best_Gradient_reg_param {'loss': 'ls', 'max_depth': 3, 'max_leaf_nodes': 4, 'min_samples_leaf': 3, 'n_estimators': 500, 'random_state': 100}
-Fitting 5 folds for each of 27 candidates, totalling 135 fits
-[Parallel(n_jobs=-1)]: Done  34 tasks      | elapsed:    3.4s
-[Parallel(n_jobs=-1)]: Done 135 out of 135 | elapsed:   13.3s finished
+
+
+best_Forest_reg_score 0.8672033865586902
+best_Forest_reg_param {'max_depth': None, 'max_leaf_nodes': None, 'min_samples_leaf': 1, 'n_estimators': 200, 'oob_score': True, 'random_state': 100}
+
+
+best_Gradient_reg_score 0.8961271926194416
+best_Gradient_reg_param {'loss': 'ls', 'max_depth': 5, 'max_leaf_nodes': 6, 'min_samples_leaf': 3, 'n_estimators': 200, 'random_state': 1000}
+
+
 best_AdaBoost_reg_score 0.8282443072703319
-[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
 best_AdaBoost_reg_param {'loss': 'linear', 'n_estimators': 50, 'random_state': 500}
-Fitting 5 folds for each of 12 candidates, totalling 60 fits
-[Parallel(n_jobs=-1)]: Done  60 out of  60 | elapsed:    0.1s finished
+
 best_DecisionTree_reg_score 0.7275669488999066
 best_DecisionTree_reg_param {'min_samples_split': 0.1, 'random_state': 100}
-Fitting 5 folds for each of 36 candidates, totalling 180 fits
-[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
-[Parallel(n_jobs=-1)]: Done 180 out of 180 | elapsed:    0.3s finished
+
+
 best_ExtraTree_reg_score 0.7801871836060533
 best_ExtraTree_reg_param {'min_samples_leaf': 9, 'random_state': 500}

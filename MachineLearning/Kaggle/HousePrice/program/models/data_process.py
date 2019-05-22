@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 import os
 data_train = pd.read_csv(os.path.abspath(os.path.join(os.getcwd(), "../..")) + '/train.csv')
 data_test = pd.read_csv(os.path.abspath(os.path.join(os.getcwd(), "../..")) + '/test.csv')
@@ -101,8 +102,32 @@ def common_process(df):
                     dummies_SaleCondition], axis=1)
     df.drop(['MSZoning', 'CentralAir', 'MSSubClassLevel', 'NeighborhoodLevel', 'ExterQual', 'Foundation',
              'Neighborhood', 'BsmtQual', 'BsmtCond', 'Heating', 'HeatingQC', 'KitchenQual', 'GarageType', 'GarageFinish',
-             'GarageQual', 'GarageCond', 'PavedDrive', 'SaleType', 'SaleCondition', 'PoolArea'], axis=1, inplace=True)
+             'GarageQual', 'GarageCond', 'PavedDrive', 'SaleType', 'SaleCondition', 'PoolArea', 'MSSubClass'], axis=1, inplace=True)
     return df
+
+
+def get_part_data_scaler(X_train, X_test):
+    # 数据标准化
+    scale_cols = ['OverallQual', 'GrLivArea', 'GarageCars', 'GarageArea', 'TotalBsmtSF', '1stFlrSF', 'FullBath',
+                  'TotRmsAbvGrd', 'YearBuilt', 'YearRemodAdd', 'Fireplaces', 'KitchenAbvGr', 'OverallCond',
+                  'BsmtFinSF1', '2ndFlrSF', 'BsmtFullBath', 'HalfBath', 'BedroomAbvGr', 'GarageYrBlt', 'MoSold']
+    scaled_cols = [future+'_scaled' for future in scale_cols]
+    scale_train_values = X_train[scale_cols].values
+    scale_test_values = X_test[scale_cols].values
+    standardScaler = StandardScaler()
+    standardScaler.fit(scale_train_values)
+    scaled_train_values = standardScaler.transform(scale_train_values)
+    scaled_test_values = standardScaler.transform(scale_test_values)
+
+    df_train_scaled = pd.DataFrame(scaled_train_values, columns=scaled_cols)
+    df_test_scaled = pd.DataFrame(scaled_test_values, columns=scaled_cols)
+
+    X_train = pd.concat([X_train, df_train_scaled], axis=1)
+    X_test = pd.concat([X_test, df_test_scaled], axis=1)
+
+    X_train.drop(scale_cols, axis=1, inplace=True)
+    X_test.drop(scale_cols, axis=1, inplace=True)
+    return X_train, X_test
 
 
 def data_train_process():
@@ -122,8 +147,13 @@ def data_test_process():
 
 
 if __name__ == '__main__':
+    # X_train, X_test = get_part_data_scaler(X_train, X_test)
     data_res = data_train_process()
 
     # data_res = data_test_process()
-    print(data_res.shape)
-    data_res.info(verbose=True)
+    print(data_res.max())
+    # print(data_res.shape)
+    # data_res.info(verbose=True)
+
+    # data_des = data_res.describe()
+    # print(data_des)

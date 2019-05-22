@@ -69,8 +69,8 @@ def find_RandomForestRegressor_hyper_param(X, y):
         {
             'n_estimators': [100, 200, 500],
             'max_depth': [None, 3, 5, 10],
-            # 'min_samples_leaf': [1],
-            # 'max_leaf_nodes': [None, 5, 10],
+            'min_samples_leaf': [1, 2, 3],
+            'max_leaf_nodes': [None, 5, 10],
             'oob_score': [True],
             'random_state': [0, 100, 300, 500]
         },
@@ -89,10 +89,10 @@ def find_GradientBoostingRegressor_hyper_param(X, y):
         {
             'loss': ['ls'],
             'n_estimators': [100, 200, 500],
-            'max_depth': [3],
+            'max_depth': [3, 5, 6],
             'min_samples_leaf': [3],
-            'max_leaf_nodes': [4],
-            'random_state': [100, 300, 500],
+            'max_leaf_nodes': [3,5,6,7],
+            'random_state': [100, 300, 500, 1000, 0],
             # 'tol': [1e-3, 1e-4, 1e-5]
         },
     ]
@@ -172,11 +172,11 @@ if __name__ == '__main__':
     y = train_np[:, 0]
     X = train_np[:, 1:]
 
-    find_LinearRegression_hyper_param(X, y)
-    find_RidgeCV_hyper_param(X, y)
-    find_LassoCV_hyper_param(X, y)
-    find_RandomForestRegressor_hyper_param(X, y)
+    # find_LinearRegression_hyper_param(X, y)
+    # find_RidgeCV_hyper_param(X, y)
+    # find_LassoCV_hyper_param(X, y)
+    # find_RandomForestRegressor_hyper_param(X, y)
     find_GradientBoostingRegressor_hyper_param(X, y)
-    find_AdaBoostRegressor_hyper_param(X, y)
-    find_DecisionTreeRegressor_hyper_param(X, y)
-    find_ExtraTreeRegressor_hyper_param(X, y)
+    # find_AdaBoostRegressor_hyper_param(X, y)
+    # find_DecisionTreeRegressor_hyper_param(X, y)
+    # find_ExtraTreeRegressor_hyper_param(X, y)
