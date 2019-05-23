@@ -147,10 +147,10 @@ def data_test_process():
 
 
 def process_main():
-    X_train_data = data_train_process()
-    X_test_data = data_test_process()
-    X_train_scaled, X_test_scaled = get_part_data_scaler(X_train_data, X_test_data)
-    return X_train_scaled, X_test_scaled
+    X_train_df = data_train_process()
+    X_test_df = data_test_process()
+    # X_train_scaled, X_test_scaled = get_part_data_scaler(X_train_df, X_test_df)
+    return X_train_df, X_test_df
 
 
 if __name__ == '__main__':
