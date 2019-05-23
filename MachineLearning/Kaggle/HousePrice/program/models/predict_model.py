@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import os
 
-from data_process import data_train_process, data_test_process
+from data_process import process_main
 
 
 def forest_polynomialregression(degree=2):
@@ -45,7 +45,7 @@ def get_training_goals(X, y, X_test):
         # ('ab_reg', AdaBoostRegressor(loss='exponential', n_estimators=50, random_state=500)),
         # ('et_reg', ExtraTreeRegressor(min_samples_leaf=3, random_state=100)),
         # ('rid_reg', RidgeCV(alphas=(0.1, 1.0, 10.0), fit_intercept=True, normalize=True))
-    ])
+    ], weights=[0.4, 0.6])
     voting_reg.fit(X, y)
     predict_y = voting_reg.predict(X_test)
     return predict_y
@@ -53,8 +53,7 @@ def get_training_goals(X, y, X_test):
 
 if __name__ == '__main__':
     from sklearn.metrics import accuracy_score
-    data_train = data_train_process()
-    data_test = data_test_process()
+    data_train, data_test = process_main()
     train_np = data_train.values
     X_test = data_test.values[:, 1:]
     y = train_np[:, 0]
@@ -65,4 +64,4 @@ if __name__ == '__main__':
     # score = accuracy_score(y, predict.astype(np.int64))
     # print(score)
     result = pd.DataFrame({'Id': data_test['Id'].values, 'SalePrice': predict.astype(np.float)})
-    result.to_csv(os.path.abspath(os.path.abspath(os.path.join(os.getcwd(), "../.."))) + '/predict.csv', index=False)
+    result.to_csv(os.path.abspath(os.path.abspath(os.path.join(os.getcwd(), "../.."))) + '/predict_part_scaled.csv', index=False)

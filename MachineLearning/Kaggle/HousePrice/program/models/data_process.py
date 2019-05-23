@@ -122,12 +122,12 @@ def get_part_data_scaler(X_train, X_test):
     df_train_scaled = pd.DataFrame(scaled_train_values, columns=scaled_cols)
     df_test_scaled = pd.DataFrame(scaled_test_values, columns=scaled_cols)
 
-    X_train = pd.concat([X_train, df_train_scaled], axis=1)
-    X_test = pd.concat([X_test, df_test_scaled], axis=1)
+    X_train_scaled = pd.concat([X_train, df_train_scaled], axis=1)
+    X_test_scaled = pd.concat([X_test, df_test_scaled], axis=1)
 
-    X_train.drop(scale_cols, axis=1, inplace=True)
-    X_test.drop(scale_cols, axis=1, inplace=True)
-    return X_train, X_test
+    X_train_scaled.drop(scale_cols, axis=1, inplace=True)
+    X_test_scaled.drop(scale_cols, axis=1, inplace=True)
+    return X_train_scaled, X_test_scaled
 
 
 def data_train_process():
@@ -146,14 +146,15 @@ def data_test_process():
     return data_res
 
 
+def process_main():
+    X_train_data = data_train_process()
+    X_test_data = data_test_process()
+    X_train_scaled, X_test_scaled = get_part_data_scaler(X_train_data, X_test_data)
+    return X_train_scaled, X_test_scaled
+
+
 if __name__ == '__main__':
-    # X_train, X_test = get_part_data_scaler(X_train, X_test)
-    data_res = data_train_process()
-
-    # data_res = data_test_process()
-    print(data_res.max())
-    # print(data_res.shape)
-    # data_res.info(verbose=True)
-
-    # data_des = data_res.describe()
-    # print(data_des)
+    train_res, test_res = process_main()
+    train_res.info()
+    test_res.info()
+    print(train_res.shape, test_res.shape)
