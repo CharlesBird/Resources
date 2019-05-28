@@ -2,17 +2,13 @@ from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression, RidgeCV
+from sklearn.linear_model import RidgeCV
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor
 from sklearn.tree import DecisionTreeRegressor, ExtraTreeRegressor
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
+from sklearn.decomposition import PCA
 from sklearn.pipeline import Pipeline
-from data_process import data_train_process
-data_train = data_train_process()
-train_np = data_train.values
-y = train_np[:, 0]
-X = train_np[:, 1:]
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=666)
+from data_process import process_main
 
 
 # 学习曲线
@@ -35,14 +31,6 @@ def plot_learning_curve(algo, X_train, X_test, y_train, y_test):
     plt.show()
 
 
-def Lin_polynomialregression(degree):
-    return Pipeline([
-        ('poly', PolynomialFeatures(degree=degree)),
-        # ('std_scaler', StandardScaler()),
-        ('lin_reg', LinearRegression(copy_X=False, fit_intercept=True, normalize=True))
-    ])
-
-
 def ridCV_polynomialregression(degree):
     return Pipeline([
         ('poly', PolynomialFeatures(degree=degree)),
@@ -59,7 +47,6 @@ def forest_polynomialregression(degree):
 def gb_polynomialregression(degree=2):
     return Pipeline([
         ('poly', PolynomialFeatures(degree=degree)),
-        ('std_scaler', StandardScaler()),
         ('gb_reg', GradientBoostingRegressor(loss='ls', max_depth=3, max_leaf_nodes=4, min_samples_leaf=3, n_estimators=500, random_state=100))
     ])
 
@@ -73,9 +60,27 @@ def ad_polynomialregression(degree=2):
 
 
 if __name__ == '__main__':
-    plot_learning_curve(forest_polynomialregression(degree=10), X_train, X_test, y_train, y_test)
+    data_train, data_test = process_main()
+    train_np = data_train.values
+    y = train_np[:, 0]
+    X = train_np[:, 1:]
+    pca = PCA(n_components=0.98)
+    X = pca.fit_transform(X)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=666)
 
-    plot_learning_curve(gb_polynomialregression(degree=10), X_train, X_test, y_train, y_test)
+    poly_reg = forest_polynomialregression(degree=4)
+    poly_reg.fit(X_train, y_train)
+    y_train_predict = poly_reg.predict(X_train)
+    y_test_predict = poly_reg.predict(X_test)
+    res_train = mean_squared_error(y_train, y_train_predict)
+    res_test = mean_squared_error(y_test, y_test_predict)
+    print(res_train, res_test)
+    # degree=2 135464430.0332776 818786809.8635224
+    # degree=3 124665221.86368628 734563453.5463767
+
+    # plot_learning_curve(forest_polynomialregression(degree=2), X_train, X_test, y_train, y_test)
+
+    # plot_learning_curve(gb_polynomialregression(degree=2), X_train, X_test, y_train, y_test)
 
     # plot_learning_curve(Lin_polynomialregression(degree=2), X_train, X_test, y_train, y_test)
 

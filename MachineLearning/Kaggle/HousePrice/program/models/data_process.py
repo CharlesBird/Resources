@@ -1,6 +1,5 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
 import os
 data_train = pd.read_csv(os.path.abspath(os.path.join(os.getcwd(), "../..")) + '/train.csv')
 data_test = pd.read_csv(os.path.abspath(os.path.join(os.getcwd(), "../..")) + '/test.csv')
@@ -130,17 +129,30 @@ def get_part_data_scaler(X_train, X_test):
     return X_train_scaled, X_test_scaled
 
 
+def get_all_data_scaler(X_train, X_test):
+    scale_train_values = X_train.values
+    scale_test_values = X_test.values
+    standardScaler = StandardScaler()
+    standardScaler.fit(scale_train_values)
+    scaled_train_values = standardScaler.transform(scale_train_values)
+    scaled_test_values = standardScaler.transform(scale_test_values)
+
+    X_train_scaled = pd.DataFrame(scaled_train_values, columns=X_train.columns)
+    X_test_scaled = pd.DataFrame(scaled_test_values, columns=X_test.columns)
+    return X_train_scaled, X_test_scaled
+
+
 def data_train_process():
     global X_train
-    data_res = pd.concat([data_train['SalePrice'], X_train], axis=1)
-    data_res = common_process(data_res)
+
+    data_res = common_process(X_train)
     return data_res
 
 
 def data_test_process():
     global X_test
-    data_res = pd.concat([data_test['Id'], X_test], axis=1)
-    data_res = set_missing_MSZoning(data_res)
+
+    data_res = set_missing_MSZoning(X_test)
     data_res = set_missing_number_data(data_res)
     data_res = common_process(data_res)
     return data_res
@@ -149,8 +161,11 @@ def data_test_process():
 def process_main():
     X_train_df = data_train_process()
     X_test_df = data_test_process()
-    # X_train_scaled, X_test_scaled = get_part_data_scaler(X_train_df, X_test_df)
-    return X_train_df, X_test_df
+    X_train_scaled, X_test_scaled = get_part_data_scaler(X_train_df, X_test_df)
+    # X_train_scaled, X_test_scaled = get_all_data_scaler(X_train_df, X_test_df)
+    X_train_scaled = pd.concat([data_train['SalePrice'], X_train_scaled], axis=1)
+    X_test_scaled = pd.concat([data_test['Id'], X_test_scaled], axis=1)
+    return X_train_scaled, X_test_scaled
 
 
 if __name__ == '__main__':

@@ -158,7 +158,7 @@ if __name__ == '__main__':
     standardScaler = StandardScaler()
     X_scaled = standardScaler.fit_transform(X)
     print(X_scaled.shape)
-    X_scaled_reduction = get_data_in_pca(X_scaled, y, n_components=99)
+    X_scaled_reduction = get_data_in_pca(X_scaled, y, n_components=0.99)
     print(X_scaled_reduction.shape)
 
     find_RidgeCV_hyper_param(X_scaled_reduction, y)
