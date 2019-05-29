@@ -7,7 +7,7 @@ from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 
-from data_process import data_train_process
+from data_process import process_main
 
 
 def find_RidgeCV_hyper_param(X, y):
@@ -22,9 +22,9 @@ def find_RidgeCV_hyper_param(X, y):
     grid_search = GridSearchCV(RidgeCV(), param_grid, n_jobs=-1, verbose=1, cv=5)
     grid_search.fit(X, y)
     print('best_rid_reg_score', grid_search.best_score_)
-    # 0.7715897804018855
+    # 0.8268260827212238
     print('best_rid_reg_param', grid_search.best_params_)
-    # {'alphas': (0.1, 1.0, 10.0), 'fit_intercept': True, 'normalize': True}
+    # best_rid_reg_param {'alphas': (0.1, 1.0, 10.0)}
     return grid_search.best_estimator_
 
 
@@ -42,19 +42,19 @@ def find_LassoCV_hyper_param(X, y):
     grid_search = GridSearchCV(LassoCV(), param_grid, n_jobs=-1, verbose=1, cv=5)
     grid_search.fit(X, y)
     print('best_LassoCV_score', grid_search.best_score_)
-    # 0.7690358984932986
+    # 0.8272136013849054
     print('best_LassoCV_param', grid_search.best_params_)
-    # {'cv': 4, 'fit_intercept': True, 'normalize': True, 'random_state': 100}
+    # {'cv': 4, 'eps': 0.001, 'random_state': 100}
     return grid_search.best_estimator_
 
 
 def find_RandomForestRegressor_hyper_param(X, y):
     param_grid = [
         {
-            'n_estimators': [100, 200, 500],
-            'max_depth': [None, 3, 5, 10],
-            'min_samples_leaf': [1, 2, 3],
-            'max_leaf_nodes': [None, 5, 10],
+            'n_estimators': [100, 200, 500, 800],
+            # 'max_depth': [None, 3, 5, 7, 10],
+            # 'min_samples_leaf': [1, 2, 3],
+            # 'max_leaf_nodes': [None, 3, 5, 7, 10],
             'oob_score': [True],
             'random_state': [0, 100, 300, 500]
         },
@@ -62,9 +62,9 @@ def find_RandomForestRegressor_hyper_param(X, y):
     grid_search = GridSearchCV(RandomForestRegressor(), param_grid, n_jobs=-1, verbose=1, cv=5)
     grid_search.fit(X, y)
     print('best_Forest_reg_score', grid_search.best_score_)
-    # 0.8423066988062821
+    # best_rid_reg_score 0.8658549608256512
     print('best_Forest_reg_param', grid_search.best_params_)
-    # {'max_depth': 10, 'n_estimators': 100, 'oob_score': True, 'random_state': 500}
+    # {'n_estimators': 500, 'oob_score': True, 'random_state': 100}
     return grid_search.best_estimator_
 
 
@@ -72,20 +72,19 @@ def find_GradientBoostingRegressor_hyper_param(X, y):
     param_grid = [
         {
             'loss': ['ls'],
-            'n_estimators': [200, 500, 800],
-            'max_depth': [3, 6, 8],
-            'min_samples_leaf': [3],
-            'max_leaf_nodes': [3, 5, 10],
+            'n_estimators': [200, 300, 500, 800],
+            'max_depth': [3, 5, 6, 8],
+            'min_samples_leaf': [1, 3, 5],
+            'max_leaf_nodes': [3, 5, 7, 10],
             'random_state': [100, 300, 500, 1000, 0],
-            'tol': [1e-3, 1e-4, 1e-5]
         },
     ]
     grid_search = GridSearchCV(GradientBoostingRegressor(), param_grid, n_jobs=-1, verbose=1, cv=5)
     grid_search.fit(X, y)
     print('best_Gradient_reg_score', grid_search.best_score_)
-    # 0.8704253429884784
+    # 0.8986730318257745
     print('best_Gradient_reg_param', grid_search.best_params_)
-    # {'loss': 'ls', 'max_depth': 3, 'max_leaf_nodes': 4, 'min_samples_leaf': 3, 'n_estimators': 500, 'random_state': 100}
+    # {'loss': 'ls', 'max_depth': 3, 'max_leaf_nodes': 10, 'min_samples_leaf': 1, 'n_estimators': 200, 'random_state': 100}
     return grid_search.best_estimator_
 
 
@@ -101,7 +100,7 @@ def find_AdaBoostRegressor_hyper_param(X, y):
     grid_search = GridSearchCV(AdaBoostRegressor(), param_grid, n_jobs=-1, verbose=1, cv=5)
     grid_search.fit(X, y)
     print('best_AdaBoost_reg_score', grid_search.best_score_)
-    # 0.7988266356486099
+    # 0.8280727751745641
     print('best_AdaBoost_reg_param', grid_search.best_params_)
     # {'loss': 'exponential', 'n_estimators': 50, 'random_state': 500}
     return grid_search.best_estimator_
@@ -118,7 +117,7 @@ def find_DecisionTreeRegressor_hyper_param(X, y):
     grid_search = GridSearchCV(DecisionTreeRegressor(), param_grid, n_jobs=-1, verbose=1, cv=5)
     grid_search.fit(X, y)
     print('best_DecisionTree_reg_score', grid_search.best_score_)
-    # 0.7171158994667575
+    # 0.7278217823044725
     print('best_DecisionTree_reg_param', grid_search.best_params_)
     # {'min_samples_split': 0.1, 'random_state': 100}
     return grid_search.best_estimator_
@@ -137,9 +136,9 @@ def find_ExtraTreeRegressor_hyper_param(X, y):
     grid_search = GridSearchCV(ExtraTreeRegressor(), param_grid, n_jobs=-1, verbose=1, cv=5)
     grid_search.fit(X, y)
     print('best_ExtraTree_reg_score', grid_search.best_score_)
-    # 0.7957707433747737
+    # 0.7782290130623574
     print('best_ExtraTree_reg_param', grid_search.best_params_)
-    # {'min_samples_leaf': 3, 'random_state': 100}
+    # {'max_depth': None, 'max_leaf_nodes': None, 'min_samples_leaf': 3, 'random_state': 100}
     return grid_search.best_estimator_
 
 
@@ -150,21 +149,22 @@ def get_data_in_pca(X, y, n_components='mle'):
     X_reduction = pca.transform(X)
     return X_reduction
 
+
 if __name__ == '__main__':
-    data_train = data_train_process()
+    data_train, _ = process_main()
     train_np = data_train.values
     y = train_np[:, 0]
     X = train_np[:, 1:]
-    standardScaler = StandardScaler()
-    X_scaled = standardScaler.fit_transform(X)
-    print(X_scaled.shape)
-    X_scaled_reduction = get_data_in_pca(X_scaled, y, n_components=0.99)
-    print(X_scaled_reduction.shape)
+    # standardScaler = StandardScaler()
+    # X_scaled = standardScaler.fit_transform(X)
+    # print(X_scaled.shape)
+    # X_scaled_reduction = get_data_in_pca(X_scaled, y, n_components=0.99)
+    # print(X_scaled_reduction.shape)
 
-    find_RidgeCV_hyper_param(X_scaled_reduction, y)
-    find_LassoCV_hyper_param(X_scaled_reduction, y)
-    find_RandomForestRegressor_hyper_param(X_scaled_reduction, y)
-    find_GradientBoostingRegressor_hyper_param(X_scaled_reduction, y)
-    find_AdaBoostRegressor_hyper_param(X_scaled_reduction, y)
-    find_DecisionTreeRegressor_hyper_param(X_scaled_reduction, y)
-    find_ExtraTreeRegressor_hyper_param(X_scaled_reduction, y)
+    # find_RidgeCV_hyper_param(X, y)
+    # find_LassoCV_hyper_param(X, y)
+    find_RandomForestRegressor_hyper_param(X, y)
+    # find_GradientBoostingRegressor_hyper_param(X, y)
+    # find_AdaBoostRegressor_hyper_param(X, y)
+    # find_DecisionTreeRegressor_hyper_param(X, y)
+    # find_ExtraTreeRegressor_hyper_param(X, y)
