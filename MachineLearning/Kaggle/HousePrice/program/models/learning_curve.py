@@ -67,28 +67,28 @@ if __name__ == '__main__':
     y = train_np[:, 0]
     X = train_np[:, 1:]
     cv = ShuffleSplit(n_splits=100, test_size=0.2, random_state=666)
-    title = 'Learning Curves (Random Forest)'
-    estimator1 = RandomForestRegressor(n_estimators=100, oob_score=True, random_state=500)
-    plot_learning_curve(estimator1, title, X, y, ylim=(0.7, 1.01), train_sizes=np.linspace(0.1, 1.0, 10), cv=cv, n_jobs=1, random_state=666)
-
-    title = 'Learning Curves (Gradient Boosting)'
-    estimator2 = GradientBoostingRegressor(loss='ls', max_depth=3, max_leaf_nodes=10, min_samples_leaf=1, n_estimators=200, random_state=100)
-    plot_learning_curve(estimator2, title, X, y, ylim=(0.7, 1.01), train_sizes=np.linspace(0.1, 1.0, 10), cv=cv, n_jobs=1, random_state=666)
-
-    title = 'Learning Curves (Lasso)'
-    estimator3 = LassoCV(eps=1e-3, cv=4, max_iter=5000, random_state=100)
-    plot_learning_curve(estimator3, title, X, y, ylim=(0.7, 1.01), train_sizes=np.linspace(0.1, 1.0, 10), cv=cv,
-                        n_jobs=1, random_state=666)
-
-    # title = 'Learning Curves (Random Forest + Poly degree=2)'
-    # estimator4 = rf_polynomialregression(degree=2)
-    # plot_learning_curve(estimator4, title, X, y, ylim=(0.7, 1.01), train_sizes=np.linspace(0.1, 1.0, 10), cv=cv, n_jobs=1, random_state=666)
+    # title = 'Learning Curves (Random Forest)'
+    # estimator1 = RandomForestRegressor(n_estimators=100, oob_score=True, random_state=500)
+    # plot_learning_curve(estimator1, title, X, y, ylim=(0.7, 1.01), train_sizes=np.linspace(0.1, 1.0, 10), cv=cv, n_jobs=1, random_state=666)
     #
-    # title = 'Learning Curves (Gradient Boosting + Poly degree=2)'
-    # estimator5 = gb_polynomialregression(degree=2)
-    # plot_learning_curve(estimator5, title, X, y, ylim=(0.7, 1.01), train_sizes=np.linspace(0.1, 1.0, 10), cv=cv, n_jobs=1, random_state=666)
+    # title = 'Learning Curves (Gradient Boosting)'
+    # estimator2 = GradientBoostingRegressor(loss='ls', max_depth=3, max_leaf_nodes=10, min_samples_leaf=1, n_estimators=200, random_state=100)
+    # plot_learning_curve(estimator2, title, X, y, ylim=(0.7, 1.01), train_sizes=np.linspace(0.1, 1.0, 10), cv=cv, n_jobs=1, random_state=666)
     #
-    # title = 'Learning Curves (Lasso + Poly degree=2)'
-    # estimator6 = ls_polynomialregression(degree=2)
-    # plot_learning_curve(estimator6, title, X, y, ylim=(0.7, 1.01), train_sizes=np.linspace(0.1, 1.0, 10), cv=cv,
+    # title = 'Learning Curves (Lasso)'
+    # estimator3 = LassoCV(eps=1e-3, cv=4, max_iter=5000, random_state=100)
+    # plot_learning_curve(estimator3, title, X, y, ylim=(0.7, 1.01), train_sizes=np.linspace(0.1, 1.0, 10), cv=cv,
     #                     n_jobs=1, random_state=666)
+
+    title = 'Learning Curves (Random Forest + Poly degree=2)'
+    estimator4 = rf_polynomialregression(degree=2)
+    plot_learning_curve(estimator4, title, X, y, ylim=(0.7, 1.01), train_sizes=np.linspace(0.1, 1.0, 10), cv=cv, n_jobs=-1, random_state=666)
+
+    title = 'Learning Curves (Gradient Boosting + Poly degree=2)'
+    estimator5 = gb_polynomialregression(degree=2)
+    plot_learning_curve(estimator5, title, X, y, ylim=(0.7, 1.01), train_sizes=np.linspace(0.1, 1.0, 10), cv=cv, n_jobs=-1, random_state=666)
+
+    title = 'Learning Curves (Lasso + Poly degree=2)'
+    estimator6 = ls_polynomialregression(degree=2)
+    plot_learning_curve(estimator6, title, X, y, ylim=(0.7, 1.01), train_sizes=np.linspace(0.1, 1.0, 10), cv=cv,
+                        n_jobs=-1, random_state=666)

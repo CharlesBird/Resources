@@ -15,37 +15,34 @@ from data_process import process_main
 def forest_polynomialregression(degree=2):
     return Pipeline([
         ('poly', PolynomialFeatures(degree=degree)),
-        # ('std_scaler', StandardScaler()),
-        ('rf_reg', RandomForestRegressor(max_depth=None, max_leaf_nodes=None, n_estimators=200, oob_score=True, random_state=100))
+        ('rf_reg', RandomForestRegressor(n_estimators=100, oob_score=True, random_state=500))
     ])
 
 
 def gb_polynomialregression(degree=2):
     return Pipeline([
         ('poly', PolynomialFeatures(degree=degree)),
-        # ('std_scaler', StandardScaler()),
-        ('gb_reg', GradientBoostingRegressor(loss='ls', max_depth=5, max_leaf_nodes=6, min_samples_leaf=3, n_estimators=200, random_state=1000))
+        ('gb_reg', GradientBoostingRegressor(loss='ls', max_depth=3, max_leaf_nodes=10, min_samples_leaf=1, n_estimators=200, random_state=100))
     ])
 
 
 def ls_polynomialregression(degree=2):
     return Pipeline([
         ('poly', PolynomialFeatures(degree=degree)),
-        ('std_scaler', StandardScaler()),
-        ('ls_reg', LassoCV(cv=4, fit_intercept=True, random_state=100))
+        ('ls_reg', LassoCV(eps=1e-3, cv=4, max_iter=5000, random_state=100))
     ])
 
 
 def get_training_goals(X, y, X_test):
     # 集成学习
     voting_reg = VotingRegressor(estimators=[
-        ('rf_reg', forest_polynomialregression(degree=2)),
-        ('gb_reg', gb_polynomialregression(degree=2)),
-        # ('ls_reg', ls_polynomialregression(degree=2)),
-        # ('ab_reg', AdaBoostRegressor(loss='exponential', n_estimators=50, random_state=500)),
-        # ('et_reg', ExtraTreeRegressor(min_samples_leaf=3, random_state=100)),
-        # ('rid_reg', RidgeCV(alphas=(0.1, 1.0, 10.0), fit_intercept=True, normalize=True))
-    ], weights=[0.4, 0.6])
+        ('rf_ploy', forest_polynomialregression(degree=5)),
+        ('gb_ploy', gb_polynomialregression(degree=5)),
+        ('ls_ploy', ls_polynomialregression(degree=5)),
+        # ('rf_reg', RandomForestRegressor(n_estimators=100, oob_score=True, random_state=500)),
+        # ('gb_reg', GradientBoostingRegressor(loss='ls', max_depth=3, max_leaf_nodes=10, min_samples_leaf=1, n_estimators=200, random_state=100)),
+        # ('ls_reg', LassoCV(eps=1e-3, cv=4, max_iter=5000, random_state=100))
+    ], weights=[0.2, 0.6, 0.2])
     voting_reg.fit(X, y)
     predict_y = voting_reg.predict(X_test)
     return predict_y
@@ -64,4 +61,4 @@ if __name__ == '__main__':
     # score = accuracy_score(y, predict.astype(np.int64))
     # print(score)
     result = pd.DataFrame({'Id': data_test['Id'].values, 'SalePrice': predict.astype(np.float)})
-    result.to_csv(os.path.abspath(os.path.abspath(os.path.join(os.getcwd(), "../.."))) + '/predict_part_scaled.csv', index=False)
+    result.to_csv(os.path.abspath(os.path.abspath(os.path.join(os.getcwd(), "../.."))) + '/predict_part_scaled_ploy-5.csv', index=False)
