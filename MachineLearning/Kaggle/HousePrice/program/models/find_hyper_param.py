@@ -3,6 +3,7 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, A
 from sklearn.tree import DecisionTreeRegressor, ExtraTreeRegressor
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
+from sklearn.pipeline import Pipeline
 
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
@@ -139,6 +140,33 @@ def find_ExtraTreeRegressor_hyper_param(X, y):
     # 0.7782290130623574
     print('best_ExtraTree_reg_param', grid_search.best_params_)
     # {'max_depth': None, 'max_leaf_nodes': None, 'min_samples_leaf': 3, 'random_state': 100}
+    return grid_search.best_estimator_
+
+
+def find_rb_poly_gression_hyper_param(degree):
+    return Pipeline([
+        ('poly', PolynomialFeatures(degree=degree)),
+        ('rf_reg', RandomForestRegressor(n_estimators=500, oob_score=True, random_state=100))
+    ])
+
+
+def find_gb_poly_hyper_param(X, y):
+    param_grid = [
+        {
+            'loss': ['ls'],
+            'n_estimators': [200, 300, 500, 800],
+            'max_depth': [3, 5, 6, 8],
+            'min_samples_leaf': [1, 3, 5],
+            'max_leaf_nodes': [3, 5, 7, 10],
+            'random_state': [100, 300, 500, 1000, 0],
+        },
+    ]
+    grid_search = GridSearchCV(GradientBoostingRegressor(), param_grid, n_jobs=-1, verbose=1, cv=5)
+    grid_search.fit(X, y)
+    print('best_Gradient_reg_score', grid_search.best_score_)
+    # 0.8986730318257745
+    print('best_Gradient_reg_param', grid_search.best_params_)
+    # {'loss': 'ls', 'max_depth': 3, 'max_leaf_nodes': 10, 'min_samples_leaf': 1, 'n_estimators': 200, 'random_state': 100}
     return grid_search.best_estimator_
 
 
