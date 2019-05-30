@@ -36,9 +36,9 @@ def ls_polynomialregression(degree=2):
 def get_training_goals(X, y, X_test):
     # 集成学习
     voting_reg = VotingRegressor(estimators=[
-        ('rf_ploy', forest_polynomialregression(degree=4)),
-        ('gb_ploy', gb_polynomialregression(degree=4)),
-        ('ls_ploy', ls_polynomialregression(degree=4)),
+        ('rf_ploy', forest_polynomialregression(degree=3)),
+        ('gb_ploy', gb_polynomialregression(degree=3)),
+        ('ls_ploy', ls_polynomialregression(degree=3)),
         # ('rf_reg', RandomForestRegressor(n_estimators=100, oob_score=True, random_state=500)),
         # ('gb_reg', GradientBoostingRegressor(loss='ls', max_depth=3, max_leaf_nodes=10, min_samples_leaf=1, n_estimators=200, random_state=100)),
         # ('ls_reg', LassoCV(eps=1e-3, cv=4, max_iter=5000, random_state=100))
@@ -61,4 +61,4 @@ if __name__ == '__main__':
     # score = accuracy_score(y, predict.astype(np.int64))
     # print(score)
     result = pd.DataFrame({'Id': data_test['Id'].values, 'SalePrice': predict.astype(np.float)})
-    result.to_csv(os.path.abspath(os.path.abspath(os.path.join(os.getcwd(), "../.."))) + '/predict_part_scaled_ploy-4.csv', index=False)
+    result.to_csv(os.path.abspath(os.path.abspath(os.path.join(os.getcwd(), "../.."))) + '/predict_part_scaled_ploy-3.csv', index=False)
