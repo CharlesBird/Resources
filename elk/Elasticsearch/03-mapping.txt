@@ -1,0 +1,200 @@
+# mapping
+DELETE test_index
+
+PUT test_index
+
+GET test_index/_mapping
+
+# custom mapping
+PUT my_index
+{
+  "mappings": {
+    "dynamic": false,
+    "properties": {
+      "title": {
+        "type": "text"
+      },
+      "name": {
+        "type": "keyword"
+      },
+      "age": {
+        "type": "integer"
+      }
+    }
+  }
+}
+
+PUT my_index/_doc/1
+{
+  "title": "hello,world!",
+  "desc": "nothing here"
+}
+
+GET my_index/_search
+{
+  "query": {
+    "match": {
+      "title": "hello"
+    }
+  }
+}
+
+PUT my_index2
+{
+  "mappings": {
+    "properties": {
+      "title":    { "type": "text"  },
+      "name":     { "type": "text"  },
+      "age":      { "type": "integer" },
+      "created":  {
+        "type":   "date",
+        "format": "strict_date_optional_time||epoch_millis"
+      }
+    }
+  }
+}
+
+GET my_index2/_mapping
+
+# dynamic
+DELETE my_index
+
+PUT my_index
+{
+  "mappings": {
+    "dynamic": false,
+    "properties": {
+      "name": {
+        "type": "text"
+      },
+      "profile": {
+        "dynamic": true,
+        "properties": {}
+      },
+      "works": {
+        "dynamic": "strict",
+        "properties": {
+          "name": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  }
+}
+
+GET my_index/_mapping
+
+PUT my_index/_doc/1
+{
+  "name":"alfred",
+  "age":10
+}
+
+GET my_index/_doc/1
+
+GET my_index/_search
+
+GET my_index/_search
+{
+  "query":{
+    "match": {
+      "name": "alfred"
+    }
+  }
+}
+
+GET my_index/_search
+{
+  "query":{
+    "match": {
+      "age": 10
+    }
+  }
+}
+
+PUT my_index/_doc/1
+{
+  "name":"alfred",
+  "age":10,
+  "profile":{
+    "date":"2000-10-01",
+    "location":"shanghai"
+  }
+}
+
+GET my_index/_doc/1
+
+GET my_index/_search
+
+GET my_index/_search
+{
+  "query":{
+    "match": {
+      "profile.date": "2000-10-01"
+    }
+  }
+}
+
+GET my_index/_search
+{
+  "query":{
+    "match": {
+      "profile.location": "shanghai"
+    }
+  }
+}
+
+PUT my_index/_doc/1
+{
+  "name":"alfred",
+  "age":10,
+  "profile":{
+    "date":"2000-10-01",
+    "location":"shanghai"
+  },
+  "works":{
+    "name":"my lady",
+    "date":"1999"
+  }
+}
+
+# copy_to
+DELETE my_index
+
+PUT my_index
+{
+  "mappings": {
+    "properties": {
+      "first_name": {
+        "type": "text",
+        "copy_to": "full_name"
+      },
+      "last_name": {
+        "type": "text",
+        "copy_to": "full_name"
+      },
+      "full_name": {
+        "type": "text"
+      }
+    }
+  }
+}
+
+PUT my_index/_doc/1
+{
+  "first_name": "John",
+  "last_name": "Smith"
+}
+
+GET my_index/_search
+{
+  "query": {
+    "match": {
+      "full_name": {
+        "query": "John Smith",
+        "operator": "and"
+      }
+    }
+  }
+}

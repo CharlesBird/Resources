@@ -1,0 +1,151 @@
+# analyze
+POST _analyze
+{
+  "analyzer": "standard",
+  "text": "hello world!"
+}
+
+POST test_index/_analyze
+{
+  "field": "username",
+  "text": "hello world!"
+}
+
+POST _analyze
+{
+  "tokenizer": "standard",
+  "filter": ["lowercase"],
+  "text": "Hello World!"
+}
+
+POST _analyze
+{
+  "analyzer": "standard",
+  "text":"The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+
+POST _analyze
+{
+  "analyzer": "simple",
+  "text":"The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+
+POST _analyze
+{
+  "analyzer": "whitespace",
+  "text":"The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+
+
+POST _analyze
+{
+  "analyzer": "stop",
+  "text":"The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+
+POST _analyze
+{
+  "analyzer": "keyword",
+  "text":"The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+
+POST _analyze
+{
+  "analyzer": "pattern",
+  "text":"The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+
+POST _analyze
+{
+  "tokenizer": "keyword",
+  "char_filter": ["html_strip"],
+  "text": "<p>I'm so <b>happy</b>!</p>"
+}
+
+POST _analyze
+{
+  "tokenizer": "path_hierarchy",
+  "text": "/one/two/three"
+}
+
+POST _analyze
+{
+  "text": "a Hello world!",
+  "tokenizer": "standard",
+  "filter": [
+    "stop",
+    "lowercase",
+    {
+      "type": "ngram",
+      "min_gram": 2,
+      "max_gram": 3
+    }
+  ]
+}
+
+# customize
+PUT test_index_1
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "my_custom_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "char_filter": ["html_strip"],
+          "filter": ["lowercase", "asciifolding"]
+        }
+      }
+    }
+  }
+}
+
+POST test_index_1/_analyze
+{
+  "analyzer": "my_custom_analyzer",
+  "text": "Is this <b>a box</b>?"
+}
+
+PUT test_index_2
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "my_custom_analyzer": {
+          "type": "custom",
+          "char_filter": ["emoticons"],
+          "tokenizer": "punctuation",
+          "filter": ["lowercase", "english_stop"]
+        }
+      },
+      "tokenizer": {
+        "punctuation": {
+          "type": "pattern",
+          "pattern": "[ .,!?]"
+        }
+      },
+      "char_filter": {
+        "emoticons": {
+          "type": "mapping",
+          "mappings": [
+            ":) => _happy_",
+            ":( => _sad_"
+          ]
+        }
+      },
+      "filter": {
+        "english_stop": {
+          "type": "stop",
+          "stopwords": "_english_"
+        }
+      }
+    }
+  }
+}
+
+
+POST test_index_2/_analyze
+{
+  "analyzer": "my_custom_analyzer",
+  "text": "I'm a :) person, and you?"
+}
