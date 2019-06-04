@@ -198,3 +198,183 @@ GET my_index/_search
     }
   }
 }
+
+# index
+DELETE my_index
+
+PUT my_index
+{
+  "mappings": {
+    "properties": {
+      "cookie": {
+        "type": "text",
+        "index": false
+      }
+    }
+  }
+}
+
+PUT my_index/_doc/1
+{
+  "cookie": "name=alfred"
+}
+
+GET my_index/_search
+{
+  "query": {
+    "match": {
+      "cookie": "name"
+    }
+  }
+}
+
+# index_options
+DELETE my_index
+
+PUT my_index
+{
+  "mappings": {
+    "properties": {
+      "cookie": {
+        "type": "text",
+        "index_options": "offsets"
+      }
+    }
+  }
+}
+
+# null_value
+DELETE my_index
+
+PUT my_index
+{
+  "mappings": {
+    "properties": {
+      "status_code": {
+        "type": "keyword",
+        "null_value": "null"
+      }
+    }
+  }
+}
+
+PUT my_index/_doc/1
+{
+  "status_code": null
+}
+
+PUT my_index/_doc/2
+{
+  "status_code": []
+}
+
+GET my_index/_search
+{
+  "query": {
+    "term": {
+      "status_code": "NULL"
+    }
+  }
+}
+
+GET my_index/_doc/1
+
+GET my_index/_search
+
+# data-type
+DELETE test_index
+
+PUT test_index
+
+PUT test_index
+{
+  "mappings": {
+    "properties": {
+      "username": {
+        "type": "text",
+        "fields": {
+          "pinyin": {
+            "type": "text",
+            "analyzer": "pinyin"
+          }
+        }
+      }
+    }
+  }
+}
+
+# dynamic mapping
+DELETE test_index
+
+PUT test_index/_doc/1
+{
+  "username":"alfred",
+  "age": 1.1
+}
+
+PUT test_index/_doc/1
+{
+  "name":"alfred",
+  "message_info":"I'm a good boy"
+}
+
+PUT /test_index/_doc/1
+{
+  "username":"alfred",
+  "age":14,
+  "birth":"1988-10-10",
+  "married":false,
+  "year":"18",
+  "tags":["boy","fashion"],
+  "money":100.1
+}
+
+GET test_index/_mapping
+
+# date
+DELETE my_index
+
+PUT my_index
+{
+  "mappings": {
+    "dynamic_date_formats": ["MM/dd/yyyy"]
+  }
+}
+
+PUT my_index/_doc/1
+{
+  "create": "09/25/2015"
+}
+
+PUT my_index/_doc/1
+{
+  "create_date": "2015-09-01"
+}
+
+# 关闭日期自动识别机制
+PUT my_index
+{
+  "mappings": {
+    "date_detection": false
+  }
+}
+
+GET my_index/_mapping
+
+# numeric detection
+DELETE my_index
+
+PUT my_index
+{
+  "mappings": {
+    "numeric_detection": true
+  }
+}
+
+PUT my_index/_doc/1
+{
+  "my_float": "1.0",
+  "my_integer": "1"
+}
+
+GET my_index/_mapping
