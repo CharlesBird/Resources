@@ -378,3 +378,231 @@ PUT my_index/_doc/1
 }
 
 GET my_index/_mapping
+
+# dynamic template
+DELETE test_index
+
+PUT test_index
+{
+  "mappings": {
+    "dynamic_templates": [
+      {
+        "strings": {
+          "match_mapping_type": "string",
+          "mapping": {
+            "type": "keyword"
+          }
+        }
+      }
+    ]
+  }
+}
+
+PUT test_index/_doc/1
+{
+  "name": "alfred"
+}
+
+GET test_index/_mapping
+
+# 以message开头的字段都设置为text类型
+DELETE test_index
+
+PUT test_index
+{
+  "mappings": {
+    "dynamic_templates": [
+      {
+        "message_as_text": {
+          "match_mapping_type": "string",
+          "match": "message*",
+          "mapping": {
+            "type": "text"
+          }
+        }
+      }
+    ]
+  }
+}
+
+PUT test_index/_doc/1
+{
+  "name":"alfred",
+  "message_info":"I'm a good boy"
+}
+
+GET test_index/_mapping
+
+# 以long开头且不以_text结尾的字段都设置为long类型
+DELETE test_index
+
+PUT test_index
+{
+  "mappings": {
+    "dynamic_templates": [
+      {
+        "longs_as_strings": {
+          "match_mapping_type": "string",
+          "match":   "long_*",
+          "unmatch": "*_text",
+          "mapping": {
+            "type": "long"
+          }
+        }
+      }
+    ]
+  }
+}
+
+PUT test_index/_doc/1
+{
+  "long_num": "5",
+  "long_text": "foo"
+}
+
+GET test_index/_mapping
+
+GET test_index/_doc/1
+
+# 自定义Mapping
+DELETE test_index
+
+PUT test_index/_doc/1
+{
+  "referrer": "-",
+  "response_code": "200",
+  "remote_ip": "171.221.139.157",
+  "method": "POST",
+  "user_name": "-",
+  "http_version": "1.1",
+  "body_sent": {
+    "bytes": "0"
+  },
+  "url": "/analyzeVideo"
+}
+
+GET test_index/_mapping
+
+DELETE my_index
+
+PUT my_index
+{
+  "mappings" : {
+    "properties" : {
+      "body_sent" : {
+        "properties" : {
+          "bytes" : {
+            "type" : "long"
+          }
+        }
+      },
+      "http_version" : {
+        "type" : "keyword"
+      },
+      "method" : {
+        "type" : "keyword"
+      },
+      "referrer" : {
+        "type" : "keyword"
+      },
+      "remote_ip" : {
+        "type" : "keyword"
+      },
+      "response_code" : {
+        "type" : "long"
+      },
+      "url" : {
+        "type" : "text"
+      },
+      "user_name" : {
+        "type" : "keyword"
+      }
+    }
+  }
+}
+
+# 上面的升级版，string类型通过模板方式改成keyword类型
+PUT my_index
+{
+  "mappings" : {
+    "dynamic_templates": [
+      {
+        "strings_as_keyword": {
+          "match_mapping_type": "string",
+          "mapping": {
+            "type": "keyword"
+          }
+        }
+      }
+    ],
+    "properties" : {
+      "body_sent" : {
+        "properties" : {
+          "bytes" : {
+            "type" : "long"
+          }
+        }
+      },
+      "response_code" : {
+        "type" : "long"
+      },
+      "url" : {
+        "type" : "text"
+      }
+    }
+  }
+}
+
+GET my_index/_mapping
+
+# 索引模板
+GET _template
+
+PUT _template/test_template
+{
+  "index_patterns": ["te*", "bar*"],
+  "order": 0,
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "_source": {
+      "enabled": false
+    },
+    "properties": {
+      "name": {
+        "type": "keyword"
+      }
+    }
+  }
+}
+
+PUT _template/test_template2
+{
+  "index_patterns": ["test*"],
+  "order":1,
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "_source": {
+      "enabled": true
+    }
+  }
+}
+
+PUT foo_index
+GET foo_index/_mapping
+
+PUT bar_index
+GET bar_index/_mapping
+
+DELETE test_index
+PUT test_index
+GET test_index/
+
+# 获取，删除索引模板
+GET _template
+GET _template/test_template
+DELETE _template/test_template
+DELETE _template/test_template2
