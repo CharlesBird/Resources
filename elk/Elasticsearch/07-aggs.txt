@@ -1,0 +1,226 @@
+# aggregation
+# 聚合分析
+DELETE test_search_index
+
+POST test_search_index/_bulk
+{"index":{"_id":"1"}}
+{"username":"alfred way","job":"java engineer","age":18,"birth":"1990-01-02","isMarried":false,"salary":10000}
+{"index":{"_id":"2"}}
+{"username":"tom","job":"java senior engineer","age":28,"birth":"1980-05-07","isMarried":true,"salary":30000}
+{"index":{"_id":"3"}}
+{"username":"lee","job":"ruby engineer","age":22,"birth":"1985-08-07","isMarried":false,"salary":15000}
+{"index":{"_id":"4"}}
+{"username":"Nick","job":"web engineer","age":23,"birth":"1989-08-07","isMarried":false,"salary":8000}
+{"index":{"_id":"5"}}
+{"username":"Niko","job":"web engineer","age":18,"birth":"1994-08-07","isMarried":false,"salary":5000}
+{"index":{"_id":"6"}}
+{"username":"Michell","job":"ruby engineer","age":26,"birth":"1987-08-07","isMarried":false,"salary":12000}
+
+GET test_search_index/_search
+
+# 统计每个岗位人数
+GET test_search_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "people_per_job": {
+      "terms": {
+        "field": "job.keyword"
+      }
+    }
+  }
+}
+
+# 最小值
+GET test_search_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "min_age": {
+      "min": {
+        "field": "age"
+      }
+    }
+  }
+}
+
+# 最大值
+GET test_search_index/_search
+{
+  "size":0,
+  "aggs":{
+    "max_age":{
+      "max": {
+        "field": "age"
+      }
+    }
+  }
+}
+
+# 平均值
+GET test_search_index/_search
+{
+  "size":0,
+  "aggs":{
+    "avg_age":{
+      "avg": {
+        "field": "age"
+      }
+    }
+  }
+}
+
+# Sum
+GET test_search_index/_search
+{
+  "size":0,
+  "aggs":{
+    "sum_age":{
+      "sum": {
+        "field": "age"
+      }
+    }
+  }
+}
+
+# 统计集合
+GET test_search_index/_search
+{
+  "size":0,
+  "aggs":{
+    "min_age": {
+      "min": {
+        "field": "age"
+      }
+    },
+    "max_age":{
+      "max": {
+        "field": "age"
+      }
+    },
+    "avg_age":{
+      "avg": {
+        "field": "age"
+      }
+    },
+    "sum_age":{
+      "sum": {
+        "field": "age"
+      }
+    }
+  }
+}
+
+# 统计岗位个数，去重
+GET test_search_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "count_of_job": {
+      "cardinality": {
+        "field": "job.keyword"
+      }
+    }
+  }
+}
+
+# 统计
+GET test_search_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "stats_age": {
+      "stats": {
+        "field": "age"
+      }
+    }
+  }
+}
+
+# 科学统计
+GET test_search_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "stats_age": {
+      "extended_stats": {
+        "field": "salary"
+      }
+    }
+  }
+}
+
+# 百分位统计
+GET test_search_index/_search
+{
+  "size":0,
+  "aggs":{
+    "per_salary":{
+      "percentiles": {
+        "field": "salary"
+      }
+    }
+  }
+}
+
+# 百分位统计
+GET test_search_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "per_age": {
+      "percentiles": {
+        "field": "salary",
+        "percents": [
+          50,
+          99,
+          99.9
+        ]
+      }
+    }
+  }
+}
+
+# 百分位统计
+GET test_search_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "per_salary": {
+      "percentile_ranks": {
+        "field": "salary",
+        "values": [
+          11000,
+          30000
+        ]
+      }
+    }
+  }
+}
+
+# Top n
+GET test_search_index/_search
+{
+  "aggs": {
+    "jobs": {
+      "terms": {
+        "field": "job.keyword",
+        "size": 10
+      },
+      "aggs": {
+        "top_emplyee": {
+          "top_hits": {
+            "size": 10,
+            "sort": [
+              {
+                "age": {
+                  "order": "desc"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
