@@ -1,0 +1,257 @@
+# 深入了解search 机制
+# 7.0版本默认一个主分片，以前版本默认是5个主分片
+# 测试索引设置为1个主分片和3个主分片相关性算分区别
+DELETE test_search_relevance
+
+PUT test_search_relevance
+{
+  "settings": {
+    "number_of_shards": 3
+  }
+}
+
+POST test_search_relevance/_doc
+{
+  "name":"hello"
+}
+
+POST test_search_relevance/_doc
+{
+  "name":"hello,world"
+}
+
+POST test_search_relevance/_doc
+{
+  "name":"hello,world!a beautiful world"
+}
+
+GET test_search_relevance/_search
+
+GET test_search_relevance
+
+GET test_search_relevance/_search
+{
+  "explain": false,
+  "query": {
+    "match":{
+      "name":"hello"
+    }
+  }
+}
+
+# DFS Query-then-Fetch
+# 与设置1个shard 的得分一样
+GET test_search_relevance/_search?search_type=dfs_query_then_fetch
+{
+  "query": {
+    "match": {
+      "name": "hello"
+    }
+  }
+}
+
+# 排序
+GET test_search_index/_search
+{
+  "query": {
+    "match": {
+      "username": "alfred"
+    }
+  },
+  "sort": {
+    "birth": "desc"
+  }
+}
+
+GET test_search_index/_search
+{
+  "query": {
+    "match": {
+      "username": "alfred"
+    }
+  },
+  "sort": [
+    {
+      "birth": "desc"
+    },
+    {
+      "_score": "desc"
+    },
+    {
+      "_doc": "desc"
+    }
+  ]
+}
+
+# 字符串排序
+PUT test_search_index/_doc/0
+{
+  "username":"aaa"
+}
+
+GET test_search_index
+
+# 当fielddata 开启时，不会报错，按分词排序，结果预期不是很好
+GET test_search_index/_search
+{
+  "sort": [
+    {
+      "username": "desc"
+    }
+  ]
+}
+
+GET test_search_index/_search
+{
+  "sort": [
+    {
+      "username.keyword": "asc"
+    }
+  ]
+}
+
+# fielddata
+PUT test_search_index/_mapping
+{
+  "properties": {
+    "username": {
+      "type": "text",
+      "fielddata": false
+    }
+  }
+}
+
+# error when enable fielddata in other type
+PUT test_search_index/_mapping
+{
+  "properties": {
+    "username":{
+      "type":"text",
+      "fielddata": false
+    },
+    "age":{
+      "type":"long",
+      "fielddata": true
+    }
+  }
+}
+
+# doc values
+DELETE test_doc_values
+
+PUT test_doc_values
+
+GET test_doc_values
+
+PUT test_doc_values/_mapping
+{
+  "properties": {
+    "username": {
+      "type": "keyword",
+      "doc_values": false
+    },
+    "hobby": {
+      "type": "keyword"
+    }
+  }
+}
+
+PUT test_doc_values/_doc/1
+{
+  "username":"alfred",
+  "hobby":"basketball"
+}
+
+# 当设置doc_values 为false时，会报错，默认启用的
+GET test_doc_values/_search
+{
+  "sort":"username"
+}
+
+GET test_doc_values/_search
+{
+  "sort":"hobby"
+}
+
+# can be used to get original field value for not stored field
+PUT test_search_index/_mapping
+{
+  "properties": {
+    "username":{
+      "type":"text",
+      "fielddata": false
+    }
+  }
+}
+
+GET test_search_index/_search
+{
+  "docvalue_fields": ["username", "username.keyword", "birth"]
+}
+
+PUT test_search_index/_mapping
+{
+  "properties": {
+    "username":{
+      "type":"text",
+      "fielddata": true
+    }
+  }
+}
+
+# pagination 分页
+GET test_search_index/_search
+{
+  "from": 2,
+  "size": 4
+}
+
+# total_page=(total+page_size-1)/page_size， 深度分页
+GET test_search_index/_search
+{
+  "from":10000,
+  "size":2
+}
+
+# scroll 不实时
+GET test_search_index/_search?scroll=5m
+{
+  "size":1
+}
+
+GET _search/scroll
+
+PUT test_search_index/_doc/10
+{
+  "username":"doc10"
+}
+
+GET test_search_index/_search
+
+POST _search/scroll
+{
+  "scroll" : "5m",
+  "scroll_id": "DXF1ZXJ5QW5kRmV0Y2gBAAAAAAAABnsWODdHSkF6QjdSVGl2QUVVdi1mRFRFZw=="
+}
+
+DELETE _search/scroll/_all
+
+# search_after 需要唯一约束排序，只能下一页，无上一页
+GET test_search_index/_search
+{
+  "size":2,
+  "sort":{
+    "age":"desc",
+    "_id":"desc"
+  }
+}
+
+GET test_search_index/_search
+{
+  "size":2,
+  "search_after":[23,"4"],
+  "sort":{
+    "age":"desc",
+    "_id":"desc"
+  }
+}

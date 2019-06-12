@@ -1,0 +1,15 @@
+# cluster
+# 获取集群健康状态
+GET _cluster/health
+
+GET _cat/indices
+
+DELETE test_index
+
+PUT test_index
+{
+  "settings": {
+    "number_of_shards": 3,
+    "number_of_replicas": 1
+  }
+}
