@@ -658,3 +658,197 @@ GET test_search_index/_search
     }
   }
 }
+
+# filter
+GET test_search_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "jobs_salary_small": {
+      "filter": {
+        "range": {
+          "salary": {
+            "to": 10000
+          }
+        }
+      },
+      "aggs": {
+        "jobs": {
+          "terms": {
+            "field": "job.keyword",
+            "size": 10
+          }
+        }
+      }
+    },
+    "jobs": {
+      "terms": {
+        "field": "job.keyword",
+        "size": 10
+      }
+    }
+  }
+}
+
+# post-filter
+GET test_search_index/_search
+{
+  "aggs": {
+    "jobs": {
+      "terms": {
+        "field": "job.keyword",
+        "size": 10
+      }
+    }
+  },
+  "post_filter": {
+    "match": {
+      "job.keyword":"java engineer"
+    }
+  }
+}
+
+GET test_search_index/_search
+{
+  "aggs": {
+    "jobs": {
+      "terms": {
+        "field": "job.keyword",
+        "size": 10
+      }
+    }
+  }
+}
+
+# global
+GET test_search_index/_search
+{
+  "query": {
+    "match": {
+      "job.keyword": "java engineer"
+    }
+  },
+  "aggs": {
+    "java_avg_salary": {
+      "avg": {
+        "field": "salary"
+      }
+    },
+    "all": {
+      "global": {},
+      "aggs": {
+        "avg_salary": {
+          "avg": {
+            "field": "salary"
+          }
+        }
+      }
+    }
+  }
+}
+
+# sort
+GET test_search_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "jobs": {
+      "terms": {
+        "field": "job.keyword",
+        "size": 10,
+        "order": [
+          {
+            "_count": "asc"
+          },
+          {
+            "_key": "desc"
+          }
+        ]
+      }
+    }
+  }
+}
+
+GET test_search_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "jobs": {
+      "terms": {
+        "field": "job.keyword",
+        "size": 10,
+        "order": [
+          {
+            "avg_salary": "desc"
+          }
+        ]
+      },
+      "aggs": {
+        "avg_salary": {
+          "avg": {
+            "field": "salary"
+          }
+        }
+      }
+    }
+  }
+}
+
+GET test_search_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "jobs": {
+      "terms": {
+        "field": "job.keyword",
+        "size": 10,
+        "order": [
+          {
+            "stats_salary.sum": "desc"
+          }
+        ]
+      },
+      "aggs": {
+        "stats_salary": {
+          "stats": {
+            "field": "salary"
+          }
+        }
+      }
+    }
+  }
+}
+
+GET test_search_index/_search
+{
+  "size": 0,
+  "aggs": {
+    "salary_hist": {
+      "histogram": {
+        "field": "salary",
+        "interval": 5000,
+        "order": {
+          "age>avg_age": "desc"
+        }
+      },
+      "aggs": {
+        "age": {
+          "filter": {
+            "range": {
+              "age": {
+                "gte": 10
+              }
+            }
+          },
+          "aggs": {
+            "avg_age": {
+              "avg": {
+                "field": "age"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
