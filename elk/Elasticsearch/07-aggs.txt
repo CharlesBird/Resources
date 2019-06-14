@@ -852,3 +852,20 @@ GET test_search_index/_search
     }
   }
 }
+
+# 精准度，shard size
+GET test_search_index
+
+GET test_search_index/_search
+{
+  "aggs": {
+    "jobs": {
+      "terms": {
+        "field": "job.keyword",
+        "size": 2,
+        "shard_size": 10,
+        "show_term_doc_count_error": true
+      }
+    }
+  }
+}
