@@ -1,58 +1,110 @@
-from suds.client import Client
-from suds.transport.http import HttpAuthenticated, HttpTransport
-from suds.transport.https import WindowsHttpAuthenticated
-import base64
-import urllib3
-import urllib.request
-from urllib.request import HTTPPasswordMgrWithDefaultRealm
-from suds.xsd.doctor import Import, ImportDoctor
 import requests
 from requests_ntlm import HttpNtlmAuth
-from requests.auth import HTTPBasicAuth
-import socket
-from ntlm_auth.ntlm import NtlmContext
-
+import lxml
+from lxml import etree
 
 if __name__ == '__main__':
-    data = '''<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://schemas.microsoft.com/dynamics/2010/01/datacontracts" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:ser="http://schemas.microsoft.com/dynamics/2008/01/services" xmlns:quer="http://schemas.microsoft.com/dynamics/2006/02/documents/QueryCriteria">
-<soapenv:Header>
-<dat:CallContext>
-<!--Optional:-->
-<dat:Company>1000</dat:Company>
-<!--Optional:-->
-<dat:Language>en-us</dat:Language>
-<!--Optional:-->
-<dat:LogonAsUser></dat:LogonAsUser>
-<!--Optional:-->
-<dat:MessageId></dat:MessageId>
-<!--Optional:-->
-<dat:PartitionKey></dat:PartitionKey>
-<!--Optional:-->
-<dat:PropertyBag>
-<!--Zero or more repetitions:-->
-<arr:KeyValueOfstringstring>
-<arr:Key></arr:Key>
-<arr:Value></arr:Value>
-</arr:KeyValueOfstringstring>
-</dat:PropertyBag>
-</dat:CallContext>
-</soapenv:Header>
-<soapenv:Body>
-<ser:VendGroupServiceFindRequest>
-<!--Optional:-->
-<quer:QueryCriteria>
+    # data = '''
+    # <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://schemas.microsoft.com/dynamics/2010/01/datacontracts" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:ser="http://schemas.microsoft.com/dynamics/2008/01/services" xmlns:quer="http://schemas.microsoft.com/dynamics/2006/02/documents/QueryCriteria">
+    #     <soapenv:Header>
+    #         <dat:CallContext>
+    #         <!--Optional:-->
+    #         <dat:Company>1000</dat:Company>
+    #         <!--Optional:-->
+    #         <dat:Language>en-us</dat:Language>
+    #         <!--Optional:-->
+    #         <dat:LogonAsUser></dat:LogonAsUser>
+    #         <!--Optional:-->
+    #         <dat:MessageId></dat:MessageId>
+    #         <!--Optional:-->
+    #         <dat:PartitionKey></dat:PartitionKey>
+    #         <!--Optional:-->
+    #             <dat:PropertyBag>
+    #             <!--Zero or more repetitions:-->
+    #             <arr:KeyValueOfstringstring>
+    #             <arr:Key></arr:Key>
+    #             <arr:Value></arr:Value>
+    #             </arr:KeyValueOfstringstring>
+    #             </dat:PropertyBag>
+    #         </dat:CallContext>
+    #     </soapenv:Header>
+    #     <soapenv:Body>
+    #     <ser:VendGroupServiceFindRequest>
+    #     <!--Optional:-->
+    #     <quer:QueryCriteria>
+    #
+    #     </quer:QueryCriteria>
+    #     </ser:VendGroupServiceFindRequest>
+    #     </soapenv:Body>
+    # </soapenv:Envelope>'''
+    # headers = [("SOAPAction", "http://schemas.microsoft.com/dynamics/2008/01/services/VendGroupService/find"),
+    #            ("Content-Type", "text/xml;charset=utf-8")]
+    # url = "http://172.70.0.49:801/MicrosoftDynamicsAXAif60/test5/xppservice.svc"
 
-</quer:QueryCriteria>
-</ser:VendGroupServiceFindRequest>
-</soapenv:Body>
-</soapenv:Envelope>'''
-    headers = [("SOAPAction", "http://schemas.microsoft.com/dynamics/2008/01/services/VendGroupService/find"),
+    data = '''
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://schemas.microsoft.com/dynamics/2010/01/datacontracts" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:ser="http://schemas.microsoft.com/dynamics/2008/01/services" xmlns:quer="http://schemas.microsoft.com/dynamics/2006/02/documents/QueryCriteria">
+       <soapenv:Header>
+          <dat:CallContext>
+             <!--Optional:-->
+             <dat:Company>1000</dat:Company>
+             <!--Optional:-->
+             <dat:Language>en-us</dat:Language>
+             <!--Optional:-->
+             <dat:LogonAsUser></dat:LogonAsUser>
+             <!--Optional:-->
+             <dat:MessageId></dat:MessageId>
+             <!--Optional:-->
+             <dat:PartitionKey></dat:PartitionKey>
+             <!--Optional:-->
+             <dat:PropertyBag>
+                <!--Zero or more repetitions:-->
+                <arr:KeyValueOfstringstring>
+                   <arr:Key></arr:Key>
+                   <arr:Value></arr:Value>
+                </arr:KeyValueOfstringstring>
+             </dat:PropertyBag>
+          </dat:CallContext>
+       </soapenv:Header>
+       <soapenv:Body>
+          <ser:ItemServiceFindRequest>
+             <!--Optional:-->
+             <quer:QueryCriteria>
+                <quer:CriteriaElement>
+                   <quer:DataSourceName>InventTable</quer:DataSourceName>
+                   <quer:FieldName>ItemId</quer:FieldName>
+                   <quer:Operator>range</quer:Operator>
+                   <quer:Value1>10001000067</quer:Value1>
+                   <!--Optional:-->
+                   <quer:Value2>10001000068</quer:Value2>
+                </quer:CriteriaElement>
+             </quer:QueryCriteria>
+          </ser:ItemServiceFindRequest>
+       </soapenv:Body>
+    </soapenv:Envelope>'''
+    headers = [("SOAPAction", "http://schemas.microsoft.com/dynamics/2008/01/services/ItemService/find"),
                ("Content-Type", "text/xml;charset=utf-8")]
-    res = requests.post("http://172.70.0.49:801/MicrosoftDynamicsAXAif60/test5/xppservice.svc",
-                       auth=HttpNtlmAuth('shruntong\Barcode', 'B.rms123'), data=data, headers=dict(headers))
+    url = "http://172.70.0.49:801/MicrosoftDynamicsAXAif60/InventItem/xppservice.svc"
+
+    res = requests.post(url, auth=HttpNtlmAuth('shruntong\Barcode', 'B.rms123'), data=data, headers=dict(headers))
     print(res.request.headers)
     print(res.status_code)
     print(res.text)
+    doc = etree.fromstring(res.text)
+    print(doc.tag, doc.nsmap)
+    item_body = doc.find("{*}Body/{*}ItemServiceFindResponse/{*}Item")
+    print(item_body.getchildren())
+    # node = doc.findall('{http://schemas.xmlsoap.org/soap/envelope/}Envelope')
+    # ns = doc.nsmap['s']
+    # ns = "{%s}" % ns
+    # item = doc.find(ns + "Body")
+    # print(item.text)
+    # ns = doc.nsmap
+    # print(ns)
+    # t = doc.getroottree()
+    # print(t.getchildren())
+    # # print(doc.getroottree().tag)
+    # for node in doc.iter(tag='{*}InventTable'):
+    #     print(node.tag, node.text)
 
     # # url = 'http://track.tcs.com.pk/trackingaccount/track.asmx?WSDL'
     # imp = Import('http://www.w3.org/2001/XMLSchema', location='https://www.w3.org/2001/XMLSchema.dtd')
