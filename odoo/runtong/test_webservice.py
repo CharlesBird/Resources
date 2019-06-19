@@ -1,7 +1,8 @@
 import requests
 from requests_ntlm import HttpNtlmAuth
-import lxml
 from lxml import etree
+import xmltodict
+from bs4 import BeautifulSoup
 
 if __name__ == '__main__':
     # data = '''
@@ -91,8 +92,22 @@ if __name__ == '__main__':
     print(res.text)
     doc = etree.fromstring(res.text)
     print(doc.tag, doc.nsmap)
-    item_body = doc.find("{*}Body/{*}ItemServiceFindResponse/{*}Item")
-    print(item_body.getchildren())
+    model_docs = doc.findall("{*}Body/{*}ItemServiceFindResponse/{*}Item/{*}InventTable")
+    # print(model_docs.getchildren())
+    for model_node in model_docs:
+        if model_node.attrib.get('class') == 'entity':
+            for field_node in model_node:
+                # if field_node.endswith('ItemId'):
+
+                print(field_node.tag, field_node.text)
+    # soup = BeautifulSoup(res.text, features='xml')
+    # xml = soup.find_all('InventTable')
+    # for x in xml:
+    #     for item in x.find_all():
+    #         print(item.name, item.text)
+
+    a = xmltodict.parse(res.text)
+    print(dict(a))
     # node = doc.findall('{http://schemas.xmlsoap.org/soap/envelope/}Envelope')
     # ns = doc.nsmap['s']
     # ns = "{%s}" % ns
