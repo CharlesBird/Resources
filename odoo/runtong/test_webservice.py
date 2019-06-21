@@ -2,6 +2,7 @@ import requests
 from requests_ntlm import HttpNtlmAuth
 from lxml import etree
 import xmltodict
+import json
 from bs4 import BeautifulSoup
 
 if __name__ == '__main__':
@@ -74,7 +75,7 @@ if __name__ == '__main__':
                    <quer:DataSourceName>InventTable</quer:DataSourceName>
                    <quer:FieldName>ItemId</quer:FieldName>
                    <quer:Operator>range</quer:Operator>
-                   <quer:Value1>10001000067</quer:Value1>
+                   <quer:Value1>10001000063</quer:Value1>
                    <!--Optional:-->
                    <quer:Value2>10001000068</quer:Value2>
                 </quer:CriteriaElement>
@@ -90,16 +91,15 @@ if __name__ == '__main__':
     print(res.request.headers)
     print(res.status_code)
     print(res.text)
-    doc = etree.fromstring(res.text)
-    print(doc.tag, doc.nsmap)
-    model_docs = doc.findall("{*}Body/{*}ItemServiceFindResponse/{*}Item/{*}InventTable")
+    # doc = etree.fromstring(res.text)
+    # print(doc.tag, doc.nsmap)
+    # model_docs = doc.findall("{*}Body/{*}ItemServiceFindResponse/{*}Item/{*}InventTable")
     # print(model_docs.getchildren())
-    for model_node in model_docs:
-        if model_node.attrib.get('class') == 'entity':
-            for field_node in model_node:
-                # if field_node.endswith('ItemId'):
-
-                print(field_node.tag, field_node.text)
+    # for model_node in model_docs:
+    #     if model_node.attrib.get('class') == 'entity':
+    #         for field_node in model_node:
+    #
+    #             print(field_node.tag, field_node.text)
     # soup = BeautifulSoup(res.text, features='xml')
     # xml = soup.find_all('InventTable')
     # for x in xml:
@@ -107,7 +107,11 @@ if __name__ == '__main__':
     #         print(item.name, item.text)
 
     a = xmltodict.parse(res.text)
+    b = json.dumps(a, indent=1)
+    c = json.loads(b)
     print(dict(a))
+    print(b, type(b))
+    print(c, type(c))
     # node = doc.findall('{http://schemas.xmlsoap.org/soap/envelope/}Envelope')
     # ns = doc.nsmap['s']
     # ns = "{%s}" % ns
