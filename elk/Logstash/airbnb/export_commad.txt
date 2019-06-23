@@ -1,0 +1,2 @@
+# 导入数据命令
+cat airbnb.csv | bin/logstash -f airbnb_logs.conf
