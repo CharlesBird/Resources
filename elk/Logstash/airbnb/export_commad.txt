@@ -1,5 +1,5 @@
 # 导入数据命令
 cat airbnb.csv | bin/logstash -f airbnb_logs.conf
 
-# 参考的WEb框架地址：https://opensource.appbase.io/reactivesearch/
+# 参考的WEb框架ReactiveSearch地址：https://opensource.appbase.io/reactivesearch/
 # 框架 组件说明： https://opensource.appbase.io/reactive-manual/getting-started/reactivesearch.html
