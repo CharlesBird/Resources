@@ -1,0 +1,210 @@
+# 索引模版
+PUT _template/nginx_logs
+{
+  "index_patterns": "nginx_logs_*",
+  "settings": {
+    "index": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1,
+      "refresh_interval": "30s"
+    }
+  },
+  "mappings": {
+    "dynamic": false,
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "@version": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "agent": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "auth": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "bytes": {
+        "type": "long"
+      },
+      "clientip": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "geoip": {
+        "properties": {
+          "city_name": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "continent_code": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "country_code2": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "country_code3": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "country_name": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "ip": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "latitude": {
+            "type": "half_float"
+          },
+          "location": {
+            "type": "geo_point"
+          },
+          "longitude": {
+            "type": "half_float"
+          },
+          "region_code": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "region_name": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "time_zone": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "host": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "hostname": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "httpversion": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "ident": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "params": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "port": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "referrer": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "referrer_host": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "imooc_type": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "imooc_res_id": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "request": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "response_status_code": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "response_time": {
+        "type": "float"
+      },
+      "upstream_host": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "upstream_response_status_code": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "upstream_response_time": {
+        "type": "float"
+      },
+      "useragent": {
+        "properties": {
+          "build": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "device": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "name": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "os": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "os_major": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "os_minor": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "os_name": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "verb": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "xforwardedfor": {
+        "type": "keyword",
+        "ignore_above": 256
+      }
+    }
+  }
+}

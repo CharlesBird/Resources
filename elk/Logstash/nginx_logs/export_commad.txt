@@ -1,0 +1,5 @@
+# 导入数据命令
+bin/logstash -f nginx_logs.conf
+
+# debug 模式调试
+bin/logstash -f nginx_logs.conf -r
