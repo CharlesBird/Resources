@@ -1,0 +1,136 @@
+PUT air_quanlity
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    }
+  },
+  "mappings": {
+    "dynamic": false,
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "city": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "parameter": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "status": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "value": {
+        "type": "long"
+      }
+    }
+  }
+}
+
+PUT /_ingest/pipeline/airquality
+{
+  "processors": [
+    {
+      "grok": {
+        "field": "message",
+        "patterns": [
+          "%{DATA:city},%{DATA:parameter},%{DATA:date},%{NUMBER:year},%{NUMBER:month},%{NUMBER:day},%{NUMBER:hour},%{NUMBER:value},%{DATA:unit},%{DATA:duration},%{WORD:status}"
+        ]
+      }
+    },
+    {
+      "set": {
+        "field": "_id",
+        "value": "{{city}}-{{date}}"
+      }
+    },
+    {
+      "date": {
+        "field": "date",
+        "target_field": "@timestamp",
+        "formats": [
+          "MM/dd/yyyy HH:mm",
+          "yyyy-MM-dd HH:mm"
+        ],
+        "timezone": "Asia/Shanghai"
+      }
+    },
+    {
+      "remove": {
+        "field": "message"
+      }
+    },
+    {
+      "remove": {
+        "field": "beat"
+      }
+    },
+    {
+      "remove": {
+        "field": "offset"
+      }
+    },
+    {
+      "remove": {
+        "field": "source"
+      }
+    },
+    {
+      "remove": {
+        "field": "date"
+      }
+    },
+    {
+      "convert": {
+        "field": "year",
+        "type": "integer"
+      }
+    },
+    {
+      "convert": {
+        "field": "month",
+        "type": "integer"
+      }
+    },
+    {
+      "convert": {
+        "field": "day",
+        "type": "integer"
+      }
+    },
+    {
+      "convert": {
+        "field": "hour",
+        "type": "integer"
+      }
+    },
+    {
+      "remove": {
+        "field": "duration"
+      }
+    },
+    {
+      "remove": {
+        "field": "unit"
+      }
+    },
+    {
+      "convert": {
+        "field": "value",
+        "type": "integer"
+      }
+    }
+  ],
+  "on_failure": [
+    {
+      "set": {
+        "field": "error.message",
+        "value": "{{ _ingest.on_failure_message }}"
+      }
+    }
+  ]
+}
