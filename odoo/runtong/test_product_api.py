@@ -35,11 +35,11 @@ if __name__ == '__main__':
                  <quer:QueryCriteria>
                     <quer:CriteriaElement>
                        <quer:DataSourceName>InventTable</quer:DataSourceName>
-                       <quer:FieldName>ItemId</quer:FieldName>
+                       <quer:FieldName>RecId</quer:FieldName>
                        <quer:Operator>equal</quer:Operator>
-                       <quer:Value1>10008000004</quer:Value1>
+                       <quer:Value1>5637269831</quer:Value1>
                        <!--Optional:-->
-                       <quer:Value2></quer:Value2>
+                       <quer:Value2>5637146577</quer:Value2>
                     </quer:CriteriaElement>
                  </quer:QueryCriteria>
               </tem:RMS_InventItemServiceFindRequest>
