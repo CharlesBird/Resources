@@ -1839,16 +1839,16 @@
 # print type(Session)
 
 
-import xmlrpclib
+# import xmlrpclib
 # url, db, username, password = 'http://192.168.3.49:8069', 'zhc_0228', 'support@unovo.com.cn', 'unovo883&'
 # url, db, username, password = 'http://192.168.3.51:8069', 'db-lianyuplus', 'support@unovo.com.cn', 'ahong883&'
 # url, db, username, password = 'https://erp.unovo.com.cn:8443', 'db-lianyuplus', 'support@unovo.com.cn', 'ahong883&'
-url, db, username, password = 'http://192.168.3.51:8069', 'db-unovo', 'support@unovo.com.cn', 'ahong883&'
+# url, db, username, password = 'http://192.168.3.51:8069', 'db-unovo', 'support@unovo.com.cn', 'ahong883&'
 # url, db, username, password = 'http://192.168.3.51:8069', 'db-zhihui', 'support@unovo.com.cn', 'unovo883&'
 # url, db, username, password = 'http://121.43.181.104:8069', 'linyan_dev', 'admin', 'admin'
-common = xmlrpclib.ServerProxy('{}/xmlrpc/2/common'.format(url))
-uid = common.authenticate(db, username, password, {})
-models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url), allow_none=True)
+# common = xmlrpclib.ServerProxy('{}/xmlrpc/2/common'.format(url))
+# uid = common.authenticate(db, username, password, {})
+# models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url), allow_none=True)
 # models.execute_kw(db, uid, password, 'unovo.works', 'create_next_works', ["days"])
 # models.execute_kw(db, uid, password, 'unovo.works', 'create_next_works', ["weeks"])
 # employee = models.execute_kw(db, uid, password, 'hr.employee', 'search_read', [[], ['user_id']])
@@ -2463,3 +2463,28 @@ models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url), allow_none=True
 # 			n.append(i)
 # 	return n
 # print f(a)
+
+
+from __future__ import division
+
+def fuc(n):
+
+    l = [1,2,3,4,5,6,7,8]
+    c = 0
+    import random
+
+    for i in range(n):
+        r1 = random.choice(l)
+        if r1 == 8:
+            r2 = random.choice(l)
+            if r2 == 8:
+                c += 1
+    print c / n
+    print c
+
+
+fuc(10000000)
+fuc(100000000)
+fuc(1000000000)
+
+
