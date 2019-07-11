@@ -1,0 +1,112 @@
+//PUT _template/share_datas
+{
+  "index_patterns": "share_datas_*",
+  "settings": {
+    "index": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    }
+  },
+  "mappings": {
+    "dynamic": false,
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "ts_code": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "shareinfo": {
+        "properties": {
+          "symbol": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "name": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "area": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "industry": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "fullname": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "enname": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "market": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "exchange": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "curr_type": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "list_status": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "list_date": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "delist_date": {
+            "type": "keyword",
+            "ignore_above": 256
+          },
+          "is_hs": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "trade_date": {
+        "type": "date"
+      },
+      "open": {
+        "type": "float"
+      },
+      "high": {
+        "type": "float"
+      },
+      "low": {
+        "type": "float"
+      },
+      "close": {
+        "type": "float"
+      },
+      "pre_close": {
+        "type": "float"
+      },
+      "change": {
+        "type": "float"
+      },
+      "pct_chg": {
+        "type": "float"
+      },
+      "vol": {
+        "type": "float"
+      },
+      "amount": {
+        "type": "float"
+      },
+      "type": {
+        "type": "keyword",
+        "ignore_above": 256
+      }
+    }
+  }
+}
