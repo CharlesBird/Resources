@@ -48,3 +48,23 @@ class Solution:
         res += self.findPath(node.left, s - node.val)
         res += self.findPath(node.right, s - node.val)
         return res
+
+
+class Solution2:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+        import collections
+        self.res = 0
+        d = collections.defaultdict(int)
+        d[0] = 1
+        if root:
+            self.dfs(root, d, root.val, sum)
+        return self.res
+
+    def dfs(self, root, d, curSum, s):
+        self.res += d[curSum-s]
+        d[curSum] += 1
+        if root.left:
+            self.dfs(root.left, d, curSum+root.left.val, s)
+        if root.right:
+            self.dfs(root.right, d, curSum + root.right.val, s)
+        d[curSum] -= 1
