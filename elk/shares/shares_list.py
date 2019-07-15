@@ -18,8 +18,8 @@ print(dates)
 df = pro.daily(ts_code='000001.SZ', trade_date='20190705')
 print(df)
 
-df = pro.weekly(ts_code='000001.SZ', trade_date='20190705')
-print(df)
+# df = pro.weekly(ts_code='000001.SZ', trade_date='20190705')
+# print(df)
 
 # for ts_code in sh_list_datas['ts_code']:
 #     df = pro.daily(ts_code=ts_code, end_date='20190326')

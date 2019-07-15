@@ -25,8 +25,8 @@ filebeat.inputs:
   enabled: true
 
   # Paths that should be crawled and fetched. Glob based paths.
-  paths:
-    - /opt/air_quality/BJ/*.csv
+#  paths:
+#    - /opt/air_quality/BJ/*.csv
     #- c:\programdata\elasticsearch\logs\*
 
   # Exclude lines. A list of regular expressions to match. It drops the lines that are
@@ -86,7 +86,7 @@ filebeat.inputs:
 #-------------------------- Elasticsearch output ------------------------------
 output.elasticsearch:
   # Array of hosts to connect to.
-  hosts: ["47.103.32.102:9200"]
+  hosts: ["172.19.48.138:9200"]
   pipeline: "airquality"
   index: "air_quality"
 
@@ -101,8 +101,8 @@ setup.template.enabled: false
 
 #----------------------------- Logstash output --------------------------------
 #output.logstash:
-  # The Logstash hosts
-  #hosts: ["localhost:5044"]
+#  # The Logstash hosts
+#  hosts: ["localhost:5045"]
 
   # Optional SSL. By default is off.
   # List of root certificates for HTTPS server verifications
