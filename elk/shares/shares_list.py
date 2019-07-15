@@ -7,15 +7,15 @@ TOKEN = '137e3fc78e901b8463d68a102b168b2ea0217cb854abfad24d4dc7f7'
 pro = ts.pro_api(TOKEN)
 
 sh_list_datas = pro.stock_basic(exchange='', list_status='', fields='ts_code,symbol,name,area,industry,fullname,enname,market,exchange,curr_type,list_status,list_date,delist_date,is_hs')
-# sh_list_datas.to_csv('share_list.csv',index=0)
+sh_list_datas.to_csv('share_list.csv',index=0)
 res = sh_list_datas.to_dict('records')
 for r in res:
     print(r)
 
-dates = pro.trade_cal(exchange='', start_date='20190411', end_date='20190515')
-print(dates)
+# dates = pro.trade_cal(exchange='', start_date='20190411', end_date='20190515')
+# print(dates)
 
-df = pro.daily(ts_code='000001.SZ', trade_date='20190705')
+df = pro.daily(ts_code='601698.SH', trade_date='20190715')
 print(df)
 
 # df = pro.weekly(ts_code='000001.SZ', trade_date='20190705')

@@ -14,9 +14,12 @@ stocks = sh_list_datas.to_dict(orient='records')
 index = "share_datas_history-00001"
 for stock in stocks:
     ts_code = stock.pop('ts_code')
-    print(ts_code)
     # df = pro.daily(ts_code=ts_code, start_date='20000101')
-    df = pro.daily(ts_code=ts_code, trade_date='20190715')
+    try:
+        df = pro.daily(ts_code=ts_code, trade_date='20190715')
+    except Exception as e:
+        print(ts_code)
+        continue
     d_datas = df.to_dict('records')
     for data in d_datas:
         data.update({'shareinfo': stock, 'type': 'day'})
@@ -42,9 +45,25 @@ for stock in stocks:
               }
             }
         res = es.search(index, body=q)
-        print(res["hits"]["hits"])
-        # if not res["hits"]["hits"]:
-        #     es.index(index=index, body=data)
+        # print(res["hits"]["hits"])
+        if not res["hits"]["hits"]:
+            es.index(index=index, body=data)
         # print(data)
         # es.index(index=index, body=data)
     time.sleep(0.3)
+
+# sh_list_datas = pro.stock_basic(exchange='SSE', list_status='', fields='ts_code,symbol,name,area,industry,fullname,enname,market,exchange,curr_type,list_status,list_date,delist_date,is_hs')
+# stocks = sh_list_datas.to_dict(orient='records')
+# for stock in stocks:
+#     ts_code = stock.pop('ts_code')
+#     if ts_code=='601698.SH':
+#
+#         df = pro.daily(ts_code='601698.SH', trade_date='20190715')
+#         d_datas = df.to_dict('records')
+#         for data in d_datas:
+#             data.update({'shareinfo': stock, 'type': 'day'})
+#             str_date = data['trade_date'] + ' 15:00:00'
+#             d = datetime.strptime(str_date, '%Y%m%d %H:%M:%S')
+#             data['@timestamp'] = d
+#             es.index(index=index, body=data)
+#             print(data)
