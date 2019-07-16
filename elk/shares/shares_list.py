@@ -6,17 +6,26 @@ import re
 TOKEN = '137e3fc78e901b8463d68a102b168b2ea0217cb854abfad24d4dc7f7'
 pro = ts.pro_api(TOKEN)
 
-sh_list_datas = pro.stock_basic(exchange='', list_status='', fields='ts_code,symbol,name,area,industry,fullname,enname,market,exchange,curr_type,list_status,list_date,delist_date,is_hs')
-sh_list_datas.to_csv('share_list.csv',index=0)
-res = sh_list_datas.to_dict('records')
-for r in res:
-    print(r)
+# sh_list_datas = pro.stock_basic(exchange='SSE', list_status='', fields='ts_code,symbol,name,area,industry,fullname,enname,market,exchange,curr_type,list_status,list_date,delist_date,is_hs')
+# sh_list_datas.to_csv('share_list.csv',index=0)
+# res = sh_list_datas.to_dict('records')
+# for r in res:
+#     print(r)
 
 # dates = pro.trade_cal(exchange='', start_date='20190411', end_date='20190515')
 # print(dates)
 
-df = pro.daily(ts_code='601698.SH', trade_date='20190715')
+# df = pro.daily(ts_code='603922.SH', trade_date='20190712')
+# print(df)
+
+# df = ts.pro_bar(ts_code='000035.SZ', api=pro, asset='I', start_date='20190710', end_date='20190712', freq='1min')
+# print(df)
+
+df = pro.mins(ts_code='000035.SZ', start_time='20190710', end_time='20190712', freq='1min')
 print(df)
+
+# df = pro.suspend(ts_code='', suspend_date='20190715', resume_date='', fields='ts_code,suspend_date,resume_date,ann_date,suspend_reason,reason_type')
+# print(df)
 
 # df = pro.weekly(ts_code='000001.SZ', trade_date='20190705')
 # print(df)
