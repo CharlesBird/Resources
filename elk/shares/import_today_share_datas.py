@@ -13,7 +13,7 @@ index = "share_datas_history-00001"
 fail_index = "share_datas_history_failure"
 
 def get_stock_list():
-    sh_list_datas = pro.stock_basic(exchange='SZSE', list_status='',
+    sh_list_datas = pro.stock_basic(exchange='', list_status='',
                                     fields='ts_code,symbol,name,area,industry,fullname,enname,market,exchange,curr_type,list_status,list_date,delist_date,is_hs')
 
     stocks = sh_list_datas.to_dict(orient='records')
@@ -78,4 +78,4 @@ def insert_into_es(data):
 
 if __name__ == '__main__':
     stocks = get_stock_list()
-    get_data_and_create(stocks, trade_date='20190716')
+    get_data_and_create(stocks, trade_date='20190717')
