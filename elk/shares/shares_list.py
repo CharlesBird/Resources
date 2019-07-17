@@ -7,7 +7,7 @@ TOKEN = '137e3fc78e901b8463d68a102b168b2ea0217cb854abfad24d4dc7f7'
 pro = ts.pro_api(TOKEN)
 
 # sh_list_datas = pro.stock_basic(exchange='SSE', list_status='', fields='ts_code,symbol,name,area,industry,fullname,enname,market,exchange,curr_type,list_status,list_date,delist_date,is_hs')
-# sh_list_datas.to_csv('share_list.csv',index=0)
+# # sh_list_datas.to_csv('share_list.csv',index=0)
 # res = sh_list_datas.to_dict('records')
 # for r in res:
 #     print(r)
@@ -21,7 +21,7 @@ pro = ts.pro_api(TOKEN)
 # df = ts.pro_bar(ts_code='000035.SZ', api=pro, asset='I', start_date='20190710', end_date='20190712', freq='1min')
 # print(df)
 
-df = pro.mins(ts_code='000035.SZ', start_time='20190710', end_time='20190712', freq='1min')
+df = pro.mins(ts_code='000035.SZ', start_time='20190710', end_time='20190717', freq='1min')
 print(df)
 
 # df = pro.suspend(ts_code='', suspend_date='20190715', resume_date='', fields='ts_code,suspend_date,resume_date,ann_date,suspend_reason,reason_type')
