@@ -21,7 +21,7 @@ pro = ts.pro_api(TOKEN)
 # df = ts.pro_bar(ts_code='000035.SZ', api=pro, asset='I', start_date='20190710', end_date='20190712', freq='1min')
 # print(df)
 
-df = pro.mins(ts_code='000035.SZ', start_time='20190710', end_time='20190717', freq='1min')
+df = pro.mins(ts_code='000001.SZ', start_time='20090101', end_time='20090101', freq='1min')
 print(df)
 
 # df = pro.suspend(ts_code='', suspend_date='20190715', resume_date='', fields='ts_code,suspend_date,resume_date,ann_date,suspend_reason,reason_type')
