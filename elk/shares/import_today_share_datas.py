@@ -17,6 +17,30 @@ def get_stock_list():
                                     fields='ts_code,symbol,name,area,industry,fullname,enname,market,exchange,curr_type,list_status,list_date,delist_date,is_hs')
 
     stocks = sh_list_datas.to_dict(orient='records')
+    # new_stocks = []
+    # for stock in stocks:
+    #     ts_code = stock['ts_code']
+    #     q = {
+    #         "query": {
+    #             "bool": {
+    #                 "filter": [
+    #                     {
+    #                         "term": {
+    #                             "ts_code": ts_code
+    #                         }
+    #                     },
+    #                     {
+    #                         "term": {
+    #                             "@timestamp": '2019-07-18T15:00:00'
+    #                         }
+    #                     }
+    #                 ]
+    #             }
+    #         }
+    #     }
+    #     res = es.search(index, body=q)
+    #     if not res["hits"]["hits"]:
+    #         new_stocks.append(stock)
     return stocks
 
 
@@ -32,6 +56,7 @@ def get_data_and_create(stocks, trade_date):
         datas = df.to_dict('records')
         for data in datas:
             data = set_data(data, stock)
+
             insert_into_es(data)
             # print(data)
         time.sleep(0.3)
@@ -78,4 +103,4 @@ def insert_into_es(data):
 
 if __name__ == '__main__':
     stocks = get_stock_list()
-    get_data_and_create(stocks, trade_date='20190717')
+    get_data_and_create(stocks, trade_date='20190718')
