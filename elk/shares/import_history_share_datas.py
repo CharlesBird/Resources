@@ -54,13 +54,29 @@ def get_stock_list2():
     return new_stocks
 
 
+def get_stock_list3():
+    sh_list_datas = pro.stock_basic(exchange='SSE', list_status='',
+                                    fields='ts_code,symbol,name,area,industry,fullname,enname,market,exchange,curr_type,list_status,list_date,delist_date,is_hs')
+
+    stocks = sh_list_datas.to_dict(orient='records')
+    res = es.search(fail_index)
+    new_stocks = []
+    codes = []
+    for r in res['hits']['hits']:
+        codes.append(r['_source']['ts_code'])
+    for stock in stocks:
+        if stock['ts_code'] in codes:
+            new_stocks.append(stock)
+    return new_stocks
+
+
 def get_datas(stock):
     ts_code = stock['ts_code']
     try:
         df = pro.daily(ts_code=ts_code, start_date='20000101', end_date='20190712')
         del stock['ts_code']
     except Exception as e:
-        es.index(index=fail_index, body={'ts_code': ts_code})
+        es.index(index=fail_index, body={'ts_code': ts_code, '@timestamp': datetime.now()})
         return []
     d_datas = df.to_dict('records')
     return d_datas
@@ -102,7 +118,7 @@ def is_exist(data):
 
 
 if __name__ == '__main__':
-    stocks = get_stock_list2()
+    stocks = get_stock_list3()
     for stock in stocks:
         datas = get_datas(stock)
         time.sleep(0.2)
