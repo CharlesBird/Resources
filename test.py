@@ -2465,26 +2465,41 @@
 # print f(a)
 
 
-from __future__ import division
+# from __future__ import division
+#
+# def fuc(n):
+#
+#     l = [1,2,3,4,5,6,7,8]
+#     c = 0
+#     import random
+#
+#     for i in range(n):
+#         r1 = random.choice(l)
+#         if r1 == 8:
+#             r2 = random.choice(l)
+#             if r2 == 8:
+#                 c += 1
+#     print c / n
+#     print c
+#
+#
+# fuc(10000000)
+# fuc(100000000)
+# fuc(1000000000)
 
-def fuc(n):
+import threading
+import time
 
-    l = [1,2,3,4,5,6,7,8]
-    c = 0
-    import random
-
-    for i in range(n):
-        r1 = random.choice(l)
-        if r1 == 8:
-            r2 = random.choice(l)
-            if r2 == 8:
-                c += 1
-    print c / n
-    print c
+sem = threading.Semaphore(4)  # 限制线程的最大数量为4个
 
 
-fuc(10000000)
-fuc(100000000)
-fuc(1000000000)
+def gothread():
+    with  sem:  # 锁定线程的最大数量
+        for i in range(8):
+            print(threading.current_thread().name, i)
+            time.sleep(1)
 
+
+for i in range(5):
+    threading.Thread(target=gothread).start()
 
