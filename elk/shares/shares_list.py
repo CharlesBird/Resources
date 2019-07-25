@@ -21,13 +21,30 @@ pro = ts.pro_api(TOKEN)
 # df = ts.pro_bar(ts_code='000035.SZ', api=pro, asset='I', start_date='20190710', end_date='20190712', freq='1min')
 # print(df)
 
-df = pro.mins(ts_code='000001.SZ', start_time='20090101', end_time='20090101', freq='1min')
-print(df)
+# df = pro.mins(ts_code='000001.SZ', start_time='20090101', end_time='20090101', freq='1min')
+# print(df)
 
 # df = pro.suspend(ts_code='', suspend_date='20190715', resume_date='', fields='ts_code,suspend_date,resume_date,ann_date,suspend_reason,reason_type')
 # print(df)
 
 # df = pro.weekly(ts_code='000001.SZ', trade_date='20190705')
+# print(df)
+
+# df = pro.news(src='sina', start_date='20170725 09:00:00', end_date='20190725 11:00:00', fields='datetime,content,title,channels')
+# res = df.to_dict('records')
+# for r in res:
+#     print(r)
+# print(df)
+
+# df = pro.anns(ts_code='600519.SH', start_date='20190401', end_date='20191231', year='2019')
+# print(df)
+
+df = pro.cctv_news(date='20190724')
+res = df.to_dict('records')
+for r in res:
+    print(r)
+
+# df = pro.income(ts_code='600000.SH', start_date='20180101', end_date='20181230', fields='ts_code,ann_date,f_ann_date,end_date,report_type,comp_type,basic_eps,diluted_eps')
 # print(df)
 
 # for ts_code in sh_list_datas['ts_code']:
