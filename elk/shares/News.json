@@ -1,0 +1,38 @@
+//PUT _template/news_history
+{
+  "index_patterns": "news_history-*",
+  "settings": {
+    "index": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    }
+  },
+  "mappings": {
+    "dynamic": false,
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "title": {
+        "type": "keyword",
+        "ignore_above": 256
+      },
+      "content": {
+        "type": "text",
+        "fields" : {
+            "keyword" : {
+              "type" : "keyword",
+              "ignore_above" : 256
+            }
+          }
+      },
+      "channels": {
+        "type": "keyword"
+      },
+      "src": {
+        "type": "keyword",
+        "ignore_above": 256
+      }
+    }
+  }
+}
