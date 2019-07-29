@@ -33,12 +33,13 @@ def insert_datas(src, start_date, end_date):
             data['channels'] = channels
         del data['datetime']
         es.index(index=index, body=data)
+        # print(data)
 
 
 if __name__ == '__main__':
-    start_date = datetime.strptime('20181001', '%Y%m%d')
+    start_date = datetime.strptime('20190725', '%Y%m%d')
     str_date1 = start_date.strftime('%Y%m%d')
-    while str_date1 < '20190725':
+    while str_date1 < '20190726':
         end_date = start_date + timedelta(days=1)
         str_date2 = end_date.strftime('%Y%m%d')
         for src in ['sina', 'wallstreetcn', '10jqka', 'eastmoney', 'yuncaijing']:
