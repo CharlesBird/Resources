@@ -2487,19 +2487,39 @@
 # fuc(100000000)
 # fuc(1000000000)
 
-import threading
-import time
+# import threading
+# import time
+#
+# sem = threading.Semaphore(4)  # 限制线程的最大数量为4个
+#
+#
+# def gothread():
+#     with  sem:  # 锁定线程的最大数量
+#         for i in range(8):
+#             print(threading.current_thread().name, i)
+#             time.sleep(1)
+#
+#
+# for i in range(5):
+#     threading.Thread(target=gothread).start()
 
-sem = threading.Semaphore(4)  # 限制线程的最大数量为4个
+
+class HauntedBus:
+    def __init__(self, passengers=[]):
+        self.passengers = passengers
+
+    def pick(self, name):
+        self.passengers.append(name)
+
+    def drop(self, name):
+        self.passengers.remove(name)
 
 
-def gothread():
-    with  sem:  # 锁定线程的最大数量
-        for i in range(8):
-            print(threading.current_thread().name, i)
-            time.sleep(1)
-
-
-for i in range(5):
-    threading.Thread(target=gothread).start()
+bus1 = HauntedBus(['Alice'])
+bus1.drop('Alice')
+bus1.pick('Bill')
+bus2 = HauntedBus()
+bus2.pick('Alice')
+bus3 = HauntedBus()
+print(bus3.passengers)
 
