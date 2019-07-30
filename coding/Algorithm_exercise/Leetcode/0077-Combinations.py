@@ -36,4 +36,19 @@ class Solution2:
         return list(combinations(range(1, n+1), k))
 
 
+class Solution3:
+    def combine(self, n: int, k: int) -> "List[List[int]]":
+
+        def dfs(nums, index, k, path, res):
+            if k == 0:
+                res.append(path)
+                return
+            for i in range(index, len(nums)):
+                dfs(nums, i+1, k-1, path+[nums[i]], res)
+
+        res = []
+        dfs([i for i in range(1, n+1)], 0, k, [], res)
+        return res
+
+
 Solution2().combine(4, 2)
