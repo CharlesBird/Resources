@@ -2504,22 +2504,21 @@
 #     threading.Thread(target=gothread).start()
 
 
-class HauntedBus:
-    def __init__(self, passengers=[]):
-        self.passengers = passengers
-
-    def pick(self, name):
-        self.passengers.append(name)
-
-    def drop(self, name):
-        self.passengers.remove(name)
-
-
-bus1 = HauntedBus(['Alice'])
-bus1.drop('Alice')
-bus1.pick('Bill')
-bus2 = HauntedBus()
-bus2.pick('Alice')
-bus3 = HauntedBus()
-print(bus3.passengers)
-
+# class HauntedBus:
+#     def __init__(self, passengers=[]):
+#         self.passengers = passengers
+#
+#     def pick(self, name):
+#         self.passengers.append(name)
+#
+#     def drop(self, name):
+#         self.passengers.remove(name)
+#
+#
+# bus1 = HauntedBus(['Alice'])
+# bus1.drop('Alice')
+# bus1.pick('Bill')
+# bus2 = HauntedBus()
+# bus2.pick('Alice')
+# bus3 = HauntedBus()
+# print(bus3.passengers)
