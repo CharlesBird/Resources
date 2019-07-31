@@ -15,8 +15,8 @@ pro = ts.pro_api(TOKEN)
 # dates = pro.trade_cal(exchange='', start_date='20190411', end_date='20190515')
 # print(dates)
 
-# df = pro.daily(ts_code='603922.SH', trade_date='20190712')
-# print(df)
+df = pro.daily(ts_code='601700.SH', trade_date='20190730')
+print(df)
 
 # df = ts.pro_bar(ts_code='000035.SZ', api=pro, asset='I', start_date='20190710', end_date='20190712', freq='1min')
 # print(df)
@@ -39,10 +39,10 @@ pro = ts.pro_api(TOKEN)
 # df = pro.anns(ts_code='600519.SH', start_date='20190401', end_date='20191231', year='2019')
 # print(df)
 
-df = pro.cctv_news(date='20190724')
-res = df.to_dict('records')
-for r in res:
-    print(r)
+# df = pro.cctv_news(date='20190724')
+# res = df.to_dict('records')
+# for r in res:
+#     print(r)
 
 # df = pro.income(ts_code='600000.SH', start_date='20180101', end_date='20181230', fields='ts_code,ann_date,f_ann_date,end_date,report_type,comp_type,basic_eps,diluted_eps')
 # print(df)
