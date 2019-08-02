@@ -34,14 +34,13 @@ class Solution:
     def pacificAtlantic(self, matrix: List[List[int]]) -> List[List[int]]:
         d = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
-        def dfs(matrix, visited, x, y):
+        def dfs(visited, x, y):
             visited[x][y] = True
-            for k in range(len(d)):
-                newX = x + d[k][0]
-                newY = y + d[k][1]
-                if newX >= 0 and newX < len(matrix) and newY >= 0 and newY < len(matrix[0]) and \
-                        not visited[newX][newY] and matrix[newX][newY] >= matrix[x][y]:
-                    dfs(matrix, visited, newX, newY)
+            for dx, dy in d:
+                newX = x + dx
+                newY = y + dy
+                if 0 <= newX < m and 0 <= newY < n and not visited[newX][newY] and matrix[newX][newY] >= matrix[x][y]:
+                    dfs(visited, newX, newY)
 
         res = []
         if not matrix:
@@ -51,12 +50,12 @@ class Solution:
         atlantic = [[False for _ in range(n)] for _ in range(m)]
 
         for i in range(m):
-            dfs(matrix, pacific, i, 0)
-            dfs(matrix, atlantic, i, m-1)
+            dfs(pacific, i, 0)
+            dfs(atlantic, i, n-1)
 
         for j in range(n):
-            dfs(matrix, pacific, 0, j)
-            dfs(matrix, atlantic, n-1, j)
+            dfs(pacific, 0, j)
+            dfs(atlantic, m-1, j)
 
         for i in range(m):
             for j in range(n):

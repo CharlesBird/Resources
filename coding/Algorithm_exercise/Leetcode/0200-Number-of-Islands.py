@@ -30,7 +30,7 @@ class Solution:
             for k in range(len(d)):
                 newi = i + d[k][0]
                 newj = j + d[k][1]
-                if newi >= 0 and newi < len(grid) and newj >= 0 and newj < len(grid[0]) and not visited[newi][newj] and grid[newi][newj] == '1':
+                if 0 <= newi < len(grid) and 0 <= newj < len(grid[0]) and not visited[newi][newj] and grid[newi][newj] == '1':
                     dfs(grid, visited, newi, newj)
 
         if not grid:
@@ -58,7 +58,7 @@ class Solution2:
                 for k in range(len(d)):
                     newi = curi + d[k][0]
                     newj = curj + d[k][1]
-                    if newi >= 0 and newi < len(grid) and newj >= 0 and newj < len(grid[0]) and not visited[newi][newj] and grid[newi][newj] == '1':
+                    if 0 <= newi < len(grid) and 0 <= newj < len(grid[0]) and not visited[newi][newj] and grid[newi][newj] == '1':
                         q.append((newi, newj))
                         visited[newi][newj] = True
 
@@ -83,10 +83,10 @@ class Solution3:
             visited[i][j] = True
             while stack:
                 curi, curj = stack.pop()
-                for k in range(len(d)):
-                    newi = curi + d[k][0]
-                    newj = curj + d[k][1]
-                    if newi >= 0 and newi < len(grid) and newj >= 0 and newj < len(grid[0]) and not visited[newi][newj] and grid[newi][newj] == '1':
+                for dx, dy in d:
+                    newi = curi + dx
+                    newj = curj + dy
+                    if 0 <= newi < len(grid) and 0 <= newj < len(grid[0]) and not visited[newi][newj] and grid[newi][newj] == '1':
                         stack.append((newi, newj))
                         visited[newi][newj] = True
 

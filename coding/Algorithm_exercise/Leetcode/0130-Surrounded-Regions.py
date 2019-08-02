@@ -38,9 +38,9 @@ class Solution:
                 curX, curY = q[0]
                 del q[0]
                 record.append((curX, curY))
-                for i in range(len(d)):
-                    newX = curX + d[i][0]
-                    newY = curY + d[i][1]
+                for dx, dy in d:
+                    newX = curX + dx
+                    newY = curY + dy
                     if newX < 0 or newX >= len(board) or newY < 0 or newY >= len(board[0]):
                         ret = False
                     elif board[newX][newY] == 'O' and not visited[newX][newY]:
