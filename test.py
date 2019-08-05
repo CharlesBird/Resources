@@ -2522,3 +2522,25 @@
 # bus2.pick('Alice')
 # bus3 = HauntedBus()
 # print(bus3.passengers)
+
+import inspect
+
+class MyClass(object):
+    def __init__(self, name):
+        self.name = name
+
+    def foo(self):
+        return
+
+    def bar(self):
+        res = inspect.ismethod(self.foo)
+        print(res)
+        return
+
+
+def func():
+    return
+
+
+res = inspect.getmembers(MyClass('12'), inspect.ismethod)
+print(res)
