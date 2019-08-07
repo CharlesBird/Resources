@@ -17,6 +17,9 @@ print(data_test.describe())
 print(data_train.shape)
 print(data_test.shape)
 
+# 参考方案
 # CNN
 # Torch
-# svm
+# Std + PCA + svm/knn
+# PCA + rfc
+# https://www.kaggle.com/mkashif/dimensionality-reduction-and-viz-of-mnist-dataset

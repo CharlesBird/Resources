@@ -37,15 +37,19 @@ if __name__ == '__main__':
     #     y = train_np[:i, 0]
     #     X = train_np[:i, 1:]
     #     find_SVC_hyper_param(X, y)
-    # print(x)
-    # print(y.shape)
-    # print(X.shape)
-    # standardScaler = StandardScaler()
-    # X_scaled = standardScaler.fit_transform(X)
-    # print(X_scaled.shape)
-    # X_scaled_reduction = get_data_in_pca(X_scaled, y, n_components=0.99)
-    # print(X_scaled_reduction.shape)
 
-    y = train_np[:10000, 0]
-    X = train_np[:10000, 1:]
-    find_SVC_hyper_param(X, y)
+    y = train_np[:, 0]
+    X = train_np[:, 1:]
+    sc = StandardScaler()
+    sc.fit(X)
+    X_std = sc.transform(X)
+    pca = PCA(n_components=0.98)
+    pca.fit(X_std)
+    X_std_pca = pca.transform(X_std)
+    # var_per = pca.explained_variance_ratio_
+    # cum_var_per = pca.explained_variance_ratio_.cumsum()
+    # n_comp = len(cum_var_per[cum_var_per <= 0.98])
+    # print(var_per, cum_var_per, n_comp)
+    # print(X_std_pca.shape)
+
+    find_SVC_hyper_param(X_std_pca, y)
