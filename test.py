@@ -2523,24 +2523,32 @@
 # bus3 = HauntedBus()
 # print(bus3.passengers)
 
-import inspect
+# import inspect
+#
+# class MyClass(object):
+#     def __init__(self, name):
+#         self.name = name
+#
+#     def foo(self):
+#         return
+#
+#     def bar(self):
+#         res = inspect.ismethod(self.foo)
+#         print(res)
+#         return
+#
+#
+# def func():
+#     return
+#
+#
+# res = inspect.getmembers(MyClass('12'), inspect.ismethod)
+# print(res)
 
-class MyClass(object):
-    def __init__(self, name):
-        self.name = name
-
-    def foo(self):
-        return
-
-    def bar(self):
-        res = inspect.ismethod(self.foo)
-        print(res)
-        return
+class A(dict):
+    def __setitem__(self, key, value):
+        super().__setitem__(key, [value] * 2)
 
 
-def func():
-    return
-
-
-res = inspect.getmembers(MyClass('12'), inspect.ismethod)
-print(res)
+a = A(one=1)
+print(a)
