@@ -23,9 +23,9 @@ def get_training_goals(X, y, X_test):
     voting_clf = VotingClassifier(estimators=[
         ('log_clf', LogisticRegression(penalty='l2', solver='newton-cg', tol=1e-4, C=1, multi_class='multinomial')),
         ('svm_clf', SVC(C=0.5, kernel='rbf', gamma=0.1, tol=1e-3, probability=True, random_state=0)),
-        ('dt_clf', DecisionTreeClassifier(criterion='gini', max_leaf_nodes=10, random_state=1)),
-        ('rf_clf', RandomForestClassifier(n_estimators=500, max_leaf_nodes=25, random_state=162)),
-        ('gb_clf', GradientBoostingClassifier(n_estimators=100, max_leaf_nodes=16, random_state=0))
+        # ('dt_clf', DecisionTreeClassifier(criterion='gini', max_leaf_nodes=10, random_state=1)),
+        ('rf_clf', RandomForestClassifier(n_estimators=500, max_leaf_nodes=25, random_state=162))
+        # ('gb_clf', GradientBoostingClassifier(n_estimators=100, max_leaf_nodes=16, random_state=0))
     ], voting='soft')
     voting_clf.fit(X, y)
     predict_y = voting_clf.predict(X_test)

@@ -41,7 +41,7 @@ def find_svc_hyper_param():
             'gamma': ['auto', 0.1, 0.01, 1, 10, 100],
             'C': [0.1, 0.5, 1, 1.5, 10],
             'tol': [1e-3, 1e-4, 1e-5],
-            'random_state': [i for i in range(1000)],
+            'random_state': [0, 100, 200, 500, 1000],
             'probability': [True]
         },
     ]
@@ -59,7 +59,7 @@ def find_rb_forest_hyper_param():
             # 'max_leaf_nodes': [i for i in range(10, 31)],
             'max_leaf_nodes': [25],
             # 'random_state': [0]
-            'random_state': [i for i in range(1000)]
+            'random_state': [0, 100, 200, 500, 1000]
         },
     ]
     grid_search = GridSearchCV(RandomForestClassifier(), param_grid, n_jobs=-1, verbose=1)
@@ -75,7 +75,7 @@ def find_gb_clf_hyper_param():
             'n_estimators': [100, 200, 500, 1000],
             # 'max_leaf_nodes': [i for i in range(10, 31)],
             'max_leaf_nodes': [16],
-            'random_state': [0]
+            'random_state': [0, 100, 200, 500, 1000]
             # 'random_state': [i for i in range(1000)]
         },
     ]
@@ -92,7 +92,7 @@ def find_dt_clf_hyper_param():
             # 'max_leaf_nodes': [i for i in range(10, 31)],
             'max_leaf_nodes': [10],
             # 'random_state': [0]
-            'random_state': [i for i in range(1000)]
+            'random_state': [0, 100, 200, 500, 1000]
         },
     ]
     grid_search = GridSearchCV(DecisionTreeClassifier(), param_grid, n_jobs=-1, verbose=1)
@@ -103,8 +103,8 @@ def find_dt_clf_hyper_param():
 
 
 if __name__ == '__main__':
-    # find_log_reg_hyper_param()
-    # find_svc_hyper_param()
+    find_log_reg_hyper_param()
+    find_svc_hyper_param()
     find_rb_forest_hyper_param()
     find_gb_clf_hyper_param()
     find_dt_clf_hyper_param()
