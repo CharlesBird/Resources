@@ -3,6 +3,7 @@ from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
+from xgboost import XGBClassifier
 from data_preprocess import data_process
 
 data_train, data_test = data_process()
@@ -102,9 +103,26 @@ def find_dt_clf_hyper_param():
     return grid_search.best_estimator_
 
 
+def find_xgb_clf_hyper_param():
+    param_grid = [
+        {
+            'max_depth': [3, 4, 5],
+            'learning_rate': [0.1, 0.01, 0.001],
+            'n_estimators': [100, 200, 300, 500],
+            'random_state': [0, 100, 200, 500, 1000]
+        },
+    ]
+    grid_search = GridSearchCV(XGBClassifier(), param_grid, n_jobs=-1, verbose=1)
+    grid_search.fit(X, y)
+    print('best_xgb_clf_score', grid_search.best_score_)
+    print('best_xgb_clf_param', grid_search.best_params_)
+    return grid_search.best_estimator_
+
+
 if __name__ == '__main__':
     find_log_reg_hyper_param()
     find_svc_hyper_param()
     find_rb_forest_hyper_param()
     find_gb_clf_hyper_param()
     find_dt_clf_hyper_param()
+    find_xgb_clf_hyper_param()
