@@ -15,8 +15,8 @@ pro = ts.pro_api(TOKEN)
 # dates = pro.trade_cal(exchange='', start_date='20190411', end_date='20190515')
 # print(dates)
 
-df = pro.daily(ts_code='601700.SH', trade_date='20190730')
-print(df)
+# df = pro.daily(ts_code='601700.SH', trade_date='20190730')
+# print(df)
 
 # df = ts.pro_bar(ts_code='000035.SZ', api=pro, asset='I', start_date='20190710', end_date='20190712', freq='1min')
 # print(df)
@@ -44,8 +44,8 @@ print(df)
 # for r in res:
 #     print(r)
 
-# df = pro.income(ts_code='600000.SH', start_date='20180101', end_date='20181230', fields='ts_code,ann_date,f_ann_date,end_date,report_type,comp_type,basic_eps,diluted_eps')
-# print(df)
+df = pro.income(ts_code='600519.SH', start_date='20190101', end_date='20191230')
+print(df)
 
 # for ts_code in sh_list_datas['ts_code']:
 #     df = pro.daily(ts_code=ts_code, end_date='20190326')
