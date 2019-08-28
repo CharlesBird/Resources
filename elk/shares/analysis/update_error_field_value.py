@@ -44,49 +44,47 @@ for code_dict in stock_codes:
     if cnt_inds > 1:
         update_inds.add(industry)
         update_ids = []
-        # pprint(res)
-        # print(code_dict)
-        q_get_id = {
-            "size": 1000,
-            "query": {
-                "term": {
-                    "ts_code": code_dict['ts_code']
-                }
-            },
-            "sort": [
-                {
-                    "@timestamp": "asc",
-                }
-            ]
-        }
-        res2 = es.search(index, body=q_get_id)
-        for data in res2['hits']['hits']:
-            update_ids.append(data['_id'])
-        # pprint(res2)
-        # print(code, len(res2['hits']['hits']))
-        while res2['hits']['hits']:
-            search_after = res2['hits']['hits'][-1]['sort']
-            q_get_id = {
-                "size": 1000,
-                "query": {
-                    "term": {
-                        "ts_code": code_dict['ts_code']
-                    }
-                },
-                "search_after": search_after,
-                "sort": [
-                    {
-                        "@timestamp": "asc",
-                    }
-                ]
-            }
-            res2 = es.search(index, body=q_get_id)
-            for data in res2['hits']['hits']:
-                update_ids.append(data['_id'])
-        print(update_ids)
-        print(code, industry)
-        u_body = {'script': {'source': "ctx._source.shareinfo.industry = '%s'" % industry}}
-        for _id in update_ids:
-            es.update(index, _id, body=u_body)
+        pprint(res)
+        print(code_dict)
+        # q_get_id = {
+        #     "size": 1000,
+        #     "query": {
+        #         "term": {
+        #             "ts_code": code_dict['ts_code']
+        #         }
+        #     },
+        #     "sort": [
+        #         {
+        #             "@timestamp": "asc",
+        #         }
+        #     ]
+        # }
+        # res2 = es.search(index, body=q_get_id)
+        # for data in res2['hits']['hits']:
+        #     update_ids.append(data['_id'])
+        # while res2['hits']['hits']:
+        #     search_after = res2['hits']['hits'][-1]['sort']
+        #     q_get_id = {
+        #         "size": 1000,
+        #         "query": {
+        #             "term": {
+        #                 "ts_code": code_dict['ts_code']
+        #             }
+        #         },
+        #         "search_after": search_after,
+        #         "sort": [
+        #             {
+        #                 "@timestamp": "asc",
+        #             }
+        #         ]
+        #     }
+        #     res2 = es.search(index, body=q_get_id)
+        #     for data in res2['hits']['hits']:
+        #         update_ids.append(data['_id'])
+        # print(update_ids)
+        # print(code, industry)
+        # u_body = {'script': {'source': "ctx._source.shareinfo.industry = '%s'" % industry}}
+        # for _id in update_ids:
+        #     es.update(index, _id, body=u_body)
 
 # print(update_inds)

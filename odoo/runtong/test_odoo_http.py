@@ -79,19 +79,19 @@ headers = {'Content-Type': 'application/json', }
 # url = 'http://47.103.32.102:4769/test/partners'
 
 
-url = 'http://localhost:8069/ax/api/purchase.order/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBWCBKV1QiLCJzdWIiOiJhZG1pbiIsInVpZCI6MiwiaWF0IjoxNTY2MjA2MzAyLCJleHAiOjE1NjYyNDk1MDJ9.rweDWps9p_ZXisnHrcbJOAuEl9NhABrD6ggZb0X0JZw'
+url = 'http://localhost:8069/ax/api/purchase.order/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBWCBKV1QiLCJzdWIiOiJhZG1pbiIsInVpZCI6MiwiaWF0IjoxNTY2OTgyNTQwLCJleHAiOjE1NjcwMjU3NDB9.AR-fzJ31p7Yx1H8jErXw6-HRs68feEB0N8lRwNk2mMA'
 
 
 data = {"jsonrpc": "2.0", "method": "create_purchase_order",
         "params": {
             "context": {},
             "value": {
-                "name": "PO19081901",
+                "name": "PO19082801",
                 "task_id": "SCPC99PC190417004",
                 "partner_id": "SKOR00024",
                 "purchase_type": "Purch",
                 "state": "Backorder",
-                "delivery_date": "2019-08-19",
+                "delivery_date": "2019-08-28",
                 "warehouse_id": "102",
                 "site_id": "ST01",
                 "company_id": "1000",
@@ -129,9 +129,9 @@ data = {"jsonrpc": "2.0", "method": "create_purchase_order",
                      "version": 1, "ref_type": "Purch", "ref_transId": "00000001", "sale_transId": "SOline6",
                      "ax_key": "POline6"},
                 ],
-                "ax_key": "PO19081901"
+                "ax_key": "PO19082801"
             }
-        }, "id": "PO0002"}
+        }, "id": "PO19082801"}
 res = requests.put(url, data=json.dumps(data), headers=headers)
 print(res.text)
 
