@@ -2,7 +2,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 
-url = 'http://172.70.0.91:8099/api/VendPackingSlipPost'
+url = 'http://172.70.0.91:8099/api/VendPackingSlipPost?company=1000'
 
 headers = [('Content-Type', 'text/plain')]
 
