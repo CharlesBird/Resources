@@ -276,7 +276,7 @@ def get_scientific_data(code):
         "aggs": {
             "stats_close": {
                 "extended_stats": {
-                    "field": "close"
+                    "field": "pct_chg"
                 }
             }
         },
@@ -304,12 +304,12 @@ def get_scientific_data(code):
         }
     }
     res = es.search(index, body=q)
-    std_deviation = res['aggregations']['stats_close']['std_deviation']
-    if std_deviation and std_deviation < 1:
-        print('*'*100)
-        print('code: ', code)
-        pprint(res['aggregations']['stats_close'])
-    # pprint(res)
+    # std_deviation = res['aggregations']['stats_close']['std_deviation']
+    # if std_deviation and std_deviation < 1:
+    #     print('*'*100)
+    #     print('code: ', code)
+    #     pprint(res['aggregations']['stats_close'])
+    pprint(res)
 
 
 if __name__ == '__main__':
