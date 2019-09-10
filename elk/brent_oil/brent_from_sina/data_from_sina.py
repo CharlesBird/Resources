@@ -24,8 +24,11 @@ async def fetch(session, url):
                 if resp.status in (200, 201):
                     data = await resp.text()
                     return data
+                else:
+                    return ""
         except Exception as e:
             _logger.error('Get url error: {}'.format(e))
+            return ""
 
 def hanlder_data(data):
     global hf_codes
