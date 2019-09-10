@@ -25,7 +25,9 @@ async def fetch(session, url):
 
 def hanlder_data(data):
     pattern = re.compile('="(.*)"')
+    print(data)
     s_list = pattern.findall(data)
+    print(s_list)
     res = []
     for i, s in enumerate(s_list):
         data_dict = {}
