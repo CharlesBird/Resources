@@ -1,6 +1,8 @@
 from elasticsearch import Elasticsearch
 from datetime import datetime, timedelta
 import time
+import pandas as pd
+import numpy as np
 
 import tushare as ts
 TOKEN = '137e3fc78e901b8463d68a102b168b2ea0217cb854abfad24d4dc7f7'
@@ -271,50 +273,111 @@ def get_all_data(code):
 
 
 def get_scientific_data(code):
-    q = {
-        "size": 0,
-        "aggs": {
-            "stats_close": {
-                "extended_stats": {
-                    "field": "pct_chg"
+    cond = {"1y": ("2018-09-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
+            "6m": ("2018-03-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
+            "5m": ("2018-04-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
+            "4m": ("2018-05-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
+            "3m": ("2018-06-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
+            "2m": ("2019-07-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
+            "1m": ("2019-08-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
+            "1w": ("2019-09-02T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),}
+    result = []
+    for k, v in cond.items():
+        q = {
+            "size": 0,
+            "aggs": {
+                "stats_pct_chg": {
+                    "extended_stats": {
+                        "field": "pct_chg"
+                    }
+                }
+            },
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "range": {
+                                "@timestamp": {
+                                    "format": "strict_date_optional_time",
+                                    "gte": v[0],
+                                    "lt": v[1]
+                                }
+                            }
+                        },
+                        {
+                            "match": {
+                                "shareinfo.symbol": {
+                                    "query": code
+                                }
+                            }
+                        }
+                    ]
                 }
             }
-        },
-        "query": {
-            "bool": {
-                "must": [
-                    {
-                        "range": {
-                            "@timestamp": {
-                                "format": "strict_date_optional_time",
-                                "gte": "2019-01-17T00:00:00.000Z",
-                                "lte": "2019-07-17T23:30:00.000Z"
-                            }
-                        }
-                    },
-                    {
-                        "match": {
-                            "shareinfo.symbol": {
-                                "query": code
-                            }
-                        }
-                    }
-                ]
-            }
         }
+        res = es.search(index, body=q)
+        # avg = res['aggregations']['stats_pct_chg']['avg']
+        # std_deviation = res['aggregations']['stats_pct_chg']['std_deviation']
+        # chg_value = res['aggregations']['stats_pct_chg']['sum']
+        # k1 = 'std_deviation_' + k
+        # k2 = 'pct_chg_' + k
+        if res['aggregations']['stats_pct_chg']:
+            result.extend([res['aggregations']['stats_pct_chg']['std_deviation'], res['aggregations']['stats_pct_chg']['sum']])
+        else:
+            return []
+
+    return result
+
+
+def get_goal_value(code, date):
+    result = []
+    q = {
+          "query": {
+              "bool": {
+                  "filter": [{
+                      "term": {
+                          "shareinfo.symbol": code
+                      }
+                  },
+                      {
+                          "term": {
+                              "@timestamp": date + "T15:00:00"
+                          }
+                      }]
+              }
+          }
     }
     res = es.search(index, body=q)
-    # std_deviation = res['aggregations']['stats_close']['std_deviation']
-    # if std_deviation and std_deviation < 1:
-    #     print('*'*100)
-    #     print('code: ', code)
-    #     pprint(res['aggregations']['stats_close'])
-    pprint(res)
+    if res['hits']['hits']:
+        pct_chg = res['hits']['hits'][0]['_source']['pct_chg']
+        if pct_chg > 0:
+            rise = 1
+        else:
+            rise = 0
+        result.extend([pct_chg, rise])
+    return result
 
 
 if __name__ == '__main__':
     sh_list_datas = pro.stock_basic(exchange='', list_status='', fields='ts_code, symbol')
     stock_codes = sh_list_datas.to_dict('records')
+    result = []
     for stock in stock_codes:
         # print(stock)
-        get_scientific_data(stock['symbol'])
+        goal_value = get_goal_value(stock['symbol'], "2019-09-09")
+        scientific_data = get_scientific_data(stock['symbol'])
+        if goal_value and scientific_data:
+            result.append([stock['symbol']]+goal_value+scientific_data)
+        # if len(result) > 100:
+        #     break
+
+    df = pd.DataFrame(data=np.array(result), columns=['symbol', 'pct_chg', 'rise',
+                                                      'std_deviation_1y', 'pct_chg_1y',
+                                                      'std_deviation_6m', 'pct_chg_6m',
+                                                      'std_deviation_5m', 'pct_chg_5m',
+                                                      'std_deviation_4m', 'pct_chg_4m',
+                                                      'std_deviation_3m', 'pct_chg_3m',
+                                                      'std_deviation_2m', 'pct_chg_2m',
+                                                      'std_deviation_1m', 'pct_chg_1m',
+                                                      'std_deviation_1w', 'pct_chg_1w'], index=0)
+    df.to_csv('./result.csv')
