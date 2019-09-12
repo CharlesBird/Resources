@@ -3,7 +3,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-df = pd.read_csv('./result.csv')
+df = pd.read_csv('./result2019-09-10.csv')
+
+# df['symbol'] = df['symbol'].astype('object')
+
+# print(df.tail())
+
+# df.info()
+#
+# print(df.describe())
 
 sns.relplot(x="std_deviation_1y", y="pct_chg", hue="rise", data=df)
 

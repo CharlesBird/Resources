@@ -273,14 +273,14 @@ def get_all_data(code):
 
 
 def get_scientific_data(code):
-    cond = {"1y": ("2018-09-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
-            "6m": ("2018-03-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
-            "5m": ("2018-04-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
-            "4m": ("2018-05-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
-            "3m": ("2018-06-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
-            "2m": ("2019-07-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
-            "1m": ("2019-08-09T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),
-            "1w": ("2019-09-02T00:00:00.000Z", "2019-09-09T00:00:00.000Z"),}
+    cond = {"1y": ("2018-09-10T00:00:00.000Z", "2019-09-10T00:00:00.000Z"),
+            "6m": ("2018-03-09T00:00:00.000Z", "2019-09-10T00:00:00.000Z"),
+            "5m": ("2018-04-10T00:00:00.000Z", "2019-09-10T00:00:00.000Z"),
+            "4m": ("2018-05-10T00:00:00.000Z", "2019-09-10T00:00:00.000Z"),
+            "3m": ("2018-06-10T00:00:00.000Z", "2019-09-10T00:00:00.000Z"),
+            "2m": ("2019-07-10T00:00:00.000Z", "2019-09-10T00:00:00.000Z"),
+            "1m": ("2019-08-10T00:00:00.000Z", "2019-09-10T00:00:00.000Z"),
+            "1w": ("2019-09-03T00:00:00.000Z", "2019-09-10T00:00:00.000Z"),}
     result = []
     for k, v in cond.items():
         q = {
@@ -362,22 +362,27 @@ if __name__ == '__main__':
     sh_list_datas = pro.stock_basic(exchange='', list_status='', fields='ts_code, symbol')
     stock_codes = sh_list_datas.to_dict('records')
     result = []
+    codes = []
     for stock in stock_codes:
         # print(stock)
-        goal_value = get_goal_value(stock['symbol'], "2019-09-09")
+        goal_value = get_goal_value(stock['symbol'], "2019-09-10")
         scientific_data = get_scientific_data(stock['symbol'])
         if goal_value and scientific_data:
-            result.append([stock['symbol']]+goal_value+scientific_data)
-        # if len(result) > 100:
+            result.append(goal_value+scientific_data)
+            codes.append([stock['symbol']])
+        # if len(result) > 10:
         #     break
 
-    df = pd.DataFrame(data=np.array(result), columns=['symbol', 'pct_chg', 'rise',
-                                                      'std_deviation_1y', 'pct_chg_1y',
-                                                      'std_deviation_6m', 'pct_chg_6m',
-                                                      'std_deviation_5m', 'pct_chg_5m',
-                                                      'std_deviation_4m', 'pct_chg_4m',
-                                                      'std_deviation_3m', 'pct_chg_3m',
-                                                      'std_deviation_2m', 'pct_chg_2m',
-                                                      'std_deviation_1m', 'pct_chg_1m',
-                                                      'std_deviation_1w', 'pct_chg_1w'], index=0)
-    df.to_csv('./result.csv')
+    np_res = np.array(result, dtype=np.float64)
+    np_codes = np.array(codes, dtype=np.object)
+
+    df = pd.DataFrame(data=np.hstack([np_codes, np_res]), columns=['symbol', 'pct_chg', 'rise',
+                                                                   'std_deviation_1y', 'pct_chg_1y',
+                                                                   'std_deviation_6m', 'pct_chg_6m',
+                                                                   'std_deviation_5m', 'pct_chg_5m',
+                                                                   'std_deviation_4m', 'pct_chg_4m',
+                                                                   'std_deviation_3m', 'pct_chg_3m',
+                                                                   'std_deviation_2m', 'pct_chg_2m',
+                                                                   'std_deviation_1m', 'pct_chg_1m',
+                                                                   'std_deviation_1w', 'pct_chg_1w'])
+    df.to_csv('./result2019-09-10.csv', index=0)
