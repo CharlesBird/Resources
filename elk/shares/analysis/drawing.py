@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-df = pd.read_csv('./result2019-09-09.csv')
+df = pd.read_csv('./result2019-09-11.csv')
 
 # df['symbol'] = df['symbol'].astype('object')
 
