@@ -5,7 +5,7 @@ import json
 
 url = "http://172.70.0.91:8099/api/AXBarCode/InventTransferJournal/1000-32467"
 
-data = {"startingPosition": 1, "numberOfRecordsToFetch": 100}
+data = {}
 
 res = requests.get(url, auth=HTTPBasicAuth('shruntong\Barcode', 'B.rms123'), data=data, headers={"Content-Type": "text/plain"})
 print(res.status_code)
