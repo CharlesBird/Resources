@@ -7,7 +7,7 @@ url = "http://172.70.0.91:8099/api/AXBarCode/InventTransferJournal"
 
 data = {
     "JournalId": "1000-70957",
-    "InventJournalTrans": [
+    "Detail": [
         {"InventTransId": "1000-006795985",
          "TotalQty": 36.0,
          "InventTrans": [
