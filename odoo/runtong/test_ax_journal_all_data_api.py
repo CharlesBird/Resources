@@ -3,7 +3,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 
-url = "http://172.70.0.91:8099/api/AXBarCode/InventTransferJournal/1000-27123"
+url = "http://172.70.0.91:8099/api/AXBarCode/InventTransferJournal/1000-71118?company=1000"
 
 data = {}
 

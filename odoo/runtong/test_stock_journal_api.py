@@ -3,7 +3,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 
-url = "http://172.70.0.91:8099/api/Query/RMS_InventTransferJournalId_BC"
+url = "http://172.70.0.91:8099/api/Query/RMS_InventTransferJournalId_BC?company=1000"
 
 conditions = {
         "Conditions": [
@@ -11,7 +11,7 @@ conditions = {
                 "DataSourceName": "InventJournalTable",
                 "FieldName": "VYA_SalesTaskNumber",
                 "Operator": "Equal",
-                "Value": "SCPC02PC190913113"
+                "Value": "SCPC02PC191017001"
             }
         ]
     }
