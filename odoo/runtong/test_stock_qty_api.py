@@ -2,7 +2,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 
-url = "http://172.70.0.91:8099/api/AXBarCode/InventoryOnHand"
+url = "http://172.70.0.91:8099/api/AXBarCode/InventoryOnHand?company=1000"
 
 data = {
     "ItemId": "10001000020",

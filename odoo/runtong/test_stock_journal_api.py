@@ -11,7 +11,7 @@ conditions = {
                 "DataSourceName": "InventJournalTable",
                 "FieldName": "VYA_SalesTaskNumber",
                 "Operator": "Equal",
-                "Value": "SCPC02PC191017001"
+                "Value": "SCPC05DD181231064"
             }
         ]
     }

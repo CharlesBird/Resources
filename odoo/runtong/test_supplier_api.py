@@ -4,12 +4,11 @@ from requests_ntlm import HttpNtlmAuth
 import xmltodict
 import json
 
-url = "http://172.70.0.91:8099/api/Query/RMS_Vendor"
+url = "http://172.70.0.91:8099/api/Query/RMS_Vendor_BC"
 
 data = {
     "startingPosition": 1,
-    "numberOfRecordsToFetch": 2,
-    "MaxReceivedMessageSize": True
+    "numberOfRecordsToFetch": 200
 }
 
 res = requests.get(url, auth=HTTPBasicAuth('shruntong\Barcode', 'B.rms123'), params=data, headers={"Content-Type": "text/plain"})

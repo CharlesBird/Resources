@@ -5,7 +5,7 @@ import xmltodict
 import json
 
 
-url = "http://172.70.0.91:8099/api/Query/RMS_InventSite"
+url = "http://172.70.0.91:8099/api/Query/RMS_InventSite_BC"
 
 data = {
     "startingPosition": 1,
