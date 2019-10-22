@@ -4,7 +4,7 @@ from requests_ntlm import HttpNtlmAuth
 import xmltodict
 import json
 
-url = "http://172.70.0.91:8099/api/Query/RMS_WMSLocation"
+url = "http://172.70.0.91:8099/api/Query/RMS_WMSLocation_BC"
 
 data = {
     "startingPosition": 20,

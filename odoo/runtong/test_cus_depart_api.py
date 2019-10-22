@@ -4,16 +4,61 @@ from requests_ntlm import HttpNtlmAuth
 import xmltodict
 import json
 
-url = "http://172.70.0.91:8099/api/Query/RMS_CustDepartment_BC"
+url = "http://172.70.0.91:8099/api/Query/RMS_CustDepartment_BC?company=2000"
+
+conditions = {
+        "Conditions": [
+            {
+                "DataSourceName": "VYA_CustDeptTable",
+                "FieldName": "RecId",
+                "Operator": "Equal",
+                "Value": "5637146826,5637147593,5637152280"
+            }
+        ]
+    }
 
 data = {
     "startingPosition": 1,
-    "numberOfRecordsToFetch": 200
+    "numberOfRecordsToFetch": 10,
+    "conditions": json.dumps(conditions)
 }
 
 res = requests.get(url, auth=HTTPBasicAuth('shruntong\Barcode', 'B.rms123'), params=data, headers={"Content-Type": "text/plain"})
 print(res.status_code)
 print(res.text)
+
+
+# 定时同步查询 接口返回结果两种情况
+"""
+{
+  "RMS_QueryService": {
+    "VYA_CustDeptTable": [
+      {
+        "dataAreaId": "1000",
+        "VYA_CustDepart": "AGENCY",
+        "VYA_CustDepartName": "代理sss"
+      },
+      {
+        "dataAreaId": "1000",
+
+        "VYA_CustDepart": "testbarcode",
+        "VYA_CustDepartName": "testbarcode11111"
+      }
+    ]
+  }
+}
+
+
+{
+  "RMS_QueryService": {
+    "VYA_CustDeptTable": {
+      "dataAreaId": "1000",
+      "VYA_CustDepart": "AGENCY",
+      "VYA_CustDepartName": "代理sss"
+    }
+  }
+}
+"""
 
 
 # if __name__ == '__main__':
