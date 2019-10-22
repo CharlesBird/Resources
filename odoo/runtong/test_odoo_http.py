@@ -79,14 +79,14 @@ headers = {'Content-Type': 'application/json', }
 # url = 'http://47.103.32.102:4769/test/partners'
 
 
-url = 'http://localhost:8069/ax/api/purchase.order/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBWCBKV1QiLCJzdWIiOiJhZG1pbiIsInVpZCI6MiwiaWF0IjoxNTcxMzk5NTM0LCJleHAiOjE1NzE0NDI3MzR9.c9FEiNfiYi8PlJUleh87LLUReiIYDIN-GZ3V8Yq7ZvI'
+url = 'http://localhost:8069/ax/api/purchase.order/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBWCBKV1QiLCJzdWIiOiJhZG1pbiIsInVpZCI6MiwiaWF0IjoxNTcxNzI1MTkyLCJleHAiOjE1NzE3NjgzOTJ9._MPylrdWlfTNkykCHh3_tPubdaDuEbQbuqYFdXNx4P4'
 
 
 data = {"jsonrpc": "2.0", "method": "create_purchase_order",
         "params": {
             "context": {},
             "value": {
-                "name": "POTEST201909090002",
+                "name": "POTEST201909090004",
                 "task_id": "SCPC99PC190417004",
                 "partner_id": "SVNM00002",
                 "purchase_type": "Purch",
@@ -125,9 +125,9 @@ data = {"jsonrpc": "2.0", "method": "create_purchase_order",
                      "version": 1, "ref_type": "Purch", "ref_transId": "00000001", "sale_transId": "",
                      "ax_key": "POline0909-0021"},
                 ],
-                "ax_key": "POTEST201909090002"
+                "ax_key": "POTEST201909090004"
             }
-        }, "id": "POTEST201909090002"}
+        }, "id": "POTEST201909090004"}
 res = requests.put(url, data=json.dumps(data), headers=headers)
 print(res.text)
 
