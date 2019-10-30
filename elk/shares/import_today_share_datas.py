@@ -57,8 +57,8 @@ def get_data_and_create(stocks, trade_date):
         for data in datas:
             data = set_data(data, stock)
 
-            insert_into_es(data)
-            # print(data)
+            # insert_into_es(data)
+            print(data)
         time.sleep(0.3)
 
 
@@ -103,4 +103,4 @@ def insert_into_es(data):
 
 if __name__ == '__main__':
     stocks = get_stock_list()
-    get_data_and_create(stocks, trade_date='20191029')
+    get_data_and_create(stocks, trade_date='20191030')
