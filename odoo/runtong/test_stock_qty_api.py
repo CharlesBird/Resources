@@ -2,14 +2,14 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 
-url = "http://172.70.0.91:8099/api/AXBarCode/InventoryOnHand?company=1000"
+url = "http://172.70.0.86:8092/api/AXBarCode/InventoryOnHand?company=1000"
 
 data = {
-    "ItemId": "10001000020",
-    "InventSiteId": "ST01",
-    "InventLocationId": "102",
-    "WMSLocationId": "WA1-1",
-    "InventBatchId": "2018073391738",
+    "ItemId": "P6024000038",
+    "InventSiteId": "",
+    "InventLocationId": "",
+    "WMSLocationId": "",
+    "InventBatchId": "",
     # "StartingPosition": 1,
     # "NumberOfRecordsToFetch": 100,
 }
