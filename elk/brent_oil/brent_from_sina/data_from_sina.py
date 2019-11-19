@@ -133,7 +133,8 @@ async def main(loop):
             res = hanlder_data(data)
             _logger.debug('Processed data: {}'.format(res))
             await asyncio.sleep(0.5)
-            assert len(res) == len(db_tables)
+            if len(res) != len(db_tables):
+                continue
             for i, r in enumerate(res):
                 if check[i] and check[i] == r.get('change_time'):
                     _logger.debug('Skip duplicate data, check time is {}'.format(check[i]))
