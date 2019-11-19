@@ -134,6 +134,7 @@ async def main(loop):
             _logger.debug('Processed data: {}'.format(res))
             await asyncio.sleep(0.5)
             if len(res) != len(db_tables):
+                _logger.error('data size != tables size. data: {}, tables: {}'.format(res, db_tables))
                 continue
             for i, r in enumerate(res):
                 if check[i] and check[i] == r.get('change_time'):
