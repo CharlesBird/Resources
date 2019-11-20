@@ -17,31 +17,31 @@ def get_stock_list():
                                     fields='ts_code,symbol,name,area,industry,fullname,enname,market,exchange,curr_type,list_status,list_date,delist_date,is_hs')
 
     stocks = sh_list_datas.to_dict(orient='records')
-    new_stocks = []
-    for stock in stocks:
-        ts_code = stock['ts_code']
-        q = {
-            "query": {
-                "bool": {
-                    "filter": [
-                        {
-                            "term": {
-                                "ts_code": ts_code
-                            }
-                        },
-                        {
-                            "term": {
-                                "@timestamp": '2019-11-18T15:00:00'
-                            }
-                        }
-                    ]
-                }
-            }
-        }
-        res = es.search(index, body=q)
-        if not res["hits"]["hits"]:
-            new_stocks.append(stock)
-    return new_stocks
+    # new_stocks = []
+    # for stock in stocks:
+    #     ts_code = stock['ts_code']
+    #     q = {
+    #         "query": {
+    #             "bool": {
+    #                 "filter": [
+    #                     {
+    #                         "term": {
+    #                             "ts_code": ts_code
+    #                         }
+    #                     },
+    #                     {
+    #                         "term": {
+    #                             "@timestamp": '2019-11-18T15:00:00'
+    #                         }
+    #                     }
+    #                 ]
+    #             }
+    #         }
+    #     }
+    #     res = es.search(index, body=q)
+    #     if not res["hits"]["hits"]:
+    #         new_stocks.append(stock)
+    return stocks
 
 
 def get_data_and_create(stocks, trade_date):
@@ -103,4 +103,4 @@ def insert_into_es(data):
 
 if __name__ == '__main__':
     stocks = get_stock_list()
-    get_data_and_create(stocks, trade_date='20191118')
+    get_data_and_create(stocks, trade_date='20191119')
