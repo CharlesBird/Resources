@@ -79,14 +79,14 @@ headers = {'Content-Type': 'application/json', }
 # url = 'http://47.103.32.102:4769/test/partners'
 
 
-url = 'http://localhost:8069/ax/api/purchase.order/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBWCBKV1QiLCJzdWIiOiJhZG1pbiIsInVpZCI6MiwiaWF0IjoxNTcxNzI1MTkyLCJleHAiOjE1NzE3NjgzOTJ9._MPylrdWlfTNkykCHh3_tPubdaDuEbQbuqYFdXNx4P4'
-
-
+url = 'http://localhost:8069/ax/api/purchase.order/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBWCBKV1QiLCJzdWIiOiJhZG1pbiIsInVpZCI6MiwiaWF0IjoxNTc0MjM4NTI0LCJleHAiOjE1NzQyODE3MjR9.llPm03NojFNaQu1qYyBqvyJMO4nku8IFODn8Kn9hbOI'
+#
+#
 data = {"jsonrpc": "2.0", "method": "create_purchase_order",
         "params": {
             "context": {},
             "value": {
-                "name": "POTEST201909090004",
+                "name": "POTEST201909090008",
                 "task_id": "SCPC99PC190417004",
                 "partner_id": "SVNM00002",
                 "purchase_type": "Purch",
@@ -97,25 +97,6 @@ data = {"jsonrpc": "2.0", "method": "create_purchase_order",
                 "company_id": "1000",
                 "version": 1,
                 "order_line": [
-                    # {"transId": "POline1", "line_number": "10000", "task_id": "SCPC99PC190417004", "product_id": "10001000007",
-                    #  "company_id": "1000", "qty": 100, "uom_id": "PC", "state": "Backorder", "delivery_date": "2019-08-19",
-                    #  "version": 1, "ref_type": "Purch", "ref_transId": "00000001", "sale_transId": "SOline1", "ax_key": "POline1"},
-                    # {"transId": "POline2", "line_number": "10001", "task_id": "SCPC99PC190417004",
-                    #  "product_id": "10001000013",
-                    #  "company_id": "1000", "qty": 100, "uom_id": "PC", "state": "Backorder",
-                    #  "delivery_date": "2019-08-19",
-                    #  "version": 1, "ref_type": "Purch", "ref_transId": "00000001", "sale_transId": "SOline2",
-                    #  "ax_key": "POline2"},
-                    # {"transId": "POline3", "line_number": "10001", "task_id": "SCPC99PC190417004",
-                    #  "product_id": "10001000017",
-                    #  "company_id": "1000", "qty": 300, "uom_id": "PC", "state": "Backorder",
-                    #  "delivery_date": "2019-08-19",
-                    #  "version": 1, "ref_type": "Purch", "ref_transId": "00000001", "sale_transId": "SOline3",
-                    #  "ax_key": "POline3"},
-
-                    # {"transId": "POline4", "line_number": "10000", "task_id": "SCPC99PC190417004", "product_id": "10001000007",
-                    #  "company_id": "1000", "qty": 100, "uom_id": "PC", "state": "Backorder", "delivery_date": "2019-08-19",
-                    #  "version": 1, "ref_type": "Purch", "ref_transId": "00000001", "sale_transId": "SOline4", "ax_key": "POline4"},
                     {"transId": "POline0909-0020", "line_number": "10003", "task_id": "SCPC99PC190417004", "product_id": "10004000005",
                      "company_id": "1000", "qty": 500, "uom_id": "PC", "state": "Backorder", "delivery_date": "2019-09-10",
                      "version": 1, "ref_type": "Purch", "ref_transId": "00000001", "sale_transId": "",
@@ -125,9 +106,9 @@ data = {"jsonrpc": "2.0", "method": "create_purchase_order",
                      "version": 1, "ref_type": "Purch", "ref_transId": "00000001", "sale_transId": "",
                      "ax_key": "POline0909-0021"},
                 ],
-                "ax_key": "POTEST201909090004"
+                "ax_key": "POTEST201909090008"
             }
-        }, "id": "POTEST201909090004"}
+        }, "id": "POTEST201909090008"}
 res = requests.put(url, data=json.dumps(data), headers=headers)
 print(res.text)
 
