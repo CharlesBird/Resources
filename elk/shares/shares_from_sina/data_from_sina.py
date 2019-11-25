@@ -1,5 +1,6 @@
 """
 es 插入速度优化？
+多进程+异步IO ？
 """
 import tushare as ts
 from elasticsearch import Elasticsearch
@@ -10,6 +11,7 @@ from datetime import datetime
 import time
 import threading
 import multiprocessing
+from concurrent.futures import ThreadPoolExecutor
 TOKEN = '137e3fc78e901b8463d68a102b168b2ea0217cb854abfad24d4dc7f7'
 pro = ts.pro_api(TOKEN)
 es = Elasticsearch(['47.103.32.102:9200'])
@@ -22,7 +24,11 @@ def all_shares_codes():
     return sh_list_datas.to_dict('records')
 
 
-def get_sina_codes(step=30):
+def get_sina_codes(step=100):
+    """
+    :param step: 子列表长度
+    :return: [[], [], []...]
+    """
     shares_list = all_shares_codes()
     start = 0
     sina_codes = []
@@ -43,13 +49,13 @@ def get_sina_codes(step=30):
 def get_share_datas(codes):
     # sina_codes = get_sina_codes()
     # for codes in sina_codes:
-    s1 = time.time()
+    # s1 = time.time()
     url = 'http://hq.sinajs.cn/list={}'.format(','.join(codes))
     response = requests.get(url)
     data = response.text
-    print('requests time: ', time.time() - s1)
+    # print('requests time: ', time.time() - s1)
 
-    s2 = time.time()
+    # s2 = time.time()
     pattern = re.compile('="(.*)"')
     data_list = pattern.findall(data)
     actions = []
@@ -77,20 +83,13 @@ def get_share_datas(codes):
         actions.append(action)
         # print(value)
     insert_into_es(actions)
-    print('deal data time: ', time.time() - s2)
+    # print('deal data time: ', time.time() - s2)
 
 
 def insert_into_es(values):
     # es.bulk(values, index=index)
     helpers.bulk(es, values, index=index)
     # es.index(index=index, body=data)
-
-
-def main():
-    # 190.34576533935595
-    s = time.time()
-    get_share_datas()
-    print(time.time()-s)
 
 
 class SharesThread(threading.Thread):
@@ -105,21 +104,31 @@ class SharesThread(threading.Thread):
         get_share_datas(self.codes)
 
 
-def main(all_codes):
-    thr_list = []
+# def main(per_codes):
+#     """
+#     不用多线程
+#     :param all_codes:
+#     :return:
+#     """
+#     get_share_datas(per_codes)
+
+
+def main(per_codes):
+    """
+    使用线程池
+    :param per_codes:
+    :return:
+    """
+    interval = len(per_codes) // 20
     i = 0
-    for codes in all_codes:
-        i += 1
-        thread_name = 'Thread' + str(i)
-        thr = SharesThread(thread_name, codes)
-        thr_list.append(thr)
-        if i > 10:
-            break
-        # break
-    for t in thr_list:
-        t.start()
-    for t in thr_list:
-        t.join()
+    tasks = []
+    executor = ThreadPoolExecutor(max_workers=5)
+    while per_codes[i: i+interval]:
+        task = executor.submit(get_share_datas, (per_codes[i: i+interval], ))
+        tasks.append(task)
+    for t in tasks:
+        print(t.done())
+        print(t.result())
 
 
 if __name__ == '__main__':
@@ -128,28 +137,17 @@ if __name__ == '__main__':
     # step: 800, time: 24
     sina_codes = get_sina_codes()
 
-    s = time.time()
+    while True:
+        process_pool = multiprocessing.Pool(6)
+        s = time.time()
+        for cs in sina_codes:
+            process_pool.apply_async(main, args=(cs,))
 
-    p1 = multiprocessing.Process(target=main, args=(sina_codes,))
-    p2 = multiprocessing.Process(target=main, args=(sina_codes,))
-    p3 = multiprocessing.Process(target=main, args=(sina_codes,))
-    p4 = multiprocessing.Process(target=main, args=(sina_codes,))
-    p5 = multiprocessing.Process(target=main, args=(sina_codes,))
+        process_pool.close()
+        process_pool.join()
 
-    p1.start()
-    p2.start()
-    p3.start()
-    p4.start()
-    p5.start()
-
-    p1.join()
-    p2.join()
-    p3.join()
-    p4.join()
-    p5.join()
-
-    print('Over...')
-    print('Total time: ', time.time() - s)
+        print('Over...')
+        print('Total time: ', time.time() - s)
 
 
 """
