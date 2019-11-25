@@ -24,9 +24,9 @@ def insert_datas(date):
         # print(data)
 
 if __name__ == '__main__':
-    start_date = datetime.strptime('20190926', '%Y%m%d')
+    start_date = datetime.strptime('20191014', '%Y%m%d')
     str_date = start_date.strftime('%Y%m%d')
-    while str_date < '20191014':
+    while str_date < '20191125':
         # print(str_date)
         try:
             insert_datas(str_date)

@@ -37,9 +37,9 @@ def insert_datas(src, start_date, end_date):
 
 
 if __name__ == '__main__':
-    start_date = datetime.strptime('20190926', '%Y%m%d')
+    start_date = datetime.strptime('20191014', '%Y%m%d')
     str_date1 = start_date.strftime('%Y%m%d')
-    while str_date1 < '20191014':
+    while str_date1 < '20191125':
         end_date = start_date + timedelta(days=1)
         str_date2 = end_date.strftime('%Y%m%d')
         for src in ['sina', 'wallstreetcn', '10jqka', 'eastmoney', 'yuncaijing']:
