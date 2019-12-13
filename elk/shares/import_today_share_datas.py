@@ -103,4 +103,4 @@ def insert_into_es(data):
 
 if __name__ == '__main__':
     stocks = get_stock_list()
-    get_data_and_create(stocks, trade_date='20191205')
+    get_data_and_create(stocks, trade_date='20191211')
