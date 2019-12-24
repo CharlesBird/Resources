@@ -31,7 +31,7 @@ def get_stock_list():
     #                     },
     #                     {
     #                         "term": {
-    #                             "@timestamp": '2019-11-18T15:00:00'
+    #                             "@timestamp": '2019-11-27T15:00:00'
     #                         }
     #                     }
     #                 ]
@@ -103,4 +103,4 @@ def insert_into_es(data):
 
 if __name__ == '__main__':
     stocks = get_stock_list()
-    get_data_and_create(stocks, trade_date='20191126')
+    get_data_and_create(stocks, trade_date='20191211')
