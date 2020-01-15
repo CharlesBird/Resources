@@ -79,7 +79,7 @@ headers = {'Content-Type': 'application/json', }
 # url = 'http://47.103.32.102:4769/test/partners'
 
 
-url = 'http://localhost:8069/ax/api/purchase.order/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBWCBKV1QiLCJzdWIiOiJhZG1pbiIsInVpZCI6MiwiaWF0IjoxNTc0MjM4NTI0LCJleHAiOjE1NzQyODE3MjR9.llPm03NojFNaQu1qYyBqvyJMO4nku8IFODn8Kn9hbOI'
+url = 'http://localhost:8069/ax/api/purchase.order/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBWCBKV1QiLCJzdWIiOiJhZG1pbiIsInVpZCI6MiwiaWF0IjoxNTc4OTgwMjc1LCJleHAiOjE1NzkwMjM0NzV9.YPtSpzljQIVElyHk7Vfc4T4LjKo7DlkMhKarA7YAf4E'
 #
 #
 data = {"jsonrpc": "2.0", "method": "create_purchase_order",
@@ -92,7 +92,7 @@ data = {"jsonrpc": "2.0", "method": "create_purchase_order",
                 "purchase_type": "Purch",
                 "state": "Backorder",
                 "delivery_date": "2019-09-09",
-                "warehouse_id": "102",
+                "warehouse_id": "",
                 "site_id": "ST01",
                 "company_id": "1000",
                 "version": 1,
