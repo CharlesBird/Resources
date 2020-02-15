@@ -65,42 +65,6 @@ class Solution:
                 block[x // 3 * 3 + y // 3].discard(num)
         return False
 
-    #     row = collections.defaultdict(set)
-    #     col = collections.defaultdict(set)
-    #     sub = collections.defaultdict(set)
-    #     dots = []
-    #     for r in range(9):
-    #         for c in range(9):
-    #             if board[r][c] == '.':
-    #                 dots.append((r, c))
-    #             else:
-    #                 col[c].add(board[r][c])
-    #                 row[r].add(board[r][c])
-    #                 sub[r // 3 * 3 + c // 3].add(board[r][c])
-    #     self.BT(dots, row, col, sub, board)
-    #     return
-    #
-    #
-    # def BT(self, dots, row, col, sub, board):
-    #     if not dots:
-    #         return True
-    #     r, c = dots[-1]
-    #     for n in range(1, 10):
-    #         num = str(n)
-    #         if num not in row[r] and num not in col[c] and num not in sub[r // 3 * 3 + c // 3]:
-    #             col[c].add(num)
-    #             row[r].add(num)
-    #             sub[r // 3 * 3 + c // 3].add(num)
-    #             dots.pop()
-    #             if self.BT(dots, row, col, sub, board):
-    #                 board[r][c] = num
-    #                 return True
-    #             dots.append((r, c))
-    #             col[c].discard(num)
-    #             row[r].discard(num)
-    #             sub[r // 3 * 3 + c // 3].discard(num)
-    #     return False
-
 
 board = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]
 sl = Solution()
