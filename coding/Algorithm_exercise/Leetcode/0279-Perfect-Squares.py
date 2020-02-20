@@ -14,6 +14,9 @@ Explanation: 13 = 4 + 9.
 """
 class Solution:
     def numSquares(self, n: int) -> int:
+        # BFS
+        # Time Complexity: O(n)
+        # Space Complexity: O(n)
 
         # dp = [0]
         # while len(dp) <= n:
@@ -40,6 +43,30 @@ class Solution:
                     q.append((nextNum, step+1))
                     visited[nextNum] = True
                 i += 1
+
+
+class Solution2:
+    def numSquares(self, n: int) -> int:
+        # Time Complexity: O(n)
+        # Space Complexity: O(n)
+        memo = [-1] * (n + 1)
+
+        def helper(n, memo):
+            if n == 0:
+                return 0
+
+            if memo[n] != -1:
+                return memo[n]
+
+            res = float("inf")
+            i = 1
+            while n - i * i >= 0:
+                res = min(res, 1 + helper(n - i * i, memo))
+                i += 1
+            memo[n] = res
+            return res
+
+        return helper(n, memo)
 
 
 # Solution().numSquares(13)
