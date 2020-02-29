@@ -59,7 +59,7 @@ class OrderViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.Crea
 
     # 在订单提交保存之前还需要多两步步骤，所以这里自定义perform_create方法
     # 1.将购物车中的商品保存到OrderGoods中
-    # 2.情况购物车
+    # 2.清空购物车
     def perform_create(self, serializer):
         order = serializer.save()
         # 获取购物车所有商品
